@@ -21,7 +21,7 @@ COMERCIAL (id_trabajador)
 	PK (id_trabajador)
 	FK (id_trabajador -> TRABAJADOR)
 
-VISITA (id_visita, fecha, hora, tipo, resultado, id_vivienda, id_trabajadors)
+VISITA (id_visita, fecha, hora, tipo, resultado, id_vivienda, id_trabajador)
 	PK(id_visita, id_vivienda, id_comercial)
 	FK(id_vivienda -> VIVIENDA)
 	FK(id_trabajador -> COMERCIAL)
