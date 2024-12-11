@@ -267,3 +267,8 @@ INSERT INTO visita (id_visita, fecha, hora, tipo, resultado, id_vivienda, id_tra
 	(30, '2024-12-06', '15:00:00', 'Corta', 'Venta', 30, 20);
 
 SELECT * FROM visita;
+
+-- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+-- FLUSH PRIVILEGES;
+
+
