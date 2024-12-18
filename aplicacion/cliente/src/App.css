@@ -7,10 +7,9 @@
   font-family: 'Arial', sans-serif;
   background-color: #f9f9f9;
   padding: 20px;
-  min-height: 100vh;
 }
 
-/* Título principal */
+/* Título */
 h1 {
   color: #2c3e50;
   margin-bottom: 20px;
@@ -26,46 +25,66 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
 }
 
 /* Estilo de los datos del cliente */
-.datosCliente {
+.campos {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
 }
 
 /* Estilo de las etiquetas de los inputs */
-.datosCliente label {
+.campos .nombreCampo {
+  display: flex;
   font-size: 16px;
   color: #34495e;
-  margin-bottom: 5px;
-  margin-left: 5px;
+  margin: 5px;
+  text-align: center;
 }
 
-/* Estilo de los inputs y select */
-.datosCliente input,
-.datosCliente select {
+/* campo de texto */
+.campos .campoTexto {
+  display: flex;
   width: 100%;
   height: 40px;
   margin-bottom: 15px;
-  padding-left: 10px;
   font-size: 15px;
   border-radius: 5px;
   border: 1px solid #ccc;
   transition: border 0.3s ease;
+  padding: 0px 10px;
+  box-sizing: border-box;
 }
 
-/* Estilo al hacer focus en los inputs */
-.datosCliente input:focus,
-.datosCliente select:focus {
+.campos input:focus {
   border-color: #3498db;
   outline: none;
 }
 
-/* Estilo de los botones */
-.datosCliente button {
+/* opciones */
+.campos .opciones {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+
+/* opcion */
+.campos .opciones .opcion {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+/* botones de radio */
+.campos .opciones .opcion input {
+  display: flex;
+  flex-direction: inline;
+  margin: 10px;
+}
+
+/* boton registrar */
+.campos button {
   width: 100%;
   height: 45px;
   font-size: 16px;
@@ -77,21 +96,8 @@ h1 {
   transition: background-color 0.3s ease;
 }
 
-/* Hover en el botón */
-.datosCliente button:hover {
+.campos button:hover {
   background-color: #2980b9;
-}
-
-/* Estilo de las opciones de radio */
-.datosCliente input[type="radio"] {
-  transform: scale(0.5);
-}
-
-/* Estilo de las etiquetas de radio */
-.datosCliente label {
-  font-size: 16px;
-  color: #34495e;
-  margin: 5px;
 }
 
 /* Estilo para las listas de clientes */
@@ -140,9 +146,16 @@ h1 {
   background-color: #f5f5f5;
 }
 
-/* Estilo para los botones de radio en un contenedor específico */
-.datosCliente div {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+/* DISEÑO MOVIL */
+@media (max-width: 768px) {
+
+  /* Contenedor del formulario */
+  .contenedorFormulario {
+    padding: 15px 10px;
+  }
+
+  /* campo de texto */
+  .campos .campoTexto {
+    padding: 0px 5px;
+  }
 }

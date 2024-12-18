@@ -13,18 +13,17 @@ function App() {
   const [localidadContacto, setLocalidadContacto] = useState("");
   const [provinciaContacto, setProvinciaContacto] = useState("");
   const [telefonoContacto, setTelefonoContacto] = useState("");
-  const [observacionesContacto, setObservacionesContacto] = useState("");
   const [correoContacto, setCorreoContacto] = useState("");
-  const [modoCaptacion, setModoCaptacion] = useState("");
   const [fechaVisita, setFechaVisita] = useState("");
   const [horaVisita, setHoraVisita] = useState("");
   const [numeroPersonas, setNumeroPersonas] = useState("");
-  const [reciboLuz, setReciboLuz] = useState("");
-  const [recibidoGas, setReciboGas] = useState("");
   const [tieneBombona, setTieneBombona] = useState("");
   const [tieneGas, setTieneGas] = useState("");
   const [tieneTermoElectrico, setTieneTermoElectrico] = useState("");
   const [tienePlacasTermicas, setTienePlacasTermicas] = useState("");
+  const [reciboLuz, setReciboLuz] = useState("");
+  const [reciboGas, setReciboGas] = useState("");
+  const [observacionesContacto, setObservacionesContacto] = useState("");
 
   // creamos una lista de clientes
   const [listaClientes, setClientes] = useState([]);
@@ -38,9 +37,17 @@ function App() {
       localidadContacto: localidadContacto,
       provinciaContacto: provinciaContacto,
       telefonoContacto: telefonoContacto,
-      observacionesContacto: observacionesContacto,
       correoContacto: correoContacto,
-      modoCaptacion: modoCaptacion,
+      fechaVisita: fechaVisita,
+      horaVisita: horaVisita,
+      numeroPersonas: numeroPersonas,
+      tieneBombona: tieneBombona,
+      tieneGas: tieneGas,
+      tieneTermoElectrico: tieneTermoElectrico,
+      tienePlacasTermicas: tienePlacasTermicas,
+      reciboLuz: reciboLuz,
+      reciboGas: reciboGas,
+      observacionesContacto: observacionesContacto,
     })
       .then((response) => {
         console.log("Datos enviados correctamente:", response);
@@ -69,53 +76,53 @@ function App() {
       <h1>Formulario de Contactos y Visitas</h1>
 
       <div className="contenedorFormulario">
-        <div className="datosCliente">
+        <div className="campos">
           {/* <label>ID Trabajador:</label>
           <input
             onChange={(event) => setIdTrabajador(event.target.value)}
             type="text"
             placeholder="Introduce el ID del trabajador"
           /> */}
-          <label>Nombre completo del contacto:</label>
-          <input
+          <label className='nombreCampo'>Nombre completo del contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setNombreContacto(event.target.value)}
             type="text"
-            placeholder="Introduce el nombre completo del cliente"
+            placeholder="Introduce el nombre completo del contacto"
           />
 
-          <label>Dirección del contacto:</label>
-          <input
+          <label className='nombreCampo'>Dirección del contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setDireccionContacto(event.target.value)}
             type="text"
-            placeholder="Introduce la dirección del cliente"
+            placeholder="Introduce la dirección del contacto"
           />
 
-          <label>Localidad del contacto:</label>
-          <input
+          <label className='nombreCampo'>Localidad del contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setLocalidadContacto(event.target.value)}
             type="text"
-            placeholder="Introduce la localidad del cliente"
+            placeholder="Introduce la localidad del contacto"
           />
 
-          <label>Provincia del contacto:</label>
-          <input
+          <label className='nombreCampo'>Provincia del contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setProvinciaContacto(event.target.value)}
             type="text"
-            placeholder="Introduce la provincia del cliente"
+            placeholder="Introduce la provincia del contacto"
           />
 
-          <label>Teléfono de contacto:</label>
-          <input
+          <label className='nombreCampo'>Teléfono de contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setTelefonoContacto(event.target.value)}
             type="text"
-            placeholder="Introduce el teléfono del cliente"
+            placeholder="Introduce el teléfono del contacto"
           />
 
-          <label>Correo del contacto:</label>
-          <input
+          <label className='nombreCampo'>Correo del contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setCorreoContacto(event.target.value)}
             type="text"
-            placeholder="Introduce el correo electrónico del cliente"
+            placeholder="Introduce el correo electrónico del contacto"
           />
 
           {/* <label>Modo de captación:</label>
@@ -130,127 +137,147 @@ function App() {
             <option value="Propia"> Captación propia</option>
           </select> */}
 
-          <label>Fecha de la visita:</label>
-          <input
+          <label className='nombreCampo'>Fecha de la visita:</label>
+          <input className='campoTexto'
             onChange={(event) => setFechaVisita(event.target.value)}
             type="text"
             placeholder="Introduce la fecha de la visita"
           />
 
-          <label>Hora de la visita:</label>
-          <input
+          <label className='nombreCampo'>Hora de la visita:</label>
+          <input className='campoTexto'
             onChange={(event) => setHoraVisita(event.target.value)}
             type="text"
             placeholder="Introduce la hora de la visita"
           />
 
-          <label>Número de personas en la vivienda:</label>
-          <input
+          <label className='nombreCampo'>Número de personas en la vivienda:</label>
+          <input className='campoTexto'
             onChange={(event) => setNumeroPersonas(event.target.value)}
             type="text"
-            placeholder="Introduce el número de personas que habitan den la vivienda"
+            placeholder="Introduce el número de residentes"
           />
 
-          <label>Tiene bombona:</label>
-          <div>
-            <input
-              type="radio"
-              id="tiene_bombona_si"
-              name="tiene_bombona"
-              value="Si"
-              onChange={(event) => setTieneBombona(event.target.value)}
-            />
-            <label htmlFor="tiene_bombona_si">Sí</label>
-            <input
-              type="radio"
-              id="tiene_bombona_no"
-              name="tiene_bombona"
-              value="No"
-              onChange={(event) => setTieneBombona(event.target.value)}
-            />
-            <label htmlFor="tiene_bombona_no">No</label>
+          <label className='nombreCampo'>¿Tiene bombona?</label>
+          <div className='opciones'>
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_bombona_si"
+                name="tiene_bombona"
+                value="Si"
+                onChange={(event) => setTieneBombona(event.target.value)}
+              />
+              <label htmlFor="tiene_bombona_si">Sí</label>
+            </div>
+
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_bombona_no"
+                name="tiene_bombona"
+                value="No"
+                onChange={(event) => setTieneBombona(event.target.value)}
+              />
+              <label htmlFor="tiene_bombona_no">No</label>
+            </div>
           </div>
 
-          <label>Tiene gas:</label>
-          <div>
-            <input
-              type="radio"
-              id="tiene_gas_si"
-              name="tiene_gas"
-              value="Si"
-              onChange={(event) => setTieneGas(event.target.value)}
-            />
-            <label htmlFor="tiene_gas_si">Sí</label>
-            <input
-              type="radio"
-              id="tiene_gas_no"
-              name="tiene_gas"
-              value="No"
-              onChange={(event) => setTieneGas(event.target.value)}
-            />
-            <label htmlFor="tiene_gas_no">No</label>
+          <label className='nombreCampo'>¿Tiene gas?</label>
+          <div className='opciones'>
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_gas_si"
+                name="tiene_gas"
+                value="Si"
+                onChange={(event) => setTieneGas(event.target.value)}
+              />
+              <label htmlFor="tiene_gas_si">Sí</label>
+            </div>
+
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_gas_no"
+                name="tiene_gas"
+                value="No"
+                onChange={(event) => setTieneGas(event.target.value)}
+              />
+              <label htmlFor="tiene_gas_no">No</label>
+            </div>
           </div>
 
-          <label>Tiene termo eléctrico:</label>
-          <div>
-            <input
-              type="radio"
-              id="tiene_termo_electrico_si"
-              name="tiene_termo_electrico"
-              value="Si"
-              onChange={(event) => setTieneTermoElectrico(event.target.value)}
-            />
-            <label htmlFor="tiene_termo_electrico_si">Sí</label>
-            <input
-              type="radio"
-              id="tiene_termo_electrico_no"
-              name="tiene_termo_electrico"
-              value="No"
-              onChange={(event) => setTieneTermoElectrico(event.target.value)}
-            />
-            <label htmlFor="tiene_termo_electrico_no">No</label>
+          <label className='nombreCampo'>¿Tiene termo eléctrico?</label>
+          <div className='opciones'>
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_termo_electrico_si"
+                name="tiene_termo_electrico"
+                value="Si"
+                onChange={(event) => setTieneTermoElectrico(event.target.value)}
+              />
+              <label htmlFor="tiene_termo_electrico_si">Sí</label>
+            </div>
+
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_termo_electrico_no"
+                name="tiene_termo_electrico"
+                value="No"
+                onChange={(event) => setTieneTermoElectrico(event.target.value)}
+              />
+              <label htmlFor="tiene_termo_electrico_no">No</label>
+            </div>
           </div>
 
-          <label>Tiene placas térmicas:</label>
-          <div>
-            <input
-              type="radio"
-              id="tiene_placas_termicas_si"
-              name="tiene_placas_termicas"
-              value="Si"
-              onChange={(event) => setTienePlacasTermicas(event.target.value)}
-            />
-            <label htmlFor="tiene_placas_termicas_si">Sí</label>
-            <input
-              type="radio"
-              id="tiene_placas_termicas_no"
-              name="tiene_placas_termicas"
-              value="No"
-              onChange={(event) => setTienePlacasTermicas(event.target.value)}
-            />
-            <label htmlFor="tiene_placas_termicas_no">No</label>
+          <label className='nombreCampo'>¿Tiene placas térmicas?</label>
+          <div className='opciones'>
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_placas_termicas_si"
+                name="tiene_placas_termicas"
+                value="Si"
+                onChange={(event) => setTienePlacasTermicas(event.target.value)}
+              />
+              <label htmlFor="tiene_placas_termicas_si">Sí</label>
+            </div>
+
+            <div className='opcion'>
+              <input
+                type="radio"
+                id="tiene_placas_termicas_no"
+                name="tiene_placas_termicas"
+                value="No"
+                onChange={(event) => setTienePlacasTermicas(event.target.value)}
+              />
+              <label htmlFor="tiene_placas_termicas_no">No</label>
+            </div>
+
           </div>
 
-
-          <label>Importe de recibo de luz:</label>
-          <input
+          <label className='nombreCampo'>Importe de recibo de luz:</label>
+          <input className='campoTexto'
             onChange={(event) => setReciboLuz(event.target.value)}
             type="text"
-            placeholder="Introduce el importe de recibo de luz del cliente"
+            placeholder="Introduce el importe de luz del contacto"
           />
 
-          <label>Importe de recibo de gas:</label>
-          <input
+          <label className='nombreCampo'>Importe de recibo de gas:</label>
+          <input className='campoTexto'
             onChange={(event) => setReciboGas(event.target.value)}
             type="text"
-            placeholder="Introduce el importe de recibo de gas del cliente"
+            placeholder="Introduce el importe de gas del contacto"
           />
 
-          <label>Observaciones del contacto:</label>
-          <input
+          <label className='nombreCampo'>Observaciones del contacto:</label>
+          <input className='campoTexto'
             onChange={(event) => setObservacionesContacto(event.target.value)}
             type="text"
-            placeholder="Introduce observaciones del cliente en el caso de que las haya"
+            placeholder="Introduce alguna observación"
           />
 
           <button onClick={add}>Registrar</button>
