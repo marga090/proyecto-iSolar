@@ -32,41 +32,71 @@ app.post("/create", (req, res) => {
         localidadContacto,
         provinciaContacto,
         telefonoContacto,
-        observacionesContacto,
         correoContacto,
-        modoCaptacion
+        fechaVisita,
+        horaVisita,
+        numeroPersonas,
+        tieneBombona,
+        tieneGas,
+        tieneTermoElectrico,
+        tienePlacasTermicas,
+        reciboLuz,
+        reciboGas,
+        observacionesContacto
+
         // lo que llega de la solicitud
     } = req.body;
 
-    // verificamos que los campos no sean nulos o vacíos
-    if (!nombreContacto || !direccionContacto || !localidadContacto || !provinciaContacto || !telefonoContacto || !correoContacto || !modoCaptacion) {
-        return res.status(400).json({ error: "Faltan datos que son obligatorios." });
-    }
-
-    // validamos el valor de modoCaptacion
-    const validCaptationModes = ["Captador", "Telemarketing", "Referido", "Propia"];
-    if (!validCaptationModes.includes(modoCaptacion)) {
-        return res.status(400).json({ error: "Modo de captación inválido." });
-    }
-
-    // insertar valores en la base de datos
-    db.query(
-        // campos de las tablas de la bd
-        'INSERT INTO cliente(nombre, direccion, localidad, provincia, telefono, observaciones, correo, modo_captacion) VALUES(?,?,?,?,?,?,?,?)',
-        // variables creadas en la aplicacion
-        [nombreContacto, direccionContacto, localidadContacto, provinciaContacto, telefonoContacto, observacionesContacto, correoContacto, modoCaptacion],
+    // insertamos el cliente
+    const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones) VALUES (?,?,?,?)';
+    // de los campos del formulario
+    db.query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto],
 
         // gestionamos los errores
         (err, result) => {
             if (err) {
-                // muestra el error de sql
-                console.error("Error en la base de datos:", err.sqlMessage);
-                return res.status(500).json({ error: err.sqlMessage || "Hubo un error al guardar los datos en la base de datos" });
+                console.error("Error al insertar el cliente", err);
+                return res.status(500).json({ error: "Error al insertar el cliente" });
             }
-            res.status(200).json({ message: "Datos guardados correctamente", result });
-        }
-    );
+
+            const idCliente = result.insertId;
+
+            // Luego insertamos la dirección asociada al cliente
+            const sqlDireccion = 'INSERT INTO direccion (calle, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?)';
+            db.query(sqlDireccion, [direccionContacto, localidadContacto, provinciaContacto, idCliente], (err, result) => {
+                if (err) {
+                    console.error("Error al insertar dirección:", err);
+                    return res.status(500).json({ error: "Error al insertar dirección" });
+                }
+
+                const idDireccion = result.insertId;
+
+                // Ahora insertamos la vivienda asociada a la dirección
+                const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
+                db.query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion], (err, result) => {
+                    if (err) {
+                        console.error("Error al insertar vivienda:", err);
+                        return res.status(500).json({ error: "Error al insertar vivienda" });
+                    }
+
+                    const idVivienda = result.insertId;
+
+                    // Finalmente, insertamos los recibos de luz y gas asociados a la vivienda
+                    const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
+                    db.query(sqlRecibo, [reciboLuz, reciboGas, idVivienda], (err, result) => {
+                        if (err) {
+                            console.error("Error al insertar recibo:", err);
+                            return res.status(500).json({ error: "Error al insertar recibo" });
+                        }
+
+                        // Respuesta exitosa
+                        res.status(200).json({ message: "Cliente registrado correctamente" });
+                    });
+                });
+            });
+        });
 });
+
 
 // creamos la peticion de LISTAR
 app.get("/clientes", (req, res) => {
