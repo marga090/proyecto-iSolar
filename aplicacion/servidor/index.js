@@ -64,6 +64,7 @@ app.post("/create", (req, res) => {
 
             // insertamos la direccion asociada al cliente
             const sqlDireccion = 'INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?, ?)';
+            // de los campos del formulario
             db.query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente], (err, result) => {
                 if (err) {
                     console.error("Error al insertar dirección:", err);
@@ -74,6 +75,7 @@ app.post("/create", (req, res) => {
 
                 // insertamos la vivienda asociada a la dirección
                 const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
+                // de los campos del formulario
                 db.query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion], (err, result) => {
                     if (err) {
                         console.error("Error al insertar vivienda:", err);
@@ -84,14 +86,25 @@ app.post("/create", (req, res) => {
 
                     // insertamos los recibos de luz y gas asociados a la vivienda
                     const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
+                    // de los campos del formulario
                     db.query(sqlRecibo, [reciboLuz, reciboGas, idVivienda], (err, result) => {
                         if (err) {
                             console.error("Error al insertar recibo:", err);
                             return res.status(500).json({ error: "Error al insertar recibo" });
                         }
 
-                        // ha salido bien
-                        res.status(200).json({ message: "Cliente registrado correctamente" });
+                        // insertamnos la fecha y hora a la visita
+                        const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda) VALUES (?, ?, ?)';
+                        // de los campos del formulario
+                        db.query(sqlVisita, [fechaVisita, horaVisita, idVivienda], (err, result) => {
+                            if (err) {
+                                console.error("Error al insertar visita:", err);
+                                return res.status(500).json({ error: "Error al insertar visita" });
+                            }
+
+                            // ha salido bien
+                            res.status(200).json({ message: "Cliente registrado correctamente" });
+                        });
                     });
                 });
             });
