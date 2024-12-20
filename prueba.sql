@@ -20,7 +20,6 @@ CREATE TABLE direccion (
     numero INT NOT NULL,
     localidad VARCHAR(50) NOT NULL,
     provincia VARCHAR(50) NOT NULL,
-    cod_postal CHAR(5) NOT NULL,
     id_cliente INT,
     
     CONSTRAINT fk_direccion_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
@@ -89,13 +88,13 @@ INSERT INTO cliente (nombre, telefono, correo, modo_captacion, observaciones) VA
 
 SELECT * FROM cliente;
 
-INSERT INTO direccion (calle, numero, localidad, provincia, cod_postal, id_cliente) VALUES
-    ('Calle Falsa', 10, 'Madrid', 'Madrid', '28001', 1),
-    ('Avenida Siempre Viva', 123, 'Barcelona', 'Barcelona', '08001', 2),
-    ('Calle de la Luna', 45, 'Sevilla', 'Sevilla', '41001', 3),
-    ('Calle Real', 80, 'Valencia', 'Valencia', '46001', 4),
-    ('Calle del Sol', 15, 'Madrid', 'Madrid', '28002', 5),
-    ('Calle de la Paz', 30, 'Bilbao', 'Vizcaya', '48001', 6);
+INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES
+    ('Calle Falsa', 10, 'Madrid', 'Madrid', 1),
+    ('Avenida Siempre Viva', 123, 'Barcelona', 'Barcelona', 2),
+    ('Calle de la Luna', 45, 'Sevilla', 'Sevilla', 3),
+    ('Calle Real', 80, 'Valencia', 'Valencia', 4),
+    ('Calle del Sol', 15, 'Madrid', 'Madrid', 5),
+    ('Calle de la Paz', 30, 'Bilbao', 'Vizcaya', 6);
 
 SELECT * FROM direccion;
 
@@ -128,6 +127,16 @@ INSERT INTO trabajador (nombre, telefono, tipo_trabajador) VALUES
     ('María Díaz', '600222333', 'Comercial');
 
 SELECT * FROM trabajador;
+
+INSERT INTO visita (id_visita, fecha, hora, tipo, resultado, id_vivienda, id_trabajador) VALUES
+    (1, '2024-01-15', '10:30', 'Corta', 'Visitado_pdte_contestación', 1, 1),
+    (2, '2024-01-16', '14:00', 'Media', 'Visitado_no_hacen_nada', 2, 2),
+    (3, '2024-01-17', '16:00', 'Larga', 'Recitar', 3, 3),
+    (4, '2024-01-18', '11:30', 'Media', 'No_visita', 4, 4),
+    (5, '2024-01-19', '09:00', 'Corta', 'Firmada_no_financiable', 5, 5),
+    (6, '2024-01-20', '13:00', 'Larga', 'Venta', 6, 6);
+
+SELECT * FROM visita;
 
 -- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 -- FLUSH PRIVILEGES;

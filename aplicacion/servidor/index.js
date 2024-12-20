@@ -28,7 +28,8 @@ app.post("/create", (req, res) => {
     // creamos las constantes de los campos y en ella almacemanos la informacion que llega del body
     const {
         nombreContacto,
-        direccionContacto,
+        calleContacto,
+        numeroVivienda,
         localidadContacto,
         provinciaContacto,
         telefonoContacto,
@@ -61,9 +62,9 @@ app.post("/create", (req, res) => {
 
             const idCliente = result.insertId;
 
-            // Luego insertamos la dirección asociada al cliente
-            const sqlDireccion = 'INSERT INTO direccion (calle, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?)';
-            db.query(sqlDireccion, [direccionContacto, localidadContacto, provinciaContacto, idCliente], (err, result) => {
+            // insertamos la direccion asociada al cliente
+            const sqlDireccion = 'INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?, ?)';
+            db.query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente], (err, result) => {
                 if (err) {
                     console.error("Error al insertar dirección:", err);
                     return res.status(500).json({ error: "Error al insertar dirección" });
@@ -71,7 +72,7 @@ app.post("/create", (req, res) => {
 
                 const idDireccion = result.insertId;
 
-                // Ahora insertamos la vivienda asociada a la dirección
+                // insertamos la vivienda asociada a la dirección
                 const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
                 db.query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion], (err, result) => {
                     if (err) {
@@ -81,7 +82,7 @@ app.post("/create", (req, res) => {
 
                     const idVivienda = result.insertId;
 
-                    // Finalmente, insertamos los recibos de luz y gas asociados a la vivienda
+                    // insertamos los recibos de luz y gas asociados a la vivienda
                     const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
                     db.query(sqlRecibo, [reciboLuz, reciboGas, idVivienda], (err, result) => {
                         if (err) {
@@ -89,7 +90,7 @@ app.post("/create", (req, res) => {
                             return res.status(500).json({ error: "Error al insertar recibo" });
                         }
 
-                        // Respuesta exitosa
+                        // ha salido bien
                         res.status(200).json({ message: "Cliente registrado correctamente" });
                     });
                 });

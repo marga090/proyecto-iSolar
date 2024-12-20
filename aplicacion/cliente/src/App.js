@@ -1,22 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from "./pages/Inicio";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Inicio from "./pages/Inicio";
 import Formulario from "./pages/Formulario";
 import Feedback from "./pages/Feedback";
+import Logo from "./pages/images/logo.png";
 
 function App() {
   return (
     <Router>
-      <nav>
-        <ul>
-          <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/formulario">Formulario</Link></li>
-          <li><Link to="/feedback">Feedback</Link></li>
-        </ul>
-      </nav>
+      <div className="insene">
+        <div className="logo">
+          <img src={Logo} alt="Insene" />
+        </div>
+      </div>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Inicio />} />
         <Route path="/formulario" element={<Formulario />} />
         <Route path="/feedback" element={<Feedback />} />
       </Routes>
