@@ -2,7 +2,7 @@
 CLIENTE(id_cliente, nombre, telefono, correo, modo_captacion, observaciones)
 	PK(id_cliente)
 
-DIRECCION(id_direccion, calle, numero, localidad, provincia, codigo_postal, id_cliente)
+DIRECCION(id_direccion, calle, numero, localidad, provincia, id_cliente)
 	PK(id_direccion)
 	FK(id_cliente)
 
