@@ -62,7 +62,7 @@ CREATE TABLE trabajador(
 DESCRIBE trabajador;
 
 CREATE TABLE visita (
-	id_visita INT,
+	id_visita INT AUTO_INCREMENT,
 	fecha DATE NOT NULL,
     hora TIME NOT NULL,
     tipo ENUM ("Corta", "Media", "Larga"),
@@ -128,13 +128,13 @@ INSERT INTO trabajador (nombre, telefono, tipo_trabajador) VALUES
 
 SELECT * FROM trabajador;
 
-INSERT INTO visita (id_visita, fecha, hora, tipo, resultado, id_vivienda, id_trabajador) VALUES
-    (1, '2024-01-15', '10:30', 'Corta', 'Visitado_pdte_contestación', 1, 1),
-    (2, '2024-01-16', '14:00', 'Media', 'Visitado_no_hacen_nada', 2, 2),
-    (3, '2024-01-17', '16:00', 'Larga', 'Recitar', 3, 3),
-    (4, '2024-01-18', '11:30', 'Media', 'No_visita', 4, 4),
-    (5, '2024-01-19', '09:00', 'Corta', 'Firmada_no_financiable', 5, 5),
-    (6, '2024-01-20', '13:00', 'Larga', 'Venta', 6, 6);
+INSERT INTO visita (fecha, hora, tipo, resultado, id_vivienda, id_trabajador) VALUES
+    ('2024-01-15', '10:30', 'Corta', 'Visitado_pdte_contestación', 1, 1),
+    ('2024-01-16', '14:00', 'Media', 'Visitado_no_hacen_nada', 2, 2),
+    ('2024-01-17', '16:00', 'Larga', 'Recitar', 3, 3),
+    ('2024-01-18', '11:30', 'Media', 'No_visita', 4, 4),
+    ('2024-01-19', '09:00', 'Corta', 'Firmada_no_financiable', 5, 5),
+    ('2024-01-20', '13:00', 'Larga', 'Venta', 6, 6);
 
 SELECT * FROM visita;
 
