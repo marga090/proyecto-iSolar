@@ -62,7 +62,7 @@ CREATE TABLE trabajador(
 DESCRIBE trabajador;
 
 CREATE TABLE visita (
-	id_visita INT AUTO_INCREMENT,
+	id_visita INT PRIMARY KEY AUTO_INCREMENT,
 	fecha DATE NOT NULL,
     hora TIME NOT NULL,
     tipo ENUM ("Corta", "Media", "Larga"),
@@ -70,7 +70,6 @@ CREATE TABLE visita (
 	id_vivienda INT,
     id_trabajador INT,
     
-    CONSTRAINT pk_visita PRIMARY KEY (id_visita, id_vivienda, id_trabajador),
     CONSTRAINT fk_visita_id_vivienda FOREIGN KEY (id_vivienda) REFERENCES vivienda(id_vivienda),
     CONSTRAINT fk_visita_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador)
 );
