@@ -30,10 +30,10 @@ DESCRIBE direccion;
 CREATE TABLE vivienda(
 	id_vivienda INT PRIMARY KEY AUTO_INCREMENT,
     n_personas INT,
-    tiene_bombona ENUM("Si", "No"),
-    tiene_gas ENUM("Si","No"),
-    tiene_termo_electrico ENUM("Si","No"),
-	tiene_placas_termicas ENUM("Si","No"),
+    tiene_bombona ENUM("Si", "No", "Sin datos"),
+    tiene_gas ENUM("Si","No", "Sin datos"),
+    tiene_termo_electrico ENUM("Si","No", "Sin datos"),
+	tiene_placas_termicas ENUM("Si","No", "Sin datos"),
 	id_direccion INT,
     
     CONSTRAINT fk_vivienda_id_direccion FOREIGN KEY (id_direccion) REFERENCES direccion(id_direccion) ON DELETE CASCADE

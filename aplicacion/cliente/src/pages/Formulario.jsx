@@ -9,7 +9,7 @@ export default function Formulario() {
     // creamos las constantes para obtener los valores de los campos del formulario
     // tabla trabajador
     const [idTrabajador, setIdTrabajador] = useState(0);
-    
+
     // tabla cliente
     const [nombreContacto, setNombreContacto] = useState("");
     const [telefonoContacto, setTelefonoContacto] = useState("");
@@ -28,10 +28,10 @@ export default function Formulario() {
 
     // tabla vivienda
     const [numeroPersonas, setNumeroPersonas] = useState(0);
-    const [tieneBombona, setTieneBombona] = useState("No");
-    const [tieneGas, setTieneGas] = useState("No");
-    const [tieneTermoElectrico, setTieneTermoElectrico] = useState("No");
-    const [tienePlacasTermicas, setTienePlacasTermicas] = useState("No");
+    const [tieneBombona, setTieneBombona] = useState("Sin datos");
+    const [tieneGas, setTieneGas] = useState("Sin datos");
+    const [tieneTermoElectrico, setTieneTermoElectrico] = useState("Sin datos");
+    const [tienePlacasTermicas, setTienePlacasTermicas] = useState("Sin datos");
 
     // tabla recibo
     const [reciboLuz, setReciboLuz] = useState(0);
@@ -67,9 +67,9 @@ export default function Formulario() {
         if (!provinciaContacto) nuevoError.provinciaContacto = "La provincia es obligatoria";
         if (!fechaVisita) nuevoError.fechaVisita = "Debes seleccionar la fecha de la visita";
         if (!horaVisita) nuevoError.horaVisita = "Debes seleccionar la hora de visita";
-        if (numeroPersonas !== 0 && (isNaN(numeroPersonas) || numeroPersonas <= 0)) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
-        if (reciboLuz !== 0 && (isNaN(reciboLuz) || reciboLuz <= 0)) nuevoError.reciboLuz = "El importe del recibo de luz debe ser un número positivo";
-        if (reciboGas !== 0 && (isNaN(reciboGas) || reciboGas <= 0)) nuevoError.reciboGas = "El importe del recibo de gas debe ser un número positivo";
+        if (numeroPersonas !== 0 && (isNaN(numeroPersonas) || numeroPersonas < 0)) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
+        if (reciboLuz !== 0 && (isNaN(reciboLuz) || reciboLuz < 0)) nuevoError.reciboLuz = "El importe del recibo de luz debe ser un número positivo";
+        if (reciboGas !== 0 && (isNaN(reciboGas) || reciboGas < 0)) nuevoError.reciboGas = "El importe del recibo de gas debe ser un número positivo";
 
         setErrores(nuevoError);
         // devolvemos true o false
@@ -241,6 +241,17 @@ export default function Formulario() {
                             />
                             <label htmlFor="tiene_bombona_no">No</label>
                         </div>
+
+                        <div className='opcion'>
+                            <input
+                                type="radio"
+                                id="tiene_bombona_sin_datos"
+                                name="tiene_bombona"
+                                value="Sin datos"
+                                onChange={(event) => setTieneBombona(event.target.value)}
+                            />
+                            <label htmlFor="tiene_bombona_sin_datos">Sin datos</label>
+                        </div>
                     </div>
 
                     <label className='nombreCampo'>¿Tiene gas?</label>
@@ -265,6 +276,17 @@ export default function Formulario() {
                                 onChange={(event) => setTieneGas(event.target.value)}
                             />
                             <label htmlFor="tiene_gas_no">No</label>
+                        </div>
+
+                        <div className='opcion'>
+                            <input
+                                type="radio"
+                                id="tiene_gas_sin_datos"
+                                name="tiene_gas"
+                                value="Sin datos"
+                                onChange={(event) => setTieneGas(event.target.value)}
+                            />
+                            <label htmlFor="tiene_gas_sin_datos">Sin datos</label>
                         </div>
                     </div>
 
@@ -291,6 +313,17 @@ export default function Formulario() {
                             />
                             <label htmlFor="tiene_termo_electrico_no">No</label>
                         </div>
+
+                        <div className='opcion'>
+                            <input
+                                type="radio"
+                                id="tiene_termo_electrico_sin_datos"
+                                name="tiene_termo_electrico"
+                                value="Sin datos"
+                                onChange={(event) => setTieneTermoElectrico(event.target.value)}
+                            />
+                            <label htmlFor="tiene_termo_electrico_sin_datos">Sin datos</label>
+                        </div>
                     </div>
 
                     <label className='nombreCampo'>¿Tiene placas térmicas?</label>
@@ -315,6 +348,17 @@ export default function Formulario() {
                                 onChange={(event) => setTienePlacasTermicas(event.target.value)}
                             />
                             <label htmlFor="tiene_placas_termicas_no">No</label>
+                        </div>
+
+                        <div className='opcion'>
+                            <input
+                                type="radio"
+                                id="tiene_placas_termicas_sin_datos"
+                                name="tiene_placas_termicas"
+                                value="Sin datos"
+                                onChange={(event) => setTienePlacasTermicas(event.target.value)}
+                            />
+                            <label htmlFor="tiene_placas_termicas_sin_datos">Sin datos</label>
                         </div>
                     </div>
 
