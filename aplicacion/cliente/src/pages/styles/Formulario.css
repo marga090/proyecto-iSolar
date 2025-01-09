@@ -100,6 +100,25 @@ h1 {
   background-color: #2980b9;
 }
 
+/* mensajes de error */
+.error {
+  color: red;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 12px;
+  background-color: rgb(255, 228, 228);
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0px 0px 15px 0px;
+  border: rgb(252, 156, 156) solid 0.5px;
+}
+
+
+
+
+
+
+
+
 /* lista de clientes
 .listaClientes {
   margin-top: 30px;

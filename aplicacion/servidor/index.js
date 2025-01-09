@@ -27,6 +27,7 @@ app.post("/create", (req, res) => {
 
     // creamos las constantes de los campos y en ella almacemanos la informacion que llega del body
     const {
+        idTrabajador,
         nombreContacto,
         calleContacto,
         numeroVivienda,
@@ -94,9 +95,9 @@ app.post("/create", (req, res) => {
                         }
 
                         // insertamnos la fecha y hora a la visita
-                        const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda) VALUES (?, ?, ?)';
+                        const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?)';
                         // de los campos del formulario
-                        db.query(sqlVisita, [fechaVisita, horaVisita, idVivienda], (err, result) => {
+                        db.query(sqlVisita, [fechaVisita, horaVisita, idVivienda, idTrabajador], (err, result) => {
                             if (err) {
                                 console.error("Error al insertar visita:", err);
                                 return res.status(500).json({ error: "Error al insertar visita" });
