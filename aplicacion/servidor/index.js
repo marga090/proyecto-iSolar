@@ -42,101 +42,106 @@ app.post("/create", (req, res) => {
         tieneGas,
         tieneTermoElectrico,
         tienePlacasTermicas,
-        reciboLuz,
-        reciboGas,
+        importeLuz,
+        importeGas,
         observacionesContacto
 
         // lo que llega de la solicitud
     } = req.body;
 
-    // insertamos el cliente
-    const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones) VALUES (?,?,?,?)';
-    // de los campos del formulario
-    db.query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto],
+    // validaciones de campos obligatorios
+    if (!idTrabajador || !nombreContacto || !telefonoContacto || !correoContacto || !calleContacto ||
+        !numeroVivienda || !localidadContacto || !provinciaContacto || !fechaVisita || !horaVisita) {
+        return res.status(400).json({ error: "Todos los campos son obligatorios" });
+    }
 
-        // gestionamos los errores
-        (err, result) => {
-            if (err) {
-                console.error("Error al insertar el cliente", err);
-                return res.status(500).json({ error: "Error al insertar el cliente" });
-            }
+    // validaciones del telefono y del correo
+    if (!/^\d{9}$/.test(telefonoContacto)) {
+        return res.status(400).json({ error: "El teléfono debe tener 9 dígitos" });
+    }
 
-            const idCliente = result.insertId;
+    if (!/\S+@\S+\.\S+/.test(correoContacto)) {
+        return res.status(400).json({ error: "El correo no es válido" });
+    }
 
-            // insertamos la direccion asociada al cliente
-            const sqlDireccion = 'INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?, ?)';
-            // de los campos del formulario
-            db.query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente], (err, result) => {
+    // consultar si ya existe un cliente con el mismo teléfono o correo
+    const comprobarCliente = 'SELECT * FROM cliente WHERE telefono = ? OR correo = ?';
+    db.query(comprobarCliente, [telefonoContacto, correoContacto], (err, result) => {
+        if (err) {
+            console.error("Error al comprobar cliente:", err);
+            return res.status(500).json({ error: "Error al comprobar cliente" });
+        }
+
+        // si ya existe
+        if (result.length > 0) {
+            return res.status(400).json({ error: "Ya existe un cliente con ese teléfono o correo" });
+        }
+
+        // si no existe insertamos el cliente
+        const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones) VALUES (?,?,?,?)';
+        // de los campos del formulario
+        db.query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto],
+
+            // gestionamos los errores
+            (err, result) => {
                 if (err) {
-                    console.error("Error al insertar dirección:", err);
-                    return res.status(500).json({ error: "Error al insertar dirección" });
+                    console.error("Error al insertar el cliente", err);
+                    return res.status(500).json({ error: "Error al insertar el cliente" });
                 }
 
-                const idDireccion = result.insertId;
+                const idCliente = result.insertId;
 
-                // insertamos la vivienda asociada a la dirección
-                const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
+                // insertamos la direccion asociada al cliente
+                const sqlDireccion = 'INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?, ?)';
                 // de los campos del formulario
-                db.query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion], (err, result) => {
+                db.query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente], (err, result) => {
                     if (err) {
-                        console.error("Error al insertar vivienda:", err);
-                        return res.status(500).json({ error: "Error al insertar vivienda" });
+                        console.error("Error al insertar dirección:", err);
+                        return res.status(500).json({ error: "Error al insertar dirección" });
                     }
 
-                    const idVivienda = result.insertId;
+                    const idDireccion = result.insertId;
 
-                    // insertamos los recibos de luz y gas asociados a la vivienda
-                    const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
+                    // insertamos la vivienda asociada a la dirección
+                    const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
                     // de los campos del formulario
-                    db.query(sqlRecibo, [reciboLuz, reciboGas, idVivienda], (err, result) => {
+                    db.query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion], (err, result) => {
                         if (err) {
-                            console.error("Error al insertar recibo:", err);
-                            return res.status(500).json({ error: "Error al insertar recibo" });
+                            console.error("Error al insertar vivienda:", err);
+                            return res.status(500).json({ error: "Error al insertar vivienda" });
                         }
 
-                        // insertamnos la fecha y hora a la visita
-                        const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?)';
+                        const idVivienda = result.insertId;
+
+                        // insertamos los recibos de luz y gas asociados a la vivienda
+                        const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
                         // de los campos del formulario
-                        db.query(sqlVisita, [fechaVisita, horaVisita, idVivienda, idTrabajador], (err, result) => {
+                        db.query(sqlRecibo, [importeLuz, importeGas, idVivienda], (err, result) => {
                             if (err) {
-                                console.error("Error al insertar visita:", err);
-                                return res.status(500).json({ error: "Error al insertar visita" });
+                                console.error("Error al insertar recibo:", err);
+                                return res.status(500).json({ error: "Error al insertar recibo" });
                             }
 
-                            // ha salido bien
-                            res.status(200).json({ message: "Cliente registrado correctamente" });
+                            // insertamnos la fecha y hora a la visita
+                            const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?)';
+                            // de los campos del formulario
+                            db.query(sqlVisita, [fechaVisita, horaVisita, idVivienda, idTrabajador], (err, result) => {
+                                if (err) {
+                                    console.error("Error al insertar visita:", err);
+                                    return res.status(500).json({ error: "Error al insertar visita" });
+                                }
+
+                                // ha salido bien
+                                res.status(200).json({ message: "Cliente registrado correctamente" });
+                            });
                         });
                     });
                 });
             });
-        });
+    });
 });
-
-
-// creamos la peticion de LISTAR
-app.get("/clientes", (req, res) => {
-
-    // cuando se haga la consulta y obtengamosla respuesta...
-    console.log("Clientes listados", req.body);
-
-    // listar valores de la tabla cliente de la base de datos
-    db.query(
-        // campos de las tablas de la bd
-        'SELECT * FROM cliente',
-        // gestionamos los errores
-        (err, result) => {
-            if (err) {
-                // muestra el error de sql
-                console.error("Error en la base de datos:", err.sqlMessage);
-                return res.status(500).json({ error: err.sqlMessage || "Hubo un error al mostar los datos en la base de datos" });
-            }
-            res.send(result);
-        }
-    );
-});
-
 
 // mensaje para verificar que el backend esta funcionando correctamente y escuchando por el puerto 3001
 app.listen(3001, () => {
-    console.log("Funcionando en el puerto 3001")
+    console.log("Servidor funcionando en el puerto 3001")
 })
