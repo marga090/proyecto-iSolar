@@ -147,7 +147,6 @@ export default function Formulario() {
                     />
                     {errores.calleContacto && <label className="error">{errores.calleContacto}</label>}
 
-
                     <label className='nombreCampo'>Número de la vivienda:</label>
                     <input className='campoTexto'
                         onChange={(event) => setNumeroVivienda(event.target.value)}
@@ -155,7 +154,6 @@ export default function Formulario() {
                         placeholder="Introduce el número de la vivienda"
                     />
                     {errores.numeroVivienda && <label className="error">{errores.numeroVivienda}</label>}
-
 
                     <label className='nombreCampo'>Localidad del contacto:</label>
                     <input className='campoTexto'
@@ -181,7 +179,6 @@ export default function Formulario() {
                     />
                     {errores.telefonoContacto && <label className="error">{errores.telefonoContacto}</label>}
 
-
                     <label className='nombreCampo'>Correo del contacto:</label>
                     <input className='campoTexto'
                         onChange={(event) => setCorreoContacto(event.target.value)}
@@ -189,7 +186,6 @@ export default function Formulario() {
                         placeholder="Introduce el correo electrónico del contacto"
                     />
                     {errores.correoContacto && <label className="error">{errores.correoContacto}</label>}
-
 
                     <label className='nombreCampo'>Fecha de la visita:</label>
                     <input className='campoTexto'
@@ -199,7 +195,6 @@ export default function Formulario() {
                     />
                     {errores.fechaVisita && <label className="error">{errores.fechaVisita}</label>}
 
-
                     <label className='nombreCampo'>Hora de la visita:</label>
                     <input className='campoTexto'
                         onChange={(event) => setHoraVisita(event.target.value)}
@@ -208,7 +203,6 @@ export default function Formulario() {
                     />
                     {errores.horaVisita && <label className="error">{errores.horaVisita}</label>}
 
-
                     <label className='nombreCampo'>Número de personas en la vivienda:</label>
                     <input className='campoTexto'
                         onChange={(event) => setNumeroPersonas(event.target.value)}
@@ -216,7 +210,6 @@ export default function Formulario() {
                         placeholder="Introduce el número de residentes"
                     />
                     {errores.numeroPersonas && <label className="error">{errores.numeroPersonas}</label>}
-
 
                     <label className='nombreCampo'>¿Tiene bombona?</label>
                     <div className='opciones'>
@@ -370,7 +363,6 @@ export default function Formulario() {
                     />
                     {errores.reciboLuz && <label className="error">{errores.reciboLuz}</label>}
 
-
                     <label className='nombreCampo'>Importe de recibo de gas:</label>
                     <input className='campoTexto'
                         onChange={(event) => setReciboGas(event.target.value)}
@@ -378,7 +370,6 @@ export default function Formulario() {
                         placeholder="Introduce el importe de gas del contacto"
                     />
                     {errores.reciboGas && <label className="error">{errores.reciboGas}</label>}
-
 
                     <label className='nombreCampo'>Observaciones del contacto:</label>
                     <input className='campoTexto'

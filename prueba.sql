@@ -17,7 +17,7 @@ DESCRIBE cliente;
 CREATE TABLE direccion (
 	id_direccion INT PRIMARY KEY AUTO_INCREMENT,
     calle VARCHAR(100) NOT NULL,
-    numero INT NOT NULL,
+    numero VARCHAR(5) NOT NULL,
     localidad VARCHAR(50) NOT NULL,
     provincia VARCHAR(50) NOT NULL,
     id_cliente INT,
