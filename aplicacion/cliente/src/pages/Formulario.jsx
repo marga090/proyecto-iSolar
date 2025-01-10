@@ -71,9 +71,20 @@ export default function Formulario() {
             Axios.post("http://localhost:3001/create", datosFormulario)
                 .then((response) => {
                     console.log("Datos enviados correctamente:", response);
+                    setErrores({});
+                    alert("Cliente registrado correctamente");
                 })
                 .catch((error) => {
-                    console.error("Error al enviar los datos:", error);
+                    if (error.response) {
+                        // Si el servidor responde con un error
+                        console.error("Error al enviar los datos:", error.response.data);
+                        // Actualizar los errores con la respuesta del servidor (debería contener el mensaje de error)
+                        setErrores({ serverError: error.response.data.error });
+                    } else {
+                        // Si hubo un error con la solicitud
+                        console.error("Error en la solicitud:", error);
+                        setErrores({ serverError: "Hubo un problema con la solicitud. Intenta nuevamente." });
+                    }
                 });
         }
     };
@@ -85,6 +96,8 @@ export default function Formulario() {
 
             <div className="contenedorFormulario">
                 <form onSubmit={add} className='campos'>
+                    {errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
+
                     <label className='nombreCampo'>ID Trabajador:</label>
                     <input
                         className='campoTexto'
@@ -354,23 +367,25 @@ export default function Formulario() {
                     <input
                         className='campoTexto'
                         name='importeLuz'
-                        value={datosFormulario.reciboLuz}
+                        value={datosFormulario.importeLuz}
                         onChange={handleChange}
                         type="number"
+                        step="0.01"
                         placeholder="Introduce el importe de luz del contacto"
                     />
-                    {errores.reciboLuz && <label className="error">{errores.reciboLuz}</label>}
+                    {errores.reciboLuz && <label className="error">{errores.importeLuz}</label>}
 
                     <label className='nombreCampo'>Importe de recibo de gas:</label>
                     <input
                         className='campoTexto'
                         name='importeGas'
-                        value={datosFormulario.reciboGas}
+                        value={datosFormulario.importeGas}
                         onChange={handleChange}
                         type="number"
+                        step="0.01"
                         placeholder="Introduce el importe de gas del contacto"
                     />
-                    {errores.reciboGas && <label className="error">{errores.reciboGas}</label>}
+                    {errores.reciboGas && <label className="error">{errores.importeGas}</label>}
 
                     <label className='nombreCampo'>Observaciones del contacto:</label>
                     <input

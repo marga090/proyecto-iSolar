@@ -72,9 +72,17 @@ app.post("/create", (req, res) => {
             return res.status(500).json({ error: "Error al comprobar cliente" });
         }
 
-        // si ya existe
+        console.log(result);
+
+        // si ya existe ese cliente
         if (result.length > 0) {
-            return res.status(400).json({ error: "Ya existe un cliente con ese teléfono o correo" });
+            const duplicado = result[0]; // Primer registro encontrado
+            if (duplicado.telefono === telefonoContacto) {
+                return res.status(400).json({ error: "Ya existe un cliente con ese teléfono" });
+            }
+            if (duplicado.correo === correoContacto) {
+                return res.status(400).json({ error: "Ya existe un cliente con ese correo" });
+            }
         }
 
         // si no existe insertamos el cliente
