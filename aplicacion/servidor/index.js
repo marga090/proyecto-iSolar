@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 // importamos mysql
 const mysql = require("mysql");
-// importamos cors, que permite realizar solicitudes y transferencias de datos entre servidores 
+// importamos cors, que permite realizar solicitudes y transferencias de datos entre servidores
 const cors = require("cors");
 
 // permite que el frontend en localhost:3000 haga solicitudes al backend
@@ -19,13 +19,55 @@ const db = mysql.createConnection({
     database: "prueba"
 });
 
-// creamos la peticion de GUARDAR
-app.post("/create", (req, res) => {
+// consulta a la base de datos con async/await
+const query = (sql, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(sql, params, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
 
-    // cuando se haga la consulta y obtengamosla respuesta...
+// intermediario para las validaciones de los datos
+const validarDatos = (req, res, next) => {
+    const { telefonoContacto, correoContacto, idTrabajador, nombreContacto, calleContacto, numeroVivienda, localidadContacto, provinciaContacto, fechaVisita, horaVisita, importeLuz, importeGas } = req.body;
+
+    // validaciones de campos obligatorios
+    if (!idTrabajador || !nombreContacto || !telefonoContacto || !correoContacto || !calleContacto ||
+        !numeroVivienda || !localidadContacto || !provinciaContacto || !fechaVisita || !horaVisita) {
+        return res.status(400).json({ error: "Todos los campos son obligatorios" });
+    }
+
+    // validaciones del telefono y del correo
+    if (!/^\d{9}$/.test(telefonoContacto)) {
+        return res.status(400).json({ error: "El teléfono debe tener 9 dígitos" });
+    }
+
+    if (!/\S+@\S+\.\S+/.test(correoContacto)) {
+        return res.status(400).json({ error: "El correo no es válido" });
+    }
+
+    // validaciones de los importes de luz y gas
+    if (importeLuz < 0 || isNaN(importeLuz)) {
+        return res.status(400).json({ error: "El importe de luz debe ser un número positivo" });
+    }
+
+    if (importeGas < 0 || isNaN(importeGas)) {
+        return res.status(400).json({ error: "El importe de gas debe ser un número positivo" });
+    }
+
+    // si todo es correcto, pasa a la siguiente validacion
+    next();
+};
+
+// creamos la peticion de GUARDAR
+app.post("/create", validarDatos, async (req, res) => {
+
+    // cuando se haga la consulta y obtengamos la respuesta...
     console.log("Datos recibidos del frontend:", req.body);
 
-    // creamos las constantes de los campos y en ella almacemanos la informacion que llega del body
+    // extraemos los datos recibidos del body
     const {
         idTrabajador,
         nombreContacto,
@@ -45,111 +87,78 @@ app.post("/create", (req, res) => {
         importeLuz,
         importeGas,
         observacionesContacto
-
-        // lo que llega de la solicitud
     } = req.body;
 
-    // validaciones de campos obligatorios
-    if (!idTrabajador || !nombreContacto || !telefonoContacto || !correoContacto || !calleContacto ||
-        !numeroVivienda || !localidadContacto || !provinciaContacto || !fechaVisita || !horaVisita) {
-        return res.status(400).json({ error: "Todos los campos son obligatorios" });
-    }
+    try {
+        // consultamos si ya existe un cliente con el telefono o correo introducidos
+        const existeCliente = await query('SELECT * FROM cliente WHERE telefono = ? OR correo = ?', [telefonoContacto, correoContacto]);
 
-    // validaciones del telefono y del correo
-    if (!/^\d{9}$/.test(telefonoContacto)) {
-        return res.status(400).json({ error: "El teléfono debe tener 9 dígitos" });
-    }
-
-    if (!/\S+@\S+\.\S+/.test(correoContacto)) {
-        return res.status(400).json({ error: "El correo no es válido" });
-    }
-
-    // consultar si ya existe un cliente con el mismo teléfono o correo
-    const comprobarCliente = 'SELECT * FROM cliente WHERE telefono = ? OR correo = ?';
-    db.query(comprobarCliente, [telefonoContacto, correoContacto], (err, result) => {
-        if (err) {
-            console.error("Error al comprobar cliente:", err);
-            return res.status(500).json({ error: "Error al comprobar cliente" });
-        }
-
-        console.log(result);
-
-        // si ya existe ese cliente
-        if (result.length > 0) {
-            const duplicado = result[0]; // Primer registro encontrado
-            if (duplicado.telefono === telefonoContacto) {
+        if (existeCliente.length > 0) {
+            const existe = existeCliente[0];
+            if (existe.telefono === telefonoContacto) {
                 return res.status(400).json({ error: "Ya existe un cliente con ese teléfono" });
             }
-            if (duplicado.correo === correoContacto) {
+            if (existe.correo === correoContacto) {
                 return res.status(400).json({ error: "Ya existe un cliente con ese correo" });
             }
         }
 
-        // si no existe insertamos el cliente
-        const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones) VALUES (?,?,?,?)';
-        // de los campos del formulario
-        db.query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto],
+        // introducimos las consultas en una transaccion, por si alguna falla, no se realice ninguna modificacion en la base de datos
+        db.beginTransaction(async (err) => {
+            if (err) {
+                return res.status(500).json({ error: "Error al iniciar la transacción" });
+            }
 
-            // gestionamos los errores
-            (err, result) => {
-                if (err) {
-                    console.error("Error al insertar el cliente", err);
-                    return res.status(500).json({ error: "Error al insertar el cliente" });
-                }
+            try {
+                // insertamos el cliente
+                const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones) VALUES (?,?,?,?)';
+                const resultadoCliente = await query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto]);
+                const idCliente = resultadoCliente.insertId;
 
-                const idCliente = result.insertId;
-
-                // insertamos la direccion asociada al cliente
+                // insertamos la direccion del cliente
                 const sqlDireccion = 'INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?, ?)';
-                // de los campos del formulario
-                db.query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente], (err, result) => {
+                const resultadoDireccion = await query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente]);
+                const idDireccion = resultadoDireccion.insertId;
+
+                // insertamos la vivienda asociada a la dirección
+                const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
+                const resultadoVivienda = await query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion]);
+                const idVivienda = resultadoVivienda.insertId;
+
+                // insertamos los recibos de luz y gas asociados a la vivienda
+                const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
+                await query(sqlRecibo, [importeLuz, importeGas, idVivienda]);
+
+                // insertamos la fecha y hora de la visita
+                const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?)';
+                await query(sqlVisita, [fechaVisita, horaVisita, idVivienda, idTrabajador]);
+
+                // confirmamos la transaccion
+                db.commit((err) => {
                     if (err) {
-                        console.error("Error al insertar dirección:", err);
-                        return res.status(500).json({ error: "Error al insertar dirección" });
+                        return db.rollback(() => {
+                            console.error("Error en la transacción, rollback:", err);
+                            res.status(500).json({ error: "Error al procesar la solicitud" });
+                        });
                     }
 
-                    const idDireccion = result.insertId;
-
-                    // insertamos la vivienda asociada a la dirección
-                    const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
-                    // de los campos del formulario
-                    db.query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion], (err, result) => {
-                        if (err) {
-                            console.error("Error al insertar vivienda:", err);
-                            return res.status(500).json({ error: "Error al insertar vivienda" });
-                        }
-
-                        const idVivienda = result.insertId;
-
-                        // insertamos los recibos de luz y gas asociados a la vivienda
-                        const sqlRecibo = 'INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)';
-                        // de los campos del formulario
-                        db.query(sqlRecibo, [importeLuz, importeGas, idVivienda], (err, result) => {
-                            if (err) {
-                                console.error("Error al insertar recibo:", err);
-                                return res.status(500).json({ error: "Error al insertar recibo" });
-                            }
-
-                            // insertamnos la fecha y hora a la visita
-                            const sqlVisita = 'INSERT INTO visita (fecha, hora, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?)';
-                            // de los campos del formulario
-                            db.query(sqlVisita, [fechaVisita, horaVisita, idVivienda, idTrabajador], (err, result) => {
-                                if (err) {
-                                    console.error("Error al insertar visita:", err);
-                                    return res.status(500).json({ error: "Error al insertar visita" });
-                                }
-
-                                // ha salido bien
-                                res.status(200).json({ message: "Cliente registrado correctamente" });
-                            });
-                        });
-                    });
+                    // si no ha habido errores
+                    res.status(200).json({ message: "Cliente registrado correctamente" });
                 });
-            });
-    });
+            } catch (err) {
+                db.rollback(() => {
+                    console.error("Error durante la transacción:", err);
+                    res.status(500).json({ error: "Error al procesar la solicitud" });
+                });
+            }
+        });
+    } catch (err) {
+        console.error("Error al procesar la solicitud:", err);
+        res.status(500).json({ error: "Error al procesar la solicitud" });
+    }
 });
 
-// mensaje para verificar que el backend esta funcionando correctamente y escuchando por el puerto 3001
+// Mensaje para verificar que el backend esta funcionando correctamente y escuchando en el puerto 3001
 app.listen(3001, () => {
-    console.log("Servidor funcionando en el puerto 3001")
-})
+    console.log("Servidor funcionando en el puerto 3001");
+});

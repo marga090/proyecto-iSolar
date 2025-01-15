@@ -24,8 +24,8 @@ export default function Formulario() {
         tieneGas: "Sin datos",
         tieneTermoElectrico: "Sin datos",
         tienePlacasTermicas: "Sin datos",
-        importeLuz: 0,
-        importeGas: 0,
+        importeLuz: 0.00,
+        importeGas: 0.00
     });
 
     const [errores, setErrores] = useState({});
@@ -54,9 +54,9 @@ export default function Formulario() {
         if (!datosFormulario.provinciaContacto) nuevoError.provinciaContacto = "La provincia es obligatoria";
         if (!datosFormulario.fechaVisita) nuevoError.fechaVisita = "Debes seleccionar la fecha de la visita";
         if (!datosFormulario.horaVisita) nuevoError.horaVisita = "Debes seleccionar la hora de visita";
-        if (datosFormulario.numeroPersonas !== 0 && (isNaN(datosFormulario.numeroPersonas) || datosFormulario.numeroPersonas < 0)) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
-        if (datosFormulario.importeLuz !== 0 && (isNaN(datosFormulario.importeLuz) || datosFormulario.importeLuz < 0)) nuevoError.importeLuz = "El importe del recibo de luz debe ser un número positivo";
-        if (datosFormulario.importeGas !== 0 && (isNaN(datosFormulario.importeGas) || datosFormulario.importeGas < 0)) nuevoError.importeGas = "El importe del recibo de gas debe ser un número positivo";
+        if (isNaN(datosFormulario.numeroPersonas) || datosFormulario.numeroPersonas < 0) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
+        if (isNaN(datosFormulario.importeLuz) || datosFormulario.importeLuz < 0) nuevoError.importeLuz = "El importe debe ser un número positivo";
+        if (isNaN(datosFormulario.importeGas) || datosFormulario.importeGas < 0) nuevoError.importeGas = "El importe debe ser un número positivo";
 
         setErrores(nuevoError);
         // si hay errores devolvemos true
@@ -70,7 +70,7 @@ export default function Formulario() {
             // llamamos al metodo crear y al cuerpo de la solicitud
             Axios.post("http://localhost:3001/create", datosFormulario)
                 .then((response) => {
-                    console.log("Datos enviados correctamente:", response);
+                    console.log("Datos enviados al servidor correctamente:", response);
                     setErrores({});
                     alert("Cliente registrado correctamente");
                 })
@@ -373,7 +373,7 @@ export default function Formulario() {
                         step="0.01"
                         placeholder="Introduce el importe de luz del contacto"
                     />
-                    {errores.reciboLuz && <label className="error">{errores.importeLuz}</label>}
+                    {errores.importeLuz && <label className="error">{errores.importeLuz}</label>}
 
                     <label className='nombreCampo'>Importe de recibo de gas:</label>
                     <input
@@ -385,7 +385,7 @@ export default function Formulario() {
                         step="0.01"
                         placeholder="Introduce el importe de gas del contacto"
                     />
-                    {errores.reciboGas && <label className="error">{errores.importeGas}</label>}
+                    {errores.importeGas && <label className="error">{errores.importeGas}</label>}
 
                     <label className='nombreCampo'>Observaciones del contacto:</label>
                     <input
