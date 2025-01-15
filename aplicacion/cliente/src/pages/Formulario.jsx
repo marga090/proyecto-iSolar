@@ -24,8 +24,8 @@ export default function Formulario() {
         tieneGas: "Sin datos",
         tieneTermoElectrico: "Sin datos",
         tienePlacasTermicas: "Sin datos",
-        importeLuz: 0,
-        importeGas: 0
+        importeLuz: 0.00,
+        importeGas: 0.00
     });
 
     const [errores, setErrores] = useState({});
