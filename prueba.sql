@@ -66,7 +66,7 @@ CREATE TABLE visita (
 	fecha DATE NOT NULL,
     hora TIME NOT NULL,
     tipo ENUM ("Corta", "Media", "Larga"),
-    resultado enum ("Visitado_pdte_contestación", "Visitado_no_hacen_nada", "Recitar", "No_visita", "Firmada_no_financiable", "Venta"),
+    resultado ENUM ("Visitado_pdte_contestación", "Visitado_no_hacen_nada", "Recitar", "No_visita", "Firmada_no_financiable", "Venta"),
 	id_vivienda INT,
     id_trabajador INT,
     
