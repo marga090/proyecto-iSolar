@@ -90,6 +90,13 @@ app.post("/create", validarDatos, async (req, res) => {
     } = req.body;
 
     try {
+        // consultamos si el trabajador existe
+        const existeTrabajador = await query('SELECT * FROM trabajador WHERE id_trabajador = ?', [idTrabajador]);
+        
+        if (existeTrabajador.length === 0) {
+            return res.status(400).json({ error: "El ID del trabajador no existe en la base de datos." });
+        }
+
         // consultamos si ya existe un cliente con el telefono o correo introducidos
         const existeCliente = await query('SELECT * FROM cliente WHERE telefono = ? OR correo = ?', [telefonoContacto, correoContacto]);
 
