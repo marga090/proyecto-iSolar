@@ -16,9 +16,11 @@ const Inicio = () => {
   return (
     <div className='inicioSesion'>
       <h1>Inicio de Sesión</h1>
-      <p>¿Eres un captador o un comercial?</p>
-      <button onClick={() => comprobarTrabajador('formulario')}>Captador</button>
-      <button onClick={() => comprobarTrabajador('feedback')}>Comercial</button>
+      <h4>¿Eres un captador o un comercial?</h4>
+      <div className='botones'>
+        <button onClick={() => comprobarTrabajador('formulario')}>Captador</button>
+        <button onClick={() => comprobarTrabajador('feedback')}>Comercial</button>
+      </div>
     </div>
   );
 };

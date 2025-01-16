@@ -16,3 +16,17 @@ h1 {
     font-size: 24px;
     text-align: center;
 }
+
+/* botones */
+button {
+    background-color: rgb(252, 221, 156);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 2px solid orange;
+}
+
+button:hover{
+    color: brown;
+    background-color: yellow;
+}

@@ -104,10 +104,10 @@ export default function Feedback() {
 					>
 						<option value="">Selecciona el resultado de la visita</option>
 						<option value="VisitadoPdteCont">Visitado pendiente de contestación</option>
-						<option value="VisitadoNada">Visitado no hacen nada</option>
+						<option value="VisitadoNada">Visitado pero no hacen nada</option>
 						<option value="Recitar">Recitar</option>
 						<option value="NoVisita">No visita</option>
-						<option value="FirmadaNoFinan">Firmada-No financiable</option>
+						<option value="FirmadaNoFinan">Firmada y no financiable</option>
 						<option value="Venta">Venta</option>
 					</select>
 
