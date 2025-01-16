@@ -10,15 +10,15 @@
 }
 
 /* titulo */
-h1 {
-  color: #2c3e50;
+.formulario h1 {
+  color: #0a2b54;
   margin-bottom: 20px;
   font-size: 24px;
   text-align: center;
 }
 
 /* contenedor del formulario */
-.contenedorFormulario {
+.formulario .contenedorFormulario {
   width: 100%;
   max-width: 600px;
   background-color: #ffffff;
@@ -28,22 +28,21 @@ h1 {
 }
 
 /* campos del formulario */
-.campos {
+.formulario .contenedorFormulario .campos {
   display: flex;
   flex-direction: column;
 }
 
 /* nombre de cada campo */
-.campos .nombreCampo {
+.formulario .contenedorFormulario .campos .nombreCampo {
   display: flex;
   font-size: 16px;
-  color: #34495e;
   margin: 5px;
   text-align: center;
 }
 
 /* campo de texto */
-.campos .campoTexto {
+.formulario .contenedorFormulario .campos .campoTexto {
   display: flex;
   width: 100%;
   height: 40px;
@@ -56,13 +55,14 @@ h1 {
   box-sizing: border-box;
 }
 
-.campos input:focus {
-  border-color: #3498db;
+.formulario .contenedorFormulario .campos .campoTexto:focus {
+  border-color: #fd8200;
+  background-color: #fffebf;
   outline: none;
 }
 
 /* opciones */
-.campos .opciones {
+.formulario .contenedorFormulario .campos .opciones {
   display: flex;
   align-items: center;
   gap: 30px;
@@ -70,33 +70,34 @@ h1 {
 }
 
 /* opcion */
-.campos .opciones .opcion {
+.formulario .contenedorFormulario .campos .opciones .opcion {
   display: flex;
   align-items: center;
   text-align: center;
 }
 
 /* botones de radio */
-.campos .opciones .opcion input {
+.formulario .contenedorFormulario .campos .opciones .opcion input {
   display: flex;
   flex-direction: inline;
   margin: 10px;
 }
 
 /* boton registrar */
-.campos button {
+.formulario .contenedorFormulario .campos button {
   width: 100%;
   height: 45px;
   font-size: 16px;
-  background-color: #3498db;
+  background-color: #203c56;
   color: white;
   border: none;
   border-radius: 5px;
+  margin: 10px 0px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.campos button:hover {
+.formulario .contenedorFormulario .campos button:hover {
   background-color: #2980b9;
 }
 
@@ -127,12 +128,12 @@ h1 {
 @media (max-width: 768px) {
 
   /* contenedor del formulario */
-  .contenedorFormulario {
+  .formulario .contenedorFormulario {
     padding: 15px 10px;
   }
 
   /* campo de texto */
-  .campos .campoTexto {
+  .formulario .contenedorFormulario .campos .campoTexto {
     padding: 0px 5px;
   }
 }

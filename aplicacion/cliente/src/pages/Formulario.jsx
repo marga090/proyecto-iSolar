@@ -97,7 +97,6 @@ export default function Formulario() {
             <div className="contenedorFormulario">
                 <form onSubmit={add} className='campos'>
                     {errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
-
                     <label className='nombreCampo'>ID Trabajador:</label>
                     <input
                         className='campoTexto'
