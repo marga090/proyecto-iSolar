@@ -18,7 +18,7 @@ h1 {
 }
 
 /* botones */
-button {
+.botonesSesion > button {
     background-color: rgb(252, 221, 156);
     padding: 10px;
     margin: 10px;
@@ -26,7 +26,7 @@ button {
     border: 2px solid orange;
 }
 
-button:hover{
+.botonesSesion > button:hover{
     color: brown;
     background-color: yellow;
 }

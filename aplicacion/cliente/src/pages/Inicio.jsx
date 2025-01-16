@@ -17,7 +17,7 @@ const Inicio = () => {
     <div className='inicioSesion'>
       <h1>Inicio de Sesión</h1>
       <h4>¿Eres un captador o un comercial?</h4>
-      <div className='botones'>
+      <div className='botonesSesion'>
         <button onClick={() => comprobarTrabajador('formulario')}>Captador</button>
         <button onClick={() => comprobarTrabajador('feedback')}>Comercial</button>
       </div>

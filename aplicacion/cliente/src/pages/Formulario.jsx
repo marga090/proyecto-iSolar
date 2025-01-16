@@ -80,11 +80,11 @@ export default function Formulario() {
                         console.error("Error al enviar los datos:", error.response.data);
                         // Actualizar los errores con la respuesta del servidor (debería contener el mensaje de error)
                         setErrores({ serverError: error.response.data.error });
+
                     } else {
                         // Si hubo un error con la solicitud
                         console.error("Error en la solicitud:", error);
-                        setErrores({ serverError: "Hubo un problema con la solicitud. Intenta nuevamente." });
-                    }
+                        setErrores({ serverError: "Hubo un problema con la solicitud. Intenta nuevamente." });                  }
                 });
         }
     };
