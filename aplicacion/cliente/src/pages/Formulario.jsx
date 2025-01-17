@@ -4,6 +4,8 @@ import './styles/Formulario.css';
 import { useState } from "react";
 // importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
+// importamos el componente EnradaTexto
+import { EntradaTexto, EntradaRadio } from '../components/CamposFormulario';
 
 export default function Formulario() {
     // creamos las constantes para obtener los valores de los campos del formulario
@@ -171,304 +173,66 @@ export default function Formulario() {
             <div className="contenedorFormulario">
                 <form onSubmit={add} className='campos'>
                     {errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
-                    <label className='nombreCampo'>ID Trabajador:</label>
-                    <input
-                        className='campoTexto'
-                        name="idTrabajador"
-                        value={datosFormulario.idTrabajador}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Ej: 1"
+
+                    <EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFormulario.idTrabajador} onChange={handleChange} type="text" placeholder="Ej: 1" error={errores.idTrabajador} />
+
+                    <EntradaTexto label="Nombre completo del contacto" name="nombreContacto" value={datosFormulario.nombreContacto} onChange={handleChange} type="text" placeholder="Ej: Gabriel Martín Ruiz" error={errores.nombreContacto} />
+
+                    <EntradaTexto label="Dirección del contacto" name="direccionContacto" value={datosFormulario.direccionContacto} onChange={handleChange} type="text" placeholder="Ej: Calle del Sol, 42" error={errores.direccionContacto} />
+
+                    <EntradaTexto label="Localidad del contacto" name="localidadContacto" value={datosFormulario.localidadContacto} onChange={handleChange} type="text" placeholder="Ej: Mairena de Alcor" error={errores.localidadContacto} />
+
+                    <EntradaTexto label="Provincia del contacto" name="provinciaContacto" value={datosFormulario.provinciaContacto} onChange={handleChange} type="text" placeholder="Ej: Sevilla" error={errores.provinciaContacto} />
+
+                    <EntradaTexto label="Teléfono de contacto" name="telefonoContacto" value={datosFormulario.telefonoContacto} onChange={handleChange} type="tel" placeholder="Ej: 666555444" error={errores.telefonoContacto} />
+
+                    <EntradaTexto label="Correo del contacto" name="correoContacto" value={datosFormulario.correoContacto} onChange={handleChange} type="email" placeholder="Ej: ejemplo@gmail.com" error={errores.correoContacto} />
+
+                    <EntradaTexto label="Fecha de la visita" name="fechaVisita" value={datosFormulario.fechaVisita} onChange={handleChange} type="date" placeholder="Ej: 17/01/2025" error={errores.fechaVisita} />
+
+                    <EntradaTexto label="Hora de la visita" name="horaVisita" value={datosFormulario.horaVisita} onChange={handleChange} type="time" placeholder="Ej: 10:22" error={errores.horaVisita} />
+
+                    <EntradaTexto label="Número de personas en la vivienda" name="numeroPersonas" value={datosFormulario.numeroPersonas} onChange={handleChange} type="number" placeholder="Ej: 4" error={errores.numeroPersonas} />
+
+                    <EntradaTexto label="Número de decisores" name="numeroDecisores" value={datosFormulario.numeroDecisores} onChange={handleChange} type="number" placeholder="Ej: 2" error={errores.numeroDecisores} />
+
+                    <EntradaRadio label="¿Tiene bombona?" name="tieneBombona" options={[
+                        { value: "Si", label: "Sí" },
+                        { value: "No", label: "No" },
+                        { value: "Sin datos", label: "Sin datos" }]}
+                        value={datosFormulario.tieneBombona} onChange={handleChange}
+                        error={errores.tieneBombona}
                     />
-                    {errores.idTrabajador && <label className="error">{errores.idTrabajador}</label>}
 
-                    <label className='nombreCampo'>Nombre completo del contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='nombreContacto'
-                        value={datosFormulario.nombreContacto}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Ej: Gabriel Martín Ruiz"
+                    <EntradaRadio label="¿Tiene gas?" name="tieneGas" options={[
+                        { value: "Si", label: "Sí" },
+                        { value: "No", label: "No" },
+                        { value: "Sin datos", label: "Sin datos" }]}
+                        value={datosFormulario.tieneGas} onChange={handleChange}
+                        error={errores.tieneGas}
                     />
-                    {errores.nombreContacto && <label className="error">{errores.nombreContacto}</label>}
 
-                    <label className='nombreCampo'>Dirección del contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='direccionContacto'
-                        value={datosFormulario.direccionContacto}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Ej: Calle del Sol, 42"
+                    <EntradaRadio label="¿Tiene termo eléctrico?" name="tieneTermoElectrico" options={[
+                        { value: "Si", label: "Sí" },
+                        { value: "No", label: "No" },
+                        { value: "Sin datos", label: "Sin datos" }]}
+                        value={datosFormulario.tieneTermoElectrico} onChange={handleChange}
+                        error={errores.tieneTermoElectrico}
                     />
-                    {errores.direccionContacto && <label className="error">{errores.direccionContacto}</label>}
 
-                    <label className='nombreCampo'>Localidad del contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='localidadContacto'
-                        value={datosFormulario.localidadContacto}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Ej: Mairena de Alcor"
+                    <EntradaRadio label="¿Tiene placas térmicas?" name="tienePlacasTermicas" options={[
+                        { value: "Si", label: "Sí" },
+                        { value: "No", label: "No" },
+                        { value: "Sin datos", label: "Sin datos" }]}
+                        value={datosFormulario.tienePlacasTermicas} onChange={handleChange}
+                        error={errores.tienePlacasTermicas}
                     />
-                    {errores.localidadContacto && <label className="error">{errores.localidadContacto}</label>}
 
-                    <label className='nombreCampo'>Provincia del contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='provinciaContacto'
-                        value={datosFormulario.provinciaContacto}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Ej: Sevilla"
-                    />
-                    {errores.provinciaContacto && <label className="error">{errores.provinciaContacto}</label>}
+                    <EntradaTexto label="Importe de recibo de luz" name="importeLuz" value={datosFormulario.importeLuz} onChange={handleChange} type="number" step="0.01" placeholder="Ej: 45,50" error={errores.importeLuz} />
 
-                    <label className='nombreCampo'>Teléfono de contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='telefonoContacto'
-                        value={datosFormulario.telefonoContacto}
-                        onChange={handleChange}
-                        type="tel"
-                        placeholder="Ej: 666555444"
-                    />
-                    {errores.telefonoContacto && <label className="error">{errores.telefonoContacto}</label>}
+                    <EntradaTexto label="Importe de recibo de gas" name="importeGas" value={datosFormulario.importeGas} onChange={handleChange} type="number" step="0.01" placeholder="Ej: 30,00" error={errores.importeGas} />
 
-                    <label className='nombreCampo'>Correo del contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='correoContacto'
-                        value={datosFormulario.correoContacto}
-                        onChange={handleChange}
-                        type="email"
-                        placeholder="Ej: correodeejemplo@gmail.com"
-                    />
-                    {errores.correoContacto && <label className="error">{errores.correoContacto}</label>}
-
-                    <label className='nombreCampo'>Fecha de la visita:</label>
-                    <input
-                        className='campoTexto'
-                        name='fechaVisita'
-                        value={datosFormulario.fechaVisita}
-                        onChange={handleChange}
-                        type="date"
-                        placeholder="Ej: 17/01/2025"
-                    />
-                    {errores.fechaVisita && <label className="error">{errores.fechaVisita}</label>}
-
-                    <label className='nombreCampo'>Hora de la visita:</label>
-                    <input
-                        className='campoTexto'
-                        name='horaVisita'
-                        value={datosFormulario.horaVisita}
-                        onChange={handleChange}
-                        type="time"
-                        placeholder="Ej: 10:22"
-                    />
-                    {errores.horaVisita && <label className="error">{errores.horaVisita}</label>}
-
-                    <label className='nombreCampo'>Número de personas en la vivienda:</label>
-                    <input
-                        className='campoTexto'
-                        name='numeroPersonas'
-                        value={datosFormulario.numeroPersonas}
-                        onChange={handleChange}
-                        type="number"
-                        placeholder="Ej: 4"
-                    />
-                    {errores.numeroPersonas && <label className="error">{errores.numeroPersonas}</label>}
-
-                    <label className='nombreCampo'>Número de decisores:</label>
-                    <input
-                        className='campoTexto'
-                        name='numeroDecisores'
-                        value={datosFormulario.numeroDecisores}
-                        onChange={handleChange}
-                        type="number"
-                        placeholder="Ej: 2"
-                    />
-                    {errores.numeroDecisores && <label className="error">{errores.numeroDecisores}</label>}
-
-                    <label className='nombreCampo'>¿Tiene bombona?</label>
-                    <div className='opciones'>
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_bombona_si"
-                                name="tieneBombona"
-                                value="Si"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_bombona_si">Sí</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_bombona_no"
-                                name="tieneBombona"
-                                value="No"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_bombona_no">No</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_bombona_sin_datos"
-                                name="tieneBombona"
-                                value="Sin datos"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_bombona_sin_datos">Sin datos</label>
-                        </div>
-                    </div>
-
-                    <label className='nombreCampo'>¿Tiene gas?</label>
-                    <div className='opciones'>
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_gas_si"
-                                name="tieneGas"
-                                value="Si"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_gas_si">Sí</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_gas_no"
-                                name="tieneGas"
-                                value="No"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_gas_no">No</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_gas_sin_datos"
-                                name="tieneGas"
-                                value="Sin datos"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_gas_sin_datos">Sin datos</label>
-                        </div>
-                    </div>
-
-                    <label className='nombreCampo'>¿Tiene termo eléctrico?</label>
-                    <div className='opciones'>
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_termo_electrico_si"
-                                name="tieneTermoElectrico"
-                                value="Si"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_termo_electrico_si">Sí</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_termo_electrico_no"
-                                name="tieneTermoElectrico"
-                                value="No"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_termo_electrico_no">No</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_termo_electrico_sin_datos"
-                                name="tieneTermoElectrico"
-                                value="Sin datos"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_termo_electrico_sin_datos">Sin datos</label>
-                        </div>
-                    </div>
-
-                    <label className='nombreCampo'>¿Tiene placas térmicas?</label>
-                    <div className='opciones'>
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_placas_termicas_si"
-                                name="tienePlacasTermicas"
-                                value="Si"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_placas_termicas_si">Sí</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_placas_termicas_no"
-                                name="tienePlacasTermicas"
-                                value="No"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_placas_termicas_no">No</label>
-                        </div>
-
-                        <div className='opcion'>
-                            <input
-                                type="radio"
-                                id="tiene_placas_termicas_sin_datos"
-                                name="tienePlacasTermicas"
-                                value="Sin datos"
-                                onChange={handleChange}
-                            />
-                            <label htmlFor="tiene_placas_termicas_sin_datos">Sin datos</label>
-                        </div>
-                    </div>
-
-                    <label className='nombreCampo'>Importe de recibo de luz:</label>
-                    <input
-                        className='campoTexto'
-                        name='importeLuz'
-                        value={datosFormulario.importeLuz}
-                        onChange={handleChange}
-                        type="number"
-                        step="0.01"
-                        placeholder="Introduce el importe de luz del contacto"
-                    />
-                    {errores.importeLuz && <label className="error">{errores.importeLuz}</label>}
-
-                    <label className='nombreCampo'>Importe de recibo de gas:</label>
-                    <input
-                        className='campoTexto'
-                        name='importeGas'
-                        value={datosFormulario.importeGas}
-                        onChange={handleChange}
-                        type="number"
-                        step="0.01"
-                        placeholder="Introduce el importe de gas del contacto"
-                    />
-                    {errores.importeGas && <label className="error">{errores.importeGas}</label>}
-
-                    <label className='nombreCampo'>Observaciones del contacto:</label>
-                    <input
-                        className='campoTexto'
-                        name='observacionesContacto'
-                        value={datosFormulario.observacionesContacto}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Comenta alguna observación"
-                    />
+                    <EntradaTexto label="Observaciones del contacto" name="observacionesContacto" value={datosFormulario.observacionesContacto} onChange={handleChange} type="text" placeholder="Comenta alguna observación" />
 
                     <button type="submit">Registrar</button>
                 </form>
