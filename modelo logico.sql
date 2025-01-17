@@ -2,13 +2,13 @@
 CLIENTE(id_cliente, nombre, telefono, correo, modo_captacion, observaciones)
 	PK(id_cliente)
 
-DIRECCION(id_direccion, calle, numero, localidad, provincia, id_cliente)
+DOMICILIO(id_domicilio, direccion, localidad, provincia, id_cliente)
 	PK(id_direccion)
 	FK(id_cliente)
 
-VIVIENDA(id_vivienda, n_personas, bombona, gas, termo_electrico, placas_termicas, id_direccion)
+VIVIENDA(id_vivienda, n_personas, n_decisores, bombona, gas, termo_electrico, placas_termicas, id_domicilio)
 	PK(id_vivienda)
-	FK(id_direccion -> DIRECCION)
+	FK(id_domicilio -> DOMICILIO)
 
 RECIBO(id_recibo, importe_luz, importe_gas, id_vivienda)
 	PK(id_recibo)

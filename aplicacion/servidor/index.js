@@ -31,15 +31,14 @@ const query = (sql, params) => {
 
 // intermediario para las validaciones de los datos
 const validarDatos = (req, res, next) => {
-    const { telefonoContacto, correoContacto, idTrabajador, nombreContacto, calleContacto, numeroVivienda, localidadContacto, provinciaContacto, fechaVisita, horaVisita, importeLuz, importeGas } = req.body;
+    const { idTrabajador, nombreContacto, direccionContacto, localidadContacto, provinciaContacto, telefonoContacto, correoContacto, fechaVisita, horaVisita, numeroPersonas, numeroDecisores, importeLuz, importeGas } = req.body;
 
     // validaciones de campos obligatorios
-    if (!idTrabajador || !nombreContacto || !telefonoContacto || !correoContacto || !calleContacto ||
-        !numeroVivienda || !localidadContacto || !provinciaContacto || !fechaVisita || !horaVisita) {
-        return res.status(400).json({ error: "Todos los campos son obligatorios" });
+    if (!idTrabajador || !nombreContacto || !direccionContacto || !localidadContacto || !provinciaContacto || !telefonoContacto || !correoContacto || !fechaVisita || !horaVisita || !numeroDecisores) {
+        return res.status(400).json({ error: "Todos los campos marcados con * son obligatorios" });
     }
 
-    // validaciones del telefono y del correo
+    // validaciones con expresiones regulares
     if (!/^\d{9}$/.test(telefonoContacto)) {
         return res.status(400).json({ error: "El teléfono debe tener 9 dígitos" });
     }
@@ -48,7 +47,15 @@ const validarDatos = (req, res, next) => {
         return res.status(400).json({ error: "El correo no es válido" });
     }
 
-    // validaciones de los importes de luz y gas
+    // validaciones de campos que deben ser numeros positivos
+    if (numeroPersonas < 0 || isNaN(numeroPersonas)) {
+        return res.status(400).json({ error: "El número de personas debe ser un número positivo" });
+    }
+
+    if (numeroDecisores < 0 || isNaN(numeroDecisores)) {
+        return res.status(400).json({ error: "El número de decisores debe ser un número positivo" });
+    }
+
     if (importeLuz < 0 || isNaN(importeLuz)) {
         return res.status(400).json({ error: "El importe de luz debe ser un número positivo" });
     }
@@ -71,8 +78,7 @@ app.post("/create", validarDatos, async (req, res) => {
     const {
         idTrabajador,
         nombreContacto,
-        calleContacto,
-        numeroVivienda,
+        direccionContacto,
         localidadContacto,
         provinciaContacto,
         telefonoContacto,
@@ -80,6 +86,7 @@ app.post("/create", validarDatos, async (req, res) => {
         fechaVisita,
         horaVisita,
         numeroPersonas,
+        numeroDecisores,
         tieneBombona,
         tieneGas,
         tieneTermoElectrico,
@@ -110,7 +117,7 @@ app.post("/create", validarDatos, async (req, res) => {
             }
         }
 
-        // introducimos las consultas en una transaccion, por si alguna falla, no se realice ninguna modificacion en la base de datos
+        // introducimos las consultas en una transaccion, por si alguna falla, para que no se realice ninguna modificacion en la base de datos
         db.beginTransaction(async (err) => {
             if (err) {
                 return res.status(500).json({ error: "Error al iniciar la transacción" });
@@ -122,14 +129,14 @@ app.post("/create", validarDatos, async (req, res) => {
                 const resultadoCliente = await query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto]);
                 const idCliente = resultadoCliente.insertId;
 
-                // insertamos la direccion del cliente
-                const sqlDireccion = 'INSERT INTO direccion (calle, numero, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?, ?)';
-                const resultadoDireccion = await query(sqlDireccion, [calleContacto, numeroVivienda, localidadContacto, provinciaContacto, idCliente]);
-                const idDireccion = resultadoDireccion.insertId;
+                // insertamos el domicilio del cliente
+                const sqlDomicilio = 'INSERT INTO domicilio (direccion, localidad, provincia, id_cliente) VALUES (?, ?, ?, ?)';
+                const resultadoDomicilio = await query(sqlDomicilio, [direccionContacto, localidadContacto, provinciaContacto, idCliente]);
+                const idDomicilio = resultadoDomicilio.insertId;
 
-                // insertamos la vivienda asociada a la dirección
-                const sqlVivienda = 'INSERT INTO vivienda (n_personas, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_direccion) VALUES (?, ?, ?, ?, ?, ?)';
-                const resultadoVivienda = await query(sqlVivienda, [numeroPersonas, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDireccion]);
+                // insertamos la vivienda asociada a la direccion
+                const sqlVivienda = 'INSERT INTO vivienda (n_personas, n_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_domicilio) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                const resultadoVivienda = await query(sqlVivienda, [numeroPersonas, numeroDecisores, tieneBombona, tieneGas, tieneTermoElectrico, tienePlacasTermicas, idDomicilio]);
                 const idVivienda = resultadoVivienda.insertId;
 
                 // insertamos los recibos de luz y gas asociados a la vivienda
@@ -165,7 +172,7 @@ app.post("/create", validarDatos, async (req, res) => {
     }
 });
 
-// Mensaje para verificar que el backend esta funcionando correctamente y escuchando en el puerto 3001
+// mensaje para verificar que el backend esta funcionando correctamente y escuchando en el puerto 3001
 app.listen(3001, () => {
     console.log("Servidor funcionando en el puerto 3001");
 });

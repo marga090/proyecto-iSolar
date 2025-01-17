@@ -13,13 +13,13 @@ export default function Formulario() {
         telefonoContacto: "",
         correoContacto: "",
         observacionesContacto: "",
-        calleContacto: "",
-        numeroVivienda: "",
+        direccionContacto: "",
         localidadContacto: "",
         provinciaContacto: "",
         fechaVisita: "",
         horaVisita: "",
         numeroPersonas: 0,
+        numeroDecisores: 0,
         tieneBombona: "Sin datos",
         tieneGas: "Sin datos",
         tieneTermoElectrico: "Sin datos",
@@ -38,6 +38,72 @@ export default function Formulario() {
             ...prevState,
             [name]: value
         }));
+        validarCampo(name, value);
+    };
+
+    // validamos los campos individualmente
+    const validarCampo = (campo, valor) => {
+        const nuevoError = { ...errores };  // Copiamos los errores actuales
+        switch (campo) {
+            case "idTrabajador":
+                if (!valor) nuevoError.idTrabajador = "Tu ID de trabajador es obligatorio";
+                if (valor <= 0) nuevoError.idTrabajador = "El ID debe ser mayor a 0";
+                else delete nuevoError.idTrabajador;
+                break;
+            case "nombreContacto":
+                if (!valor) nuevoError.nombreContacto = "El nombre es obligatorio";
+                else delete nuevoError.nombreContacto;
+                break;
+            case "telefonoContacto":
+                if (!valor || !/^\d{9}$/.test(valor)) nuevoError.telefonoContacto = "El teléfono debe tener 9 dígitos";
+                else delete nuevoError.telefonoContacto;
+                break;
+            case "correoContacto":
+                if (!valor || !/\S+@\S+\.\S+/.test(valor)) nuevoError.correoContacto = "El correo no es válido";
+                else delete nuevoError.correoContacto;
+                break;
+            case "direccionContacto":
+                if (!valor) nuevoError.direccionContacto = "La direccion es obligatoria";
+                else delete nuevoError.direccionContacto;
+                break;
+            case "localidadContacto":
+                if (!valor) nuevoError.localidadContacto = "La localidad es obligatoria";
+                else delete nuevoError.localidadContacto;
+                break;
+            case "provinciaContacto":
+                if (!valor) nuevoError.provinciaContacto = "La provincia es obligatoria";
+                else delete nuevoError.provinciaContacto;
+                break;
+            case "fechaVisita":
+                if (!valor) nuevoError.fechaVisita = "Debes seleccionar la fecha de la visita";
+                else delete nuevoError.fechaVisita;
+                break;
+            case "horaVisita":
+                if (!valor) nuevoError.horaVisita = "Debes seleccionar la hora de visita";
+                else delete nuevoError.horaVisita;
+                break;
+            case "numeroPersonas":
+                if (isNaN(valor) || valor < 0) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
+                else delete nuevoError.numeroPersonas;
+                break;
+            case "numeroDecisores":
+                if (isNaN(valor) || valor < 0) nuevoError.numeroDecisores = "El número de decisores debe ser un número positivo";
+                if (!valor) nuevoError.numeroDecisores = "El número de decisores es obligatorio";
+                else delete nuevoError.numeroDecisores;
+                break;
+            case "importeLuz":
+                if (isNaN(valor) || valor < 0) nuevoError.importeLuz = "El importe debe ser un número positivo";
+                else delete nuevoError.importeLuz;
+                break;
+            case "importeGas":
+                if (isNaN(valor) || valor < 0) nuevoError.importeGas = "El importe debe ser un número positivo";
+                else delete nuevoError.importeGas;
+                break;
+            default:
+                break;
+        }
+        // actualizamos los errores
+        setErrores(nuevoError);
     };
 
     // validamos los campos
@@ -46,20 +112,19 @@ export default function Formulario() {
         // creamos los condicionales
         if (!datosFormulario.idTrabajador) nuevoError.idTrabajador = "Tu ID de trabajador es obligatorio";
         if (!datosFormulario.nombreContacto) nuevoError.nombreContacto = "El nombre es obligatorio";
-        if (!datosFormulario.telefonoContacto || !/^\d{9}$/.test(datosFormulario.telefonoContacto)) nuevoError.telefonoContacto = "El teléfono debe tener 9 dígitos";
-        if (!datosFormulario.correoContacto || !/\S+@\S+\.\S+/.test(datosFormulario.correoContacto)) nuevoError.correoContacto = "El correo no es válido";
-        if (!datosFormulario.calleContacto) nuevoError.calleContacto = "La calle es obligatoria";
-        if (!datosFormulario.numeroVivienda) nuevoError.numeroVivienda = "El número de la vivienda es obligatorio";
+        if (!datosFormulario.telefonoContacto) nuevoError.telefonoContacto = "El teléfono es obligatorio";
+        if (!datosFormulario.correoContacto) nuevoError.correoContacto = "El correo  es obligatorio";
+        if (!datosFormulario.direccionContacto) nuevoError.direccionContacto = "La direccion es obligatoria";
         if (!datosFormulario.localidadContacto) nuevoError.localidadContacto = "La localidad es obligatoria";
         if (!datosFormulario.provinciaContacto) nuevoError.provinciaContacto = "La provincia es obligatoria";
         if (!datosFormulario.fechaVisita) nuevoError.fechaVisita = "Debes seleccionar la fecha de la visita";
         if (!datosFormulario.horaVisita) nuevoError.horaVisita = "Debes seleccionar la hora de visita";
-        if (isNaN(datosFormulario.numeroPersonas) || datosFormulario.numeroPersonas < 0) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
-        if (isNaN(datosFormulario.importeLuz) || datosFormulario.importeLuz < 0) nuevoError.importeLuz = "El importe debe ser un número positivo";
-        if (isNaN(datosFormulario.importeGas) || datosFormulario.importeGas < 0) nuevoError.importeGas = "El importe debe ser un número positivo";
+        if (!datosFormulario.numeroDecisores) nuevoError.numeroDecisores = "El número de decisores es obligatorio";
+
 
         setErrores(nuevoError);
-        // si hay errores devolvemos true
+
+        // si no hay errores devolvemos true
         return Object.keys(nuevoError).length === 0;
     };
 
@@ -76,15 +141,24 @@ export default function Formulario() {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        // Si el servidor responde con un error
+                        // si el servidor responde con un error
                         console.error("Error al enviar los datos:", error.response.data);
-                        // Actualizar los errores con la respuesta del servidor (debería contener el mensaje de error)
+                        // actualizar los errores con la respuesta del servidor
                         setErrores({ serverError: error.response.data.error });
 
+                        setErrores(prevState => ({
+                            ...prevState,
+                            serverError: error.response.data.error
+                        }));
+
                     } else {
-                        // Si hubo un error con la solicitud
+                        // si hubo un error con la solicitud
                         console.error("Error en la solicitud:", error);
-                        setErrores({ serverError: "Hubo un problema con la solicitud. Intenta nuevamente." });                  }
+                        setErrores(prevState => ({
+                            ...prevState,
+                            serverError: "Hubo un problema con la solicitud. Intenta nuevamente."
+                        }));
+                    }
                 });
         }
     };
@@ -104,7 +178,7 @@ export default function Formulario() {
                         value={datosFormulario.idTrabajador}
                         onChange={handleChange}
                         type="text"
-                        placeholder="Introduce tu ID de trabajador"
+                        placeholder="Ej: 1"
                     />
                     {errores.idTrabajador && <label className="error">{errores.idTrabajador}</label>}
 
@@ -115,31 +189,20 @@ export default function Formulario() {
                         value={datosFormulario.nombreContacto}
                         onChange={handleChange}
                         type="text"
-                        placeholder="Introduce el nombre completo del contacto"
+                        placeholder="Ej: Gabriel Martín Ruiz"
                     />
                     {errores.nombreContacto && <label className="error">{errores.nombreContacto}</label>}
 
-                    <label className='nombreCampo'>Calle del contacto:</label>
+                    <label className='nombreCampo'>Dirección del contacto:</label>
                     <input
                         className='campoTexto'
-                        name='calleContacto'
-                        value={datosFormulario.calleContacto}
+                        name='direccionContacto'
+                        value={datosFormulario.direccionContacto}
                         onChange={handleChange}
                         type="text"
-                        placeholder="Introduce la calle del contacto"
+                        placeholder="Ej: Calle del Sol, 42"
                     />
-                    {errores.calleContacto && <label className="error">{errores.calleContacto}</label>}
-
-                    <label className='nombreCampo'>Número de la vivienda:</label>
-                    <input
-                        className='campoTexto'
-                        name='numeroVivienda'
-                        value={datosFormulario.numeroVivienda}
-                        onChange={handleChange}
-                        type="text"
-                        placeholder="Introduce el número de la vivienda"
-                    />
-                    {errores.numeroVivienda && <label className="error">{errores.numeroVivienda}</label>}
+                    {errores.direccionContacto && <label className="error">{errores.direccionContacto}</label>}
 
                     <label className='nombreCampo'>Localidad del contacto:</label>
                     <input
@@ -148,7 +211,7 @@ export default function Formulario() {
                         value={datosFormulario.localidadContacto}
                         onChange={handleChange}
                         type="text"
-                        placeholder="Introduce la localidad del contacto"
+                        placeholder="Ej: Mairena de Alcor"
                     />
                     {errores.localidadContacto && <label className="error">{errores.localidadContacto}</label>}
 
@@ -159,7 +222,7 @@ export default function Formulario() {
                         value={datosFormulario.provinciaContacto}
                         onChange={handleChange}
                         type="text"
-                        placeholder="Introduce la provincia del contacto"
+                        placeholder="Ej: Sevilla"
                     />
                     {errores.provinciaContacto && <label className="error">{errores.provinciaContacto}</label>}
 
@@ -170,7 +233,7 @@ export default function Formulario() {
                         value={datosFormulario.telefonoContacto}
                         onChange={handleChange}
                         type="tel"
-                        placeholder="Introduce el teléfono del contacto"
+                        placeholder="Ej: 666555444"
                     />
                     {errores.telefonoContacto && <label className="error">{errores.telefonoContacto}</label>}
 
@@ -181,7 +244,7 @@ export default function Formulario() {
                         value={datosFormulario.correoContacto}
                         onChange={handleChange}
                         type="email"
-                        placeholder="Introduce el correo electrónico del contacto"
+                        placeholder="Ej: correodeejemplo@gmail.com"
                     />
                     {errores.correoContacto && <label className="error">{errores.correoContacto}</label>}
 
@@ -192,7 +255,7 @@ export default function Formulario() {
                         value={datosFormulario.fechaVisita}
                         onChange={handleChange}
                         type="date"
-                        placeholder="Introduce la fecha de la visita"
+                        placeholder="Ej: 17/01/2025"
                     />
                     {errores.fechaVisita && <label className="error">{errores.fechaVisita}</label>}
 
@@ -203,7 +266,7 @@ export default function Formulario() {
                         value={datosFormulario.horaVisita}
                         onChange={handleChange}
                         type="time"
-                        placeholder="Introduce la hora de la visita"
+                        placeholder="Ej: 10:22"
                     />
                     {errores.horaVisita && <label className="error">{errores.horaVisita}</label>}
 
@@ -214,9 +277,20 @@ export default function Formulario() {
                         value={datosFormulario.numeroPersonas}
                         onChange={handleChange}
                         type="number"
-                        placeholder="Introduce el número de residentes"
+                        placeholder="Ej: 4"
                     />
                     {errores.numeroPersonas && <label className="error">{errores.numeroPersonas}</label>}
+
+                    <label className='nombreCampo'>Número de decisores:</label>
+                    <input
+                        className='campoTexto'
+                        name='numeroDecisores'
+                        value={datosFormulario.numeroDecisores}
+                        onChange={handleChange}
+                        type="number"
+                        placeholder="Ej: 2"
+                    />
+                    {errores.numeroDecisores && <label className="error">{errores.numeroDecisores}</label>}
 
                     <label className='nombreCampo'>¿Tiene bombona?</label>
                     <div className='opciones'>
