@@ -4,7 +4,7 @@ import './styles/Formulario.css';
 import { useState } from "react";
 // importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
-// importamos el componente EnradaTexto
+// importamos el componente EnradaTexto y EntradaRadio
 import { EntradaTexto, EntradaRadio } from '../components/CamposFormulario';
 
 export default function Formulario() {

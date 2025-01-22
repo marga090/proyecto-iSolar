@@ -12,7 +12,7 @@ const EntradaTexto = ({ label, name, value, onChange, type, placeholder, error }
                 type={type}
                 placeholder={placeholder}
             />
-            {error && <label className="error">{error}</label>}
+            {error && <div className="error">{error}</div>}
         </div>
     );
 };
@@ -36,9 +36,26 @@ const EntradaRadio = ({ label, name, options, value, onChange, error }) => {
                     </div>
                 ))}
             </div>
-            {error && <label className="error">{error}</label>}
+            {error && <div className="error">{error}</div>}
         </div>
     );
 };
 
-export {EntradaTexto, EntradaRadio};
+const EntradaSelect = ({ label, name, value, onChange, error, options }) => {
+    return (
+        <div>
+            <label className="nombreCampo">{label}</label>
+            <select name={name} onChange={onChange} value={value}>
+                <option value="">Selecciona una opción</option>
+                {options.map(option => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+            {error && <div className="error">{error}</div>}
+        </div>
+    );
+};
+
+export { EntradaTexto, EntradaRadio, EntradaSelect };

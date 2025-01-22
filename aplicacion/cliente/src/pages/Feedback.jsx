@@ -4,6 +4,8 @@ import './styles/Feedback.css';
 import { useState } from "react";
 // importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
+// importamos el componente EnradaTexto y EntradaSelect
+import { EntradaTexto, EntradaSelect } from '../components/CamposFormulario';
 
 export default function Feedback() {
 	// creamos las constantes para obtener los valores de los campos del formulario
@@ -70,58 +72,32 @@ export default function Feedback() {
 
 			<div className='contenedorFeedback'>
 				<form onSubmit={add} className='campos'>
-					{errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
+					{errores.serverError && <div className="errorServidor">
+						{errores.serverError}</div>}
 
-					<label className='nombreCampo'>ID Trabajador:</label>
-					<input
-						className='campoTexto'
-						name="idTrabajador"
-						value={datosFeedback.idTrabajador}
-						onChange={handleChange}
-						type="text"
-						placeholder="Introduce el ID del trabajador"
-					/>
-					{errores.idTrabajador && <label className="error">{errores.idTrabajador}</label>}
+					<EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFeedback.idTrabajador} onChange={handleChange} type="text" placeholder="Ej: 1" error={errores.idTrabajador} />
 
-					<label className='nombreCampo'>Modo de captación:</label>
-					<select
-						name='modoCaptacion'
-						onChange={handleChange}
-						value={datosFeedback.modoCaptacion}
-					>
-						<option value="">Selecciona un modo de captación</option>
-						<option value="Captador">Captador</option>
-						<option value="Telemarketing">Telemarketing</option>
-						<option value="Referido">Referido</option>
-						<option value="Propia"> Captación propia</option>
-					</select>
+					<EntradaSelect label="Modo de captación" name="modoCaptacion" value={datosFeedback.modoCaptacion} onChange={handleChange} error={errores.modoCaptacion} options={[
+						{ value: "Captador", label: "Captador" },
+						{ value: "Telemarketing", label: "Telemarketing" },
+						{ value: "Referido", label: "Referido" },
+						{ value: "Propia", label: "Captación propia" }
+					]} />
 
-					<label className='nombreCampo'>Resultado de la visita:</label>
-					<select
-						name='resultadoVisita'
-						onChange={handleChange}
-						value={datosFeedback.resultadoVisita}
-					>
-						<option value="">Selecciona el resultado de la visita</option>
-						<option value="VisitadoPdteCont">Visitado pendiente de contestación</option>
-						<option value="VisitadoNada">Visitado pero no hacen nada</option>
-						<option value="Recitar">Recitar</option>
-						<option value="NoVisita">No visita</option>
-						<option value="FirmadaNoFinan">Firmada y no financiable</option>
-						<option value="Venta">Venta</option>
-					</select>
+					<EntradaSelect label="Resultado de la visita" name="resultadoVisita" value={datosFeedback.resultadoVisita} onChange={handleChange} error={errores.resultadoVisita} options={[
+						{ value: "VisitadoPdteCont", label: "Visitado pendiente de contestación" },
+						{ value: "VisitadoNada", label: "Visitado pero no hacen nada" },
+						{ value: "Recitar", label: "Volver a citar" },
+						{ value: "NoVisita", label: "No ha habido visita" },
+						{ value: "FirmadaNoFinan", label: "Firmada y no financiable" },
+						{ value: "Venta", label: "Venta" }
+					]} />
 
-					<label className='nombreCampo'>Tipo de la visita:</label>
-					<select
-						name='tipoVisita'
-						onChange={handleChange}
-						value={datosFeedback.resultadoVisita}
-					>
-						<option value="">Selecciona el tipo de la visita</option>
-						<option value="Corta">Visita de 1 hora (Corta)</option>
-						<option value="Media">Visita de 2 horas (Media)</option>
-						<option value="Larga">Visita de 3 horas (Larga)</option>
-					</select>
+					<EntradaSelect label="Tipo de la visita" name="tipoVisita" value={datosFeedback.tipoVisita} onChange={handleChange} error={errores.tipoVisita} options={[
+						{ value: "Corta", label: "Visita de 1 hora (Corta)" },
+						{ value: "Media", label: "Visita de 2 horas (Media)" },
+						{ value: "Larga", label: "Visita de 3 horas (Larga)" }
+					]} />
 
 					<button type="submit">Registrar</button>
 				</form>
