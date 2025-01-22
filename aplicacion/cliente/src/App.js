@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Inicio from "./pages/Inicio";
 import Formulario from "./pages/Formulario";
 import Feedback from "./pages/Feedback";
-import Logo from "./pages/images/logo.png";
+import Logo from "./images/logo.png";
 
 function App() {
   return (

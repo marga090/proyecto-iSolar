@@ -19,7 +19,7 @@ const EntradaTexto = ({ label, name, value, onChange, type, placeholder, error }
 
 const EntradaRadio = ({ label, name, options, value, onChange, error }) => {
     return (
-        <div className="radio-group">
+        <div>
             <label className="nombreCampo">{label}</label>
             <div className="opciones">
                 {options.map((option) => (

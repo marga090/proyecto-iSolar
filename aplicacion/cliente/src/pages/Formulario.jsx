@@ -1,5 +1,5 @@
 //importamos el css
-import './styles/Formulario.css';
+import '../styles/Formulario.css';
 // importamos los Estados para poder obtener los valores introducidos por el usuario
 import { useState } from "react";
 // importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
@@ -30,7 +30,30 @@ export default function Formulario() {
         importeGas: 0
     });
 
+    const opcionesRadio = [
+        { value: "Si", label: "Sí" },
+        { value: "No", label: "No" },
+        { value: "Sin datos", label: "Sin datos" }
+    ];
+
     const [errores, setErrores] = useState({});
+
+    // validaciones de los campos
+    const validaciones = {
+        idTrabajador: (valor) => (!valor || isNaN(valor) || valor <= 0) ? "Este campo es obligatorio y debe ser mayor a 0" : null,
+        nombreContacto: (valor) => !valor ? "Este campo es obligatorio" : null,
+        telefonoContacto: (valor) => (!valor || !/^\d{9}$/.test(valor)) ? "Este campo es obligatorio y debe tener 9 digitos" : null,
+        correoContacto: (valor) => (!valor || !/\S+@\S+\.\S+/.test(valor)) ? "El correo no es válido" : null,
+        direccionContacto: (valor) => !valor ? "Este campo es obligatorio" : null,
+        localidadContacto: (valor) => !valor ? "Este campo es obligatorio" : null,
+        provinciaContacto: (valor) => !valor ? "Este campo es obligatorio" : null,
+        fechaVisita: (valor) => !valor ? "Este campo es obligatorio" : null,
+        horaVisita: (valor) => !valor ? "Este campo es obligatorio" : null,
+        numeroPersonas: (valor) => (isNaN(valor) || valor < 0) ? "El número de personas debe ser un número positivo" : null,
+        numeroDecisores: (valor) => (!valor || isNaN(valor) || valor < 0) ? "Este campo es obligatorio y debe ser mayor a 0" : null,
+        importeLuz: (valor) => (isNaN(valor) || valor < 0) ? "El importe debe ser un número positivo" : null,
+        importeGas: (valor) => (isNaN(valor) || valor < 0) ? "El importe debe ser un número positivo" : null,
+    };
 
     // manejamos los cambios en los campos del formulario
     const handleChange = (e) => {
@@ -45,85 +68,20 @@ export default function Formulario() {
 
     // validamos los campos individualmente
     const validarCampo = (campo, valor) => {
-        const nuevoError = { ...errores };  // Copiamos los errores actuales
-        switch (campo) {
-            case "idTrabajador":
-                if (!valor) nuevoError.idTrabajador = "Tu ID de trabajador es obligatorio";
-                if (valor <= 0) nuevoError.idTrabajador = "El ID debe ser mayor a 0";
-                else delete nuevoError.idTrabajador;
-                break;
-            case "nombreContacto":
-                if (!valor) nuevoError.nombreContacto = "El nombre es obligatorio";
-                else delete nuevoError.nombreContacto;
-                break;
-            case "telefonoContacto":
-                if (!valor || !/^\d{9}$/.test(valor)) nuevoError.telefonoContacto = "El teléfono debe tener 9 dígitos";
-                else delete nuevoError.telefonoContacto;
-                break;
-            case "correoContacto":
-                if (!valor || !/\S+@\S+\.\S+/.test(valor)) nuevoError.correoContacto = "El correo no es válido";
-                else delete nuevoError.correoContacto;
-                break;
-            case "direccionContacto":
-                if (!valor) nuevoError.direccionContacto = "La direccion es obligatoria";
-                else delete nuevoError.direccionContacto;
-                break;
-            case "localidadContacto":
-                if (!valor) nuevoError.localidadContacto = "La localidad es obligatoria";
-                else delete nuevoError.localidadContacto;
-                break;
-            case "provinciaContacto":
-                if (!valor) nuevoError.provinciaContacto = "La provincia es obligatoria";
-                else delete nuevoError.provinciaContacto;
-                break;
-            case "fechaVisita":
-                if (!valor) nuevoError.fechaVisita = "Debes seleccionar la fecha de la visita";
-                else delete nuevoError.fechaVisita;
-                break;
-            case "horaVisita":
-                if (!valor) nuevoError.horaVisita = "Debes seleccionar la hora de visita";
-                else delete nuevoError.horaVisita;
-                break;
-            case "numeroPersonas":
-                if (isNaN(valor) || valor < 0) nuevoError.numeroPersonas = "El número de personas debe ser un número positivo";
-                else delete nuevoError.numeroPersonas;
-                break;
-            case "numeroDecisores":
-                if (isNaN(valor) || valor < 0) nuevoError.numeroDecisores = "El número de decisores debe ser un número positivo";
-                if (!valor) nuevoError.numeroDecisores = "El número de decisores es obligatorio";
-                else delete nuevoError.numeroDecisores;
-                break;
-            case "importeLuz":
-                if (isNaN(valor) || valor < 0) nuevoError.importeLuz = "El importe debe ser un número positivo";
-                else delete nuevoError.importeLuz;
-                break;
-            case "importeGas":
-                if (isNaN(valor) || valor < 0) nuevoError.importeGas = "El importe debe ser un número positivo";
-                else delete nuevoError.importeGas;
-                break;
-            default:
-                break;
-        }
-        // actualizamos los errores
-        setErrores(nuevoError);
+        const error = validaciones[campo]?.(valor);
+        setErrores(prevState => ({
+            ...prevState,
+            [campo]: error
+        }));
     };
 
     // validamos los campos
     const validar = () => {
         const nuevoError = {};
-        // creamos los condicionales
-        if (!datosFormulario.idTrabajador) nuevoError.idTrabajador = "Tu ID de trabajador es obligatorio";
-        if (!datosFormulario.nombreContacto) nuevoError.nombreContacto = "El nombre es obligatorio";
-        if (!datosFormulario.telefonoContacto) nuevoError.telefonoContacto = "El teléfono es obligatorio";
-        if (!datosFormulario.correoContacto) nuevoError.correoContacto = "El correo  es obligatorio";
-        if (!datosFormulario.direccionContacto) nuevoError.direccionContacto = "La direccion es obligatoria";
-        if (!datosFormulario.localidadContacto) nuevoError.localidadContacto = "La localidad es obligatoria";
-        if (!datosFormulario.provinciaContacto) nuevoError.provinciaContacto = "La provincia es obligatoria";
-        if (!datosFormulario.fechaVisita) nuevoError.fechaVisita = "Debes seleccionar la fecha de la visita";
-        if (!datosFormulario.horaVisita) nuevoError.horaVisita = "Debes seleccionar la hora de visita";
-        if (!datosFormulario.numeroDecisores) nuevoError.numeroDecisores = "El número de decisores es obligatorio";
-
-
+        Object.keys(validaciones).forEach(campo => {
+            const error = validaciones[campo](datosFormulario[campo]);
+            if (error) nuevoError[campo] = error;
+        });
         setErrores(nuevoError);
 
         // si no hay errores devolvemos true
@@ -143,23 +101,12 @@ export default function Formulario() {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        // si el servidor responde con un error
-                        console.error("Error al enviar los datos:", error.response.data);
-                        // actualizar los errores con la respuesta del servidor
-                        setErrores({ serverError: error.response.data.error });
-
+                        const mensajeError = error.response?.data?.error || "Hubo un problema con la solicitud. Inténtalo de nuevo";
                         setErrores(prevState => ({
                             ...prevState,
-                            serverError: error.response.data.error
+                            serverError: mensajeError
                         }));
-
-                    } else {
-                        // si hubo un error con la solicitud
-                        console.error("Error en la solicitud:", error);
-                        setErrores(prevState => ({
-                            ...prevState,
-                            serverError: "Hubo un problema con la solicitud. Intenta nuevamente."
-                        }));
+                        console.error("Error en la solicitud:", mensajeError);
                     }
                 });
         }
@@ -174,7 +121,7 @@ export default function Formulario() {
                 <form onSubmit={add} className='campos'>
                     {errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
 
-                    <EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFormulario.idTrabajador} onChange={handleChange} type="text" placeholder="Ej: 1" error={errores.idTrabajador} />
+                    <EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFormulario.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
 
                     <EntradaTexto label="Nombre completo del contacto" name="nombreContacto" value={datosFormulario.nombreContacto} onChange={handleChange} type="text" placeholder="Ej: Gabriel Martín Ruiz" error={errores.nombreContacto} />
 
@@ -196,37 +143,13 @@ export default function Formulario() {
 
                     <EntradaTexto label="Número de decisores" name="numeroDecisores" value={datosFormulario.numeroDecisores} onChange={handleChange} type="number" placeholder="Ej: 2" error={errores.numeroDecisores} />
 
-                    <EntradaRadio label="¿Tiene bombona?" name="tieneBombona" options={[
-                        { value: "Si", label: "Sí" },
-                        { value: "No", label: "No" },
-                        { value: "Sin datos", label: "Sin datos" }]}
-                        value={datosFormulario.tieneBombona} onChange={handleChange}
-                        error={errores.tieneBombona}
-                    />
+                    <EntradaRadio label="¿Tiene bombona?" name="tieneBombona" options={opcionesRadio} value={datosFormulario.tieneBombona} onChange={handleChange} error={errores.tieneBombona} />
 
-                    <EntradaRadio label="¿Tiene gas?" name="tieneGas" options={[
-                        { value: "Si", label: "Sí" },
-                        { value: "No", label: "No" },
-                        { value: "Sin datos", label: "Sin datos" }]}
-                        value={datosFormulario.tieneGas} onChange={handleChange}
-                        error={errores.tieneGas}
-                    />
+                    <EntradaRadio label="¿Tiene gas?" name="tieneGas" options={opcionesRadio} value={datosFormulario.tieneGas} onChange={handleChange} error={errores.tieneGas} />
 
-                    <EntradaRadio label="¿Tiene termo eléctrico?" name="tieneTermoElectrico" options={[
-                        { value: "Si", label: "Sí" },
-                        { value: "No", label: "No" },
-                        { value: "Sin datos", label: "Sin datos" }]}
-                        value={datosFormulario.tieneTermoElectrico} onChange={handleChange}
-                        error={errores.tieneTermoElectrico}
-                    />
+                    <EntradaRadio label="¿Tiene termo eléctrico?" name="tieneTermoElectrico" options={opcionesRadio} value={datosFormulario.tieneTermoElectrico} onChange={handleChange} error={errores.tieneTermoElectrico} />
 
-                    <EntradaRadio label="¿Tiene placas térmicas?" name="tienePlacasTermicas" options={[
-                        { value: "Si", label: "Sí" },
-                        { value: "No", label: "No" },
-                        { value: "Sin datos", label: "Sin datos" }]}
-                        value={datosFormulario.tienePlacasTermicas} onChange={handleChange}
-                        error={errores.tienePlacasTermicas}
-                    />
+                    <EntradaRadio label="¿Tiene placas térmicas?" name="tienePlacasTermicas" options={opcionesRadio} value={datosFormulario.tienePlacasTermicas} onChange={handleChange} error={errores.tienePlacasTermicas} />
 
                     <EntradaTexto label="Importe de recibo de luz" name="importeLuz" value={datosFormulario.importeLuz} onChange={handleChange} type="number" step="0.01" placeholder="Ej: 45,50" error={errores.importeLuz} />
 
