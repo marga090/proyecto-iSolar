@@ -55,6 +55,15 @@ export default function Formulario() {
         importeGas: (valor) => (isNaN(valor) || valor < 0) ? "El importe debe ser un número positivo" : null,
     };
 
+    // validamos los campos individualmente
+    const validarCampo = (campo, valor) => {
+        const error = validaciones[campo]?.(valor);
+        setErrores(prevState => ({
+            ...prevState,
+            [campo]: error
+        }));
+    };
+
     // manejamos los cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -64,15 +73,6 @@ export default function Formulario() {
             [name]: value
         }));
         validarCampo(name, value);
-    };
-
-    // validamos los campos individualmente
-    const validarCampo = (campo, valor) => {
-        const error = validaciones[campo]?.(valor);
-        setErrores(prevState => ({
-            ...prevState,
-            [campo]: error
-        }));
     };
 
     // validamos los campos
@@ -89,11 +89,11 @@ export default function Formulario() {
     };
 
     // metodo para crear clientes
-    const add = (e) => {
+    const addFormulario = (e) => {
         e.preventDefault();
         if (validar()) {
             // llamamos al metodo crear y al cuerpo de la solicitud
-            Axios.post("http://localhost:3001/create", datosFormulario)
+            Axios.post("http://localhost:3001/createFormulario", datosFormulario)
                 .then((response) => {
                     console.log("Datos enviados al servidor correctamente:", response);
                     setErrores({});
@@ -118,7 +118,7 @@ export default function Formulario() {
             <h1>Formulario de Contactos y Visitas</h1>
 
             <div className="contenedorFormulario">
-                <form onSubmit={add} className='campos'>
+                <form onSubmit={addFormulario} className='campos'>
                     {errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
 
                     <EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFormulario.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
@@ -157,7 +157,7 @@ export default function Formulario() {
 
                     <EntradaTexto label="Observaciones del contacto" name="observacionesContacto" value={datosFormulario.observacionesContacto} onChange={handleChange} type="text" placeholder="Comenta alguna observación" />
 
-                    <button type="submit">Registrar</button>
+                    <button type="submit">Registrar Cliente</button>
                 </form>
             </div>
         </div>

@@ -29,8 +29,8 @@ const query = (sql, params) => {
     });
 };
 
-// intermediario para las validaciones de los datos
-const validarDatos = (req, res, next) => {
+// intermediario para las validaciones de los datos del formulario
+const validarDatosFormulario = (req, res, next) => {
     const { idTrabajador, nombreContacto, direccionContacto, localidadContacto, provinciaContacto, telefonoContacto, correoContacto, fechaVisita, horaVisita, numeroPersonas, numeroDecisores, importeLuz, importeGas } = req.body;
 
     // validaciones de campos obligatorios
@@ -68,8 +68,8 @@ const validarDatos = (req, res, next) => {
     next();
 };
 
-// creamos la peticion de GUARDAR
-app.post("/create", validarDatos, async (req, res) => {
+// creamos la peticion para el formulario
+app.post("/createFormulario", validarDatosFormulario, async (req, res) => {
 
     // cuando se haga la consulta y obtengamos la respuesta...
     console.log("Datos recibidos del frontend:", req.body);
@@ -99,7 +99,7 @@ app.post("/create", validarDatos, async (req, res) => {
     try {
         // consultamos si el trabajador existe
         const existeTrabajador = await query('SELECT * FROM trabajador WHERE id_trabajador = ?', [idTrabajador]);
-        
+
         if (existeTrabajador.length === 0) {
             return res.status(400).json({ error: "El ID del trabajador no existe en la base de datos." });
         }
@@ -171,6 +171,59 @@ app.post("/create", validarDatos, async (req, res) => {
         res.status(500).json({ error: "Error al procesar la solicitud" });
     }
 });
+
+// intermediario para las validaciones de los datos del feedback
+const validarDatosFeedback = (req, res, next) => {
+    const { idTrabajador, idVivienda, fechaVisita, horaVisita, tipoVisita, resultadoVisita } = req.body;
+
+    // validaciones de campos obligatorios
+    if (!idTrabajador || !idVivienda || !fechaVisita || !horaVisita || !tipoVisita || !resultadoVisita) {
+        return res.status(400).json({ error: "Todos los campos marcados con * son obligatorios" });
+    }
+
+    // validaciones de campos que deben ser numeros positivos
+    if (idTrabajador < 0 || isNaN(idTrabajador)) {
+        return res.status(400).json({ error: "El ID Trabajador debe ser un número positivo" });
+    }
+
+    if (idVivienda < 0 || isNaN(idVivienda)) {
+        return res.status(400).json({ error: "El ID Vivienda debe ser un número positivo" });
+    }
+
+    // si todo es correcto, pasa a la siguiente validacion
+    next();
+};
+
+
+// creamos la peticion para el feedback
+app.post("/createFeedback", validarDatosFeedback, async (req, res) => {
+    const { idTrabajador, idVivienda, fechaVisita, horaVisita, tipoVisita, resultadoVisita } = req.body;
+
+    try {
+        // verificamos si el trabajador existe
+        const existeTrabajador = await query('SELECT * FROM trabajador WHERE id_trabajador = ?', [idTrabajador]);
+        if (existeTrabajador.length === 0) {
+            return res.status(400).json({ error: "El ID del trabajador no existe en la base de datos." });
+        }
+
+        // verificamos si la visita existe
+        const existeVivienda = await query('SELECT * FROM vivienda WHERE id_vivienda = ?', [idVivienda]);
+        if (existeVivienda.length === 0) {
+            return res.status(400).json({ error: "El ID de vivienda no existe en la base de datos" });
+        }
+
+        // creacion de la nueva visita
+        const sqlVisita = 'INSERT INTO visita (fecha, hora, tipo, resultado, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?, ?, ?)';
+        await query(sqlVisita, [fechaVisita, horaVisita, tipoVisita, resultadoVisita, idVivienda, idTrabajador]);
+
+        res.status(200).json({ message: "Visita creada correctamente" });
+
+    } catch (err) {
+        console.error("Error al procesar la solicitud:", err);
+        res.status(500).json({ error: "Error al procesar la solicitud" });
+    }
+});
+
 
 // mensaje para verificar que el backend esta funcionando correctamente y escuchando en el puerto 3001
 app.listen(3001, () => {

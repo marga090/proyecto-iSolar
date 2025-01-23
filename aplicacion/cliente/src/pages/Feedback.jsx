@@ -11,12 +11,35 @@ export default function Feedback() {
 	// creamos las constantes para obtener los valores de los campos del formulario
 	const [datosFeedback, setDatosFeedback] = useState({
 		idTrabajador: 0,
+		idVivienda: 0,
+		fechaVisita: "",
+		horaVisita: "",
 		modoCaptacion: "",
 		resultadoVisita: "",
 		tipoVisita: ""
 	});
 
 	const [errores, setErrores] = useState({});
+
+	// validaciones de los campos
+	const validaciones = {
+		idTrabajador: (valor) => (!valor || isNaN(valor) || valor <= 0) ? "Este campo es obligatorio y debe ser mayor a 0" : null,
+		idVivienda: (valor) => (!valor || isNaN(valor) || valor <= 0) ? "Este campo es obligatorio y debe ser mayor a 0" : null,
+		fechaVisita: (valor) => !valor ? "Este campo es obligatorio" : null,
+		horaVisita: (valor) => !valor ? "Este campo es obligatorio" : null,
+		modoCaptacion: (valor) => !valor ? "Este campo es obligatorio" : null,
+		resultadoVisita: (valor) => !valor ? "Este campo es obligatorio" : null,
+		tipoVisita: (valor) => !valor ? "Este campo es obligatorio	" : null
+	};
+
+	// validamos los campos individualmente
+	const validarCampo = (campo, valor) => {
+		const error = validaciones[campo]?.(valor);
+		setErrores(prevState => ({
+			...prevState,
+			[campo]: error
+		}));
+	};
 
 	// manejamos los cambios en los campos del formulario
 	const handleChange = (e) => {
@@ -26,25 +49,29 @@ export default function Feedback() {
 			...prevState,
 			[name]: value
 		}));
+		validarCampo(name, value);
 	};
 
 	// validamos los campos
 	const validar = () => {
 		const nuevoError = {};
-		// creamos los condicionales
-		if (!datosFeedback.idTrabajador) nuevoError.idTrabajador = "Tu ID de trabajador es obligatorio";
-
+		Object.keys(validaciones).forEach(campo => {
+			const error = validaciones[campo](datosFeedback[campo]);
+			if (error) nuevoError[campo] = error;
+		});
 		setErrores(nuevoError);
-		// si hay errores devolvemos true
+
+		// si no hay errores devolvemos true
 		return Object.keys(nuevoError).length === 0;
 	};
 
+
 	// metodo para crear clientes
-	const add = (e) => {
+	const addFeedback = (e) => {
 		e.preventDefault();
 		if (validar()) {
 			// llamamos al metodo crear y al cuerpo de la solicitud
-			Axios.post("http://localhost:3001/create", datosFeedback)
+			Axios.post("http://localhost:3001/createFeedback", datosFeedback)
 				.then((response) => {
 					console.log("Datos enviados al servidor correctamente:", response);
 					setErrores({});
@@ -52,14 +79,12 @@ export default function Feedback() {
 				})
 				.catch((error) => {
 					if (error.response) {
-						// Si el servidor responde con un error
-						console.error("Error al enviar los datos:", error.response.data);
-						// Actualizar los errores con la respuesta del servidor (debería contener el mensaje de error)
-						setErrores({ serverError: error.response.data.error });
-					} else {
-						// Si hubo un error con la solicitud
-						console.error("Error en la solicitud:", error);
-						setErrores({ serverError: "Hubo un problema con la solicitud. Intenta nuevamente." });
+						const mensajeError = error.response?.data?.error || "Hubo un problema con la solicitud. Inténtalo de nuevo";
+						setErrores(prevState => ({
+							...prevState,
+							serverError: mensajeError
+						}));
+						console.error("Error en la solicitud:", mensajeError);
 					}
 				});
 		}
@@ -71,11 +96,17 @@ export default function Feedback() {
 			<h1>Feedback de la visita</h1>
 
 			<div className='contenedorFeedback'>
-				<form onSubmit={add} className='campos'>
+				<form onSubmit={addFeedback} className='campos'>
 					{errores.serverError && <div className="errorServidor">
 						{errores.serverError}</div>}
 
-					<EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFeedback.idTrabajador} onChange={handleChange} type="text" placeholder="Ej: 1" error={errores.idTrabajador} />
+					<EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFeedback.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
+
+					<EntradaTexto label="ID Vivienda" name="idVivienda" value={datosFeedback.idVivienda} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idVivienda} />
+
+					<EntradaTexto label="Fecha de la visita" name="fechaVisita" value={datosFeedback.fechaVisita} onChange={handleChange} type="date" error={errores.fechaVisita} />
+
+					<EntradaTexto label="Hora de la visita" name="horaVisita" value={datosFeedback.horaVisita} onChange={handleChange} type="time" error={errores.horaVisita} />
 
 					<EntradaSelect label="Modo de captación" name="modoCaptacion" value={datosFeedback.modoCaptacion} onChange={handleChange} error={errores.modoCaptacion} options={[
 						{ value: "Captador", label: "Captador" },
@@ -85,11 +116,11 @@ export default function Feedback() {
 					]} />
 
 					<EntradaSelect label="Resultado de la visita" name="resultadoVisita" value={datosFeedback.resultadoVisita} onChange={handleChange} error={errores.resultadoVisita} options={[
-						{ value: "VisitadoPdteCont", label: "Visitado pendiente de contestación" },
-						{ value: "VisitadoNada", label: "Visitado pero no hacen nada" },
+						{ value: "Visitado_pdte_contestación", label: "Visitado pendiente de contestación" },
+						{ value: "Visitado_no_hacen_nada", label: "Visitado pero no hacen nada" },
 						{ value: "Recitar", label: "Volver a citar" },
-						{ value: "NoVisita", label: "No ha habido visita" },
-						{ value: "FirmadaNoFinan", label: "Firmada y no financiable" },
+						{ value: "No_visita", label: "No ha habido visita" },
+						{ value: "Firmada_no_financiable", label: "Firmada y no financiable" },
 						{ value: "Venta", label: "Venta" }
 					]} />
 
@@ -99,7 +130,7 @@ export default function Feedback() {
 						{ value: "Larga", label: "Visita de 3 horas (Larga)" }
 					]} />
 
-					<button type="submit">Registrar</button>
+					<button type="submit">Registrar Feedback</button>
 				</form>
 			</div>
 		</div>
