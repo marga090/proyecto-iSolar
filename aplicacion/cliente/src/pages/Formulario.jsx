@@ -6,6 +6,8 @@ import { useState } from "react";
 import Axios from "axios";
 // importamos el componente EnradaTexto y EntradaRadio
 import { EntradaTexto, EntradaRadio } from '../components/CamposFormulario';
+// importamos sweetalert2
+import Swal from 'sweetalert2';
 
 export default function Formulario() {
     // creamos las constantes para obtener los valores de los campos del formulario
@@ -101,7 +103,14 @@ export default function Formulario() {
                 .then((response) => {
                     console.log("Datos enviados al servidor correctamente:", response);
                     setErrores({});
-                    alert("Datos registrados correctamente");
+
+                    // usamos sweetalert2
+                    Swal.fire({
+                        icon: "success",
+                        title: `El código es: ${response.data.idVivienda}`,
+                        text: "Datos registrados correctamente",
+                        confirmButtonText: "Vale"
+                    });
 
                     // vaciamos los campos del formulario despues de que se inserten
                     setDatosFormulario(datosInicialesFormulario);
@@ -109,6 +118,15 @@ export default function Formulario() {
                 .catch((error) => {
                     if (error.response) {
                         const mensajeError = error.response?.data?.error || "Hubo un problema con la solicitud. Inténtalo de nuevo";
+
+                        // mostrar que hay errores
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Hay algunos campos con errores en el formulario",
+                            confirmButtonText: "Vale"
+                        });
+
                         setErrores(prevState => ({
                             ...prevState,
                             serverError: mensajeError

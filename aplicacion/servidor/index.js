@@ -157,7 +157,9 @@ app.post("/registrarCliente", validarDatosFormulario, async (req, res) => {
                     }
 
                     // si no ha habido errores
-                    res.status(200).json({ message: "Cliente registrado correctamente" });
+                    res.status(200).json({
+                        message: "Cliente registrado correctamente", idVivienda: idVivienda
+                    });
                 });
             } catch (err) {
                 db.rollback(() => {
