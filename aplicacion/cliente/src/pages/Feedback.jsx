@@ -9,7 +9,7 @@ import { EntradaTexto, EntradaSelect } from '../components/CamposFormulario';
 
 export default function Feedback() {
 	// creamos las constantes para obtener los valores de los campos del formulario
-	const [datosFeedback, setDatosFeedback] = useState({
+	const datosInicialesFeedback = {
 		idTrabajador: 0,
 		idVivienda: 0,
 		fechaVisita: "",
@@ -17,8 +17,12 @@ export default function Feedback() {
 		modoCaptacion: "",
 		resultadoVisita: "",
 		tipoVisita: ""
-	});
+	};
 
+	// creamos las constantes para obtener los valores de los campos del feedback
+	const [datosFeedback, setDatosFeedback] = useState(datosInicialesFeedback);
+
+	// creamos las constantes para los errores
 	const [errores, setErrores] = useState({});
 
 	// validaciones de los campos
@@ -71,11 +75,14 @@ export default function Feedback() {
 		e.preventDefault();
 		if (validar()) {
 			// llamamos al metodo crear y al cuerpo de la solicitud
-			Axios.post("http://localhost:3001/createFeedback", datosFeedback)
+			Axios.post("http://localhost:3001/registrarFeedback", datosFeedback)
 				.then((response) => {
 					console.log("Datos enviados al servidor correctamente:", response);
 					setErrores({});
-					alert("Datos añadidos correctamente");
+					alert("Feedback registrado correctamente");
+
+					// vaciamos los campos del feedback despues de que se inserten
+					setDatosFeedback(datosInicialesFeedback);
 				})
 				.catch((error) => {
 					if (error.response) {

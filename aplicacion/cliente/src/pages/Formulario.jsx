@@ -9,7 +9,7 @@ import { EntradaTexto, EntradaRadio } from '../components/CamposFormulario';
 
 export default function Formulario() {
     // creamos las constantes para obtener los valores de los campos del formulario
-    const [datosFormulario, setDatosFormulario] = useState({
+    const datosInicialesFormulario = {
         idTrabajador: 0,
         nombreContacto: "",
         telefonoContacto: "",
@@ -28,7 +28,7 @@ export default function Formulario() {
         tienePlacasTermicas: "Sin datos",
         importeLuz: 0,
         importeGas: 0
-    });
+    };
 
     const opcionesRadio = [
         { value: "Si", label: "Sí" },
@@ -36,6 +36,10 @@ export default function Formulario() {
         { value: "Sin datos", label: "Sin datos" }
     ];
 
+    // creamos las constantes para obtener los valores de los campos del formulario
+    const [datosFormulario, setDatosFormulario] = useState(datosInicialesFormulario);
+
+    // creamos las constantes para los errores
     const [errores, setErrores] = useState({});
 
     // validaciones de los campos
@@ -93,11 +97,14 @@ export default function Formulario() {
         e.preventDefault();
         if (validar()) {
             // llamamos al metodo crear y al cuerpo de la solicitud
-            Axios.post("http://localhost:3001/createFormulario", datosFormulario)
+            Axios.post("http://localhost:3001/registrarCliente", datosFormulario)
                 .then((response) => {
                     console.log("Datos enviados al servidor correctamente:", response);
                     setErrores({});
-                    alert("Cliente registrado correctamente");
+                    alert("Datos registrados correctamente");
+
+                    // vaciamos los campos del formulario despues de que se inserten
+                    setDatosFormulario(datosInicialesFormulario);
                 })
                 .catch((error) => {
                     if (error.response) {

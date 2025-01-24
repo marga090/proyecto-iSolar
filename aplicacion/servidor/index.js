@@ -69,7 +69,7 @@ const validarDatosFormulario = (req, res, next) => {
 };
 
 // creamos la peticion para el formulario
-app.post("/createFormulario", validarDatosFormulario, async (req, res) => {
+app.post("/registrarCliente", validarDatosFormulario, async (req, res) => {
 
     // cuando se haga la consulta y obtengamos la respuesta...
     console.log("Datos recibidos del frontend:", req.body);
@@ -196,7 +196,7 @@ const validarDatosFeedback = (req, res, next) => {
 
 
 // creamos la peticion para el feedback
-app.post("/createFeedback", validarDatosFeedback, async (req, res) => {
+app.post("/registrarFeedback", validarDatosFeedback, async (req, res) => {
     const { idTrabajador, idVivienda, fechaVisita, horaVisita, tipoVisita, resultadoVisita } = req.body;
 
     try {
