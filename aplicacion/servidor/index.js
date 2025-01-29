@@ -125,7 +125,7 @@ app.post("/registrarCliente", validarDatosFormulario, async (req, res) => {
 
             try {
                 // insertamos el cliente
-                const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones) VALUES (?,?,?,?)';
+                const sqlCliente = 'INSERT INTO cliente (nombre, telefono, correo, observaciones_cliente) VALUES (?,?,?,?)';
                 const resultadoCliente = await query(sqlCliente, [nombreContacto, telefonoContacto, correoContacto, observacionesContacto]);
                 const idCliente = resultadoCliente.insertId;
 

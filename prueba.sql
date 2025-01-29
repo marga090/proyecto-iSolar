@@ -9,7 +9,7 @@ CREATE TABLE cliente(
     telefono CHAR(9) NOT NULL UNIQUE,
     correo VARCHAR(100) NOT NULL UNIQUE,
     modo_captacion ENUM("Captador", "Telemarketing", "Referido", "Propia"),
-    observaciones VARCHAR(500)
+    observaciones_cliente VARCHAR(500)
 );
 
 DESCRIBE cliente;
@@ -69,6 +69,8 @@ CREATE TABLE visita (
     resultado ENUM ("Visitado_pdte_contestación", "Visitado_no_hacen_nada", "Recitar", "No_visita", "Firmada_no_financiable", "Venta"),
 	id_vivienda INT,
     id_trabajador INT,
+    oferta VARCHAR(200),
+    observaciones_visita VARCHAR(500),
     
     CONSTRAINT fk_visita_id_vivienda FOREIGN KEY (id_vivienda) REFERENCES vivienda(id_vivienda),
     CONSTRAINT fk_visita_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador)
@@ -77,7 +79,7 @@ CREATE TABLE visita (
 DESCRIBE visita;
 
 -- INSERTS
-INSERT INTO cliente (nombre, telefono, correo, modo_captacion, observaciones) VALUES
+INSERT INTO cliente (nombre, telefono, correo, modo_captacion, observaciones_cliente) VALUES
     ('Juan Pérez', '612345678', 'juan.perez@email.com', 'Captador', 'Cliente captado por un amigo'),
     ('María López', '612987654', 'maria.lopez@email.com', 'Telemarketing', 'Interesada en la oferta de gas'),
     ('Carlos García', '612123456', 'carlos.garcia@email.com', 'Referido', 'Quiere más información sobre tarifas'),
@@ -127,13 +129,13 @@ INSERT INTO trabajador (nombre, telefono, tipo_trabajador) VALUES
 
 SELECT * FROM trabajador;
 
-INSERT INTO visita (fecha, hora, tipo, resultado, id_vivienda, id_trabajador) VALUES
-    ('2024-01-15', '10:30', 'Corta', 'Visitado_pdte_contestación', 1, 1),
-    ('2024-01-16', '14:00', 'Media', 'Visitado_no_hacen_nada', 2, 2),
-    ('2024-01-17', '16:00', 'Larga', 'Recitar', 3, 3),
-    ('2024-01-18', '11:30', 'Media', 'No_visita', 4, 4),
-    ('2024-01-19', '09:00', 'Corta', 'Firmada_no_financiable', 5, 5),
-    ('2024-01-20', '13:00', 'Larga', 'Venta', 6, 6);
+INSERT INTO visita (fecha, hora, tipo, resultado, id_vivienda, id_trabajador, oferta, observaciones_visita) VALUES
+    ('2024-01-15', '10:30', 'Corta', 'Visitado_pdte_contestación', 1, 1, NULL, 'Pendiente de respuesta del cliente'),
+    ('2024-01-16', '14:00', 'Media', 'Visitado_no_hacen_nada', 2, 2, 'Oferta limitada', 'El cliente no mostró interés en el producto'),
+    ('2024-01-17', '16:00', 'Larga', 'Recitar', 3, 3, 'Oferta detallada', 'El cliente solicitó información sobre productos adicionales'),
+    ('2024-01-18', '11:30', 'Media', 'No_visita', 4, 4, 'Sin oferta', 'La visita no pudo realizarse debido a imprevistos'),
+    ('2024-01-19', '09:00', 'Corta', 'Firmada_no_financiable', 5, 5, 'Oferta no aceptada', 'La firma fue realizada, pero no es financiable por el cliente'),
+    ('2024-01-20', '13:00', 'Larga', 'Venta', 6, 6, 'Venta completada', 'El cliente aceptó la oferta y la venta fue completada');
 
 SELECT * FROM visita;
 

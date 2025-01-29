@@ -18,7 +18,9 @@ export default function Feedback() {
 		horaVisita: "",
 		modoCaptacion: "",
 		resultadoVisita: "",
-		tipoVisita: ""
+		tipoVisita: "",
+		oferta: "",
+		observacionesVisita: ""
 	};
 
 	// creamos las constantes para obtener los valores de los campos del feedback
@@ -154,6 +156,10 @@ export default function Feedback() {
 						{ value: "Media", label: "Visita de 2 horas (Media)" },
 						{ value: "Larga", label: "Visita de 3 horas (Larga)" }
 					]} />
+
+					<EntradaTexto label="Oferta propuesta" name="oferta" value={datosFeedback.oferta} onChange={handleChange} type="text" placeholder="Ej: Oferta limitada" error={errores.oferta} />
+
+					<EntradaTexto label="Observaciones" name="observacionesVisita" value={datosFeedback.observacionesVisita} onChange={handleChange} type="text" placeholder="Ej: Instalación correcta" error={errores.observacionesVisita} />
 
 					<button type="submit">Registrar Feedback</button>
 				</form>
