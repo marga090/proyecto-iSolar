@@ -199,7 +199,7 @@ const validarDatosFeedback = (req, res, next) => {
 
 // creamos la peticion para el feedback
 app.post("/registrarFeedback", validarDatosFeedback, async (req, res) => {
-    const { idTrabajador, idVivienda, fechaVisita, horaVisita, tipoVisita, resultadoVisita } = req.body;
+    const { idTrabajador, idVivienda, fechaVisita, horaVisita, tipoVisita, resultadoVisita, oferta, observacionesVisita } = req.body;
 
     try {
         // verificamos si el trabajador existe
@@ -215,8 +215,8 @@ app.post("/registrarFeedback", validarDatosFeedback, async (req, res) => {
         }
 
         // creacion de la nueva visita
-        const sqlVisita = 'INSERT INTO visita (fecha, hora, tipo, resultado, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?, ?, ?)';
-        await query(sqlVisita, [fechaVisita, horaVisita, tipoVisita, resultadoVisita, idVivienda, idTrabajador]);
+        const sqlVisita = 'INSERT INTO visita (fecha, hora, tipo, resultado, oferta, observaciones_visita, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        await query(sqlVisita, [fechaVisita, horaVisita, tipoVisita, resultadoVisita, oferta, observacionesVisita, idVivienda, idTrabajador]);
 
         res.status(200).json({ message: "Visita creada correctamente" });
 
