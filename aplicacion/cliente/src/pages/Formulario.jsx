@@ -90,6 +90,16 @@ export default function Formulario() {
         });
         setErrores(nuevoError);
 
+        if (Object.keys(nuevoError).length > 0) {
+            // mostrar que hay errores
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Hay algunos campos con errores en el formulario",
+                confirmButtonText: "Vale"
+            });
+        }
+
         // si no hay errores devolvemos true
         return Object.keys(nuevoError).length === 0;
     };
@@ -119,7 +129,7 @@ export default function Formulario() {
                     if (error.response) {
                         const mensajeError = error.response?.data?.error || "Hubo un problema con la solicitud. Inténtalo de nuevo";
 
-                        // mostrar que hay errores
+                        // mostrar con sweet alert que hay errores
                         Swal.fire({
                             icon: "error",
                             title: "Error",
@@ -132,6 +142,16 @@ export default function Formulario() {
                             serverError: mensajeError
                         }));
                         console.error("Error en la solicitud:", mensajeError);
+                    }
+
+                    else if (error.message && error.message.includes("Network Error")) {
+                        Swal.fire({
+                            icon: "question",
+                            title: "Error de Conexión",
+                            text: "Verifica tu conexión a internet o inténtalo de nuevo",
+                            confirmButtonText: "Vale"
+                        });
+                        console.error("Error de conexión:", error.message);
                     }
                 });
         }

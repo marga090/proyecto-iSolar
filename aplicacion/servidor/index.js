@@ -71,9 +71,6 @@ const validarDatosFormulario = (req, res, next) => {
 // creamos la peticion para el formulario
 app.post("/registrarCliente", validarDatosFormulario, async (req, res) => {
 
-    // cuando se haga la consulta y obtengamos la respuesta...
-    console.log("Datos recibidos del frontend:", req.body);
-
     // extraemos los datos recibidos del body
     const {
         idTrabajador,
