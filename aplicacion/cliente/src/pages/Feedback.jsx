@@ -4,8 +4,8 @@ import '../styles/Feedback.css';
 import { useState } from "react";
 // importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
-// importamos el componente EnradaTexto y EntradaSelect
-import { EntradaTexto, EntradaSelect } from '../components/CamposFormulario';
+// importamos el componente EnradaTexto, EntradaTextoArea y EntradaSelect
+import { EntradaTexto, EntradaTextoArea, EntradaSelect } from '../components/CamposFormulario';
 // importamos sweetalert2
 import Swal from 'sweetalert2';
 
@@ -157,9 +157,9 @@ export default function Feedback() {
 						{ value: "Larga", label: "Visita de 3 horas (Larga)" }
 					]} />
 
-					<EntradaTexto label="Oferta propuesta" name="oferta" value={datosFeedback.oferta} onChange={handleChange} type="text" placeholder="Ej: Oferta limitada" error={errores.oferta} />
+					<EntradaTextoArea label="Oferta propuesta" name="oferta" value={datosFeedback.oferta} onChange={handleChange} type="text" placeholder="Ej: Oferta limitada" error={errores.oferta} />
 
-					<EntradaTexto label="Observaciones" name="observacionesVisita" value={datosFeedback.observacionesVisita} onChange={handleChange} type="text" placeholder="Ej: Instalación correcta" error={errores.observacionesVisita} />
+					<EntradaTextoArea label="Observaciones" name="observacionesVisita" value={datosFeedback.observacionesVisita} onChange={handleChange} type="text" placeholder="Comenta alguna observación" error={errores.observacionesVisita} />
 
 					<button type="submit">Registrar Feedback</button>
 				</form>

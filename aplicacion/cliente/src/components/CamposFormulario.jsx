@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useRef, useEffect } from "react";
 
 const EntradaTexto = ({ label, name, value, onChange, type, placeholder, error }) => {
     return (
@@ -11,6 +11,37 @@ const EntradaTexto = ({ label, name, value, onChange, type, placeholder, error }
                 onChange={onChange}
                 type={type}
                 placeholder={placeholder}
+            />
+            {error && <div className="error">{error}</div>}
+        </div>
+    );
+};
+
+const EntradaTextoArea = ({ label, name, value, onChange, placeholder, error }) => {
+    const entradaTextoInicial = useRef(null);
+
+    // ajustamos la altura dinamicamente
+    useEffect(() => {
+        if (entradaTextoInicial.current) {
+            entradaTextoInicial.current.style.height = 'auto';
+            entradaTextoInicial.current.style.height = `${entradaTextoInicial.current.scrollHeight}px`;
+        }
+    }, [value]);
+
+    const handleChange = (e) => { onChange(e); };
+
+    return (
+        <div>
+            <label className="nombreCampo">{label}</label>
+            <textarea
+                ref={entradaTextoInicial}
+                className="campoTexto"
+                name={name}
+                value={value}
+                onChange={handleChange}
+                placeholder={placeholder}
+                rows="3"
+                style={{ resize: "none", overflowY: "hidden", width: "100%" }}
             />
             {error && <div className="error">{error}</div>}
         </div>
@@ -58,4 +89,4 @@ const EntradaSelect = ({ label, name, value, onChange, error, options }) => {
     );
 };
 
-export { EntradaTexto, EntradaRadio, EntradaSelect };
+export { EntradaTexto, EntradaTextoArea, EntradaRadio, EntradaSelect };

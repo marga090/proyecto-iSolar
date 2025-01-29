@@ -4,8 +4,8 @@ import '../styles/Formulario.css';
 import { useState } from "react";
 // importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
-// importamos el componente EnradaTexto y EntradaRadio
-import { EntradaTexto, EntradaRadio } from '../components/CamposFormulario';
+// importamos el componente EnradaTexto, EntradaTextoArea y EntradaRadio
+import { EntradaTexto, EntradaTextoArea, EntradaRadio } from '../components/CamposFormulario';
 // importamos sweetalert2
 import Swal from 'sweetalert2';
 
@@ -180,7 +180,7 @@ export default function Formulario() {
 
                     <EntradaTexto label="Importe de recibo de gas" name="importeGas" value={datosFormulario.importeGas} onChange={handleChange} type="number" step="0.01" placeholder="Ej: 30,00" error={errores.importeGas} />
 
-                    <EntradaTexto label="Observaciones del contacto" name="observacionesContacto" value={datosFormulario.observacionesContacto} onChange={handleChange} type="text" placeholder="Comenta alguna observación" />
+                    <EntradaTextoArea label="Observaciones del contacto" name="observacionesContacto" value={datosFormulario.observacionesContacto} onChange={handleChange} type="text" placeholder="Comenta alguna observación" />
 
                     <button type="submit">Registrar Cliente</button>
                 </form>
