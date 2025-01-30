@@ -1,12 +1,7 @@
-//importamos el css
 import '../styles/Formulario.css';
-// importamos los Estados para poder obtener los valores introducidos por el usuario
 import { useState } from "react";
-// importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
-// importamos el componente EnradaTexto, EntradaTextoArea y EntradaRadio
 import { EntradaTexto, EntradaTextoArea, EntradaRadio } from '../components/CamposFormulario';
-// importamos sweetalert2
 import Swal from 'sweetalert2';
 
 export default function Formulario() {
@@ -109,9 +104,8 @@ export default function Formulario() {
         e.preventDefault();
         if (validar()) {
             // llamamos al metodo crear y al cuerpo de la solicitud
-            Axios.post("http://localhost:3001/registrarCliente", datosFormulario)
+            Axios.post("http://localhost:3001/api/registrarCliente", datosFormulario)
                 .then((response) => {
-                    console.log("Datos enviados al servidor correctamente:", response);
                     setErrores({});
 
                     // mostramos una alerta de todo correcto
@@ -141,7 +135,7 @@ export default function Formulario() {
                             ...prevState,
                             serverError: mensajeError
                         }));
-                        console.error("Error en la solicitud:", mensajeError);
+                        console.error("Error en la solicitud");
                     }
 
                     else if (error.message && error.message.includes("Network Error")) {
@@ -152,7 +146,7 @@ export default function Formulario() {
                             text: "Verifica tu conexión a internet o inténtalo de nuevo",
                             confirmButtonText: "Vale"
                         });
-                        console.error("Error de conexión:", error.message);
+                        console.error("Error de conexión");
                     }
                 });
         }
@@ -167,27 +161,27 @@ export default function Formulario() {
                 <form onSubmit={addFormulario} className='campos'>
                     {errores.serverError && <div className="errorServidor">{errores.serverError}</div>}
 
-                    <EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFormulario.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
+                    <EntradaTexto label="ID Trabajador *" name="idTrabajador" value={datosFormulario.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
 
-                    <EntradaTexto label="Nombre completo del contacto" name="nombreContacto" value={datosFormulario.nombreContacto} onChange={handleChange} type="text" placeholder="Ej: Gabriel Martín Ruiz" error={errores.nombreContacto} />
+                    <EntradaTexto label="Nombre completo del contacto *" name="nombreContacto" value={datosFormulario.nombreContacto} onChange={handleChange} type="text" placeholder="Ej: Gabriel Martín Ruiz" error={errores.nombreContacto} />
 
-                    <EntradaTexto label="Dirección del contacto" name="direccionContacto" value={datosFormulario.direccionContacto} onChange={handleChange} type="text" placeholder="Ej: Calle del Sol, 42" error={errores.direccionContacto} />
+                    <EntradaTexto label="Dirección del contacto *" name="direccionContacto" value={datosFormulario.direccionContacto} onChange={handleChange} type="text" placeholder="Ej: Calle del Sol, 42" error={errores.direccionContacto} />
 
-                    <EntradaTexto label="Localidad del contacto" name="localidadContacto" value={datosFormulario.localidadContacto} onChange={handleChange} type="text" placeholder="Ej: Mairena de Alcor" error={errores.localidadContacto} />
+                    <EntradaTexto label="Localidad del contacto *" name="localidadContacto" value={datosFormulario.localidadContacto} onChange={handleChange} type="text" placeholder="Ej: Mairena de Alcor" error={errores.localidadContacto} />
 
-                    <EntradaTexto label="Provincia del contacto" name="provinciaContacto" value={datosFormulario.provinciaContacto} onChange={handleChange} type="text" placeholder="Ej: Sevilla" error={errores.provinciaContacto} />
+                    <EntradaTexto label="Provincia del contacto *" name="provinciaContacto" value={datosFormulario.provinciaContacto} onChange={handleChange} type="text" placeholder="Ej: Sevilla" error={errores.provinciaContacto} />
 
-                    <EntradaTexto label="Teléfono de contacto" name="telefonoContacto" value={datosFormulario.telefonoContacto} onChange={handleChange} type="tel" placeholder="Ej: 666555444" error={errores.telefonoContacto} />
+                    <EntradaTexto label="Teléfono de contacto *" name="telefonoContacto" value={datosFormulario.telefonoContacto} onChange={handleChange} type="tel" placeholder="Ej: 666555444" error={errores.telefonoContacto} />
 
-                    <EntradaTexto label="Correo del contacto" name="correoContacto" value={datosFormulario.correoContacto} onChange={handleChange} type="email" placeholder="Ej: ejemplo@gmail.com" error={errores.correoContacto} />
+                    <EntradaTexto label="Correo del contacto *" name="correoContacto" value={datosFormulario.correoContacto} onChange={handleChange} type="email" placeholder="Ej: ejemplo@gmail.com" error={errores.correoContacto} />
 
-                    <EntradaTexto label="Fecha de la visita" name="fechaVisita" value={datosFormulario.fechaVisita} onChange={handleChange} type="date" placeholder="Ej: 17/01/2025" error={errores.fechaVisita} />
+                    <EntradaTexto label="Fecha de la visita *" name="fechaVisita" value={datosFormulario.fechaVisita} onChange={handleChange} type="date" placeholder="Ej: 17/01/2025" error={errores.fechaVisita} />
 
-                    <EntradaTexto label="Hora de la visita" name="horaVisita" value={datosFormulario.horaVisita} onChange={handleChange} type="time" placeholder="Ej: 10:22" error={errores.horaVisita} />
+                    <EntradaTexto label="Hora de la visita *" name="horaVisita" value={datosFormulario.horaVisita} onChange={handleChange} type="time" placeholder="Ej: 10:22" error={errores.horaVisita} />
 
                     <EntradaTexto label="Número de personas en la vivienda" name="numeroPersonas" value={datosFormulario.numeroPersonas} onChange={handleChange} type="number" placeholder="Ej: 4" error={errores.numeroPersonas} />
 
-                    <EntradaTexto label="Número de decisores" name="numeroDecisores" value={datosFormulario.numeroDecisores} onChange={handleChange} type="number" placeholder="Ej: 2" error={errores.numeroDecisores} />
+                    <EntradaTexto label="Número de decisores *" name="numeroDecisores" value={datosFormulario.numeroDecisores} onChange={handleChange} type="number" placeholder="Ej: 2" error={errores.numeroDecisores} />
 
                     <EntradaRadio label="¿Tiene bombona?" name="tieneBombona" options={opcionesRadio} value={datosFormulario.tieneBombona} onChange={handleChange} error={errores.tieneBombona} />
 

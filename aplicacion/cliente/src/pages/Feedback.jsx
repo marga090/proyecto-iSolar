@@ -1,12 +1,7 @@
-// importamos el css
 import '../styles/Feedback.css';
-// importamos los Estados para poder obtener los valores introducidos por el usuario
 import { useState } from "react";
-// importamos Axios, nos permite hacer sencillas las operaciones como cliente HTTP
 import Axios from "axios";
-// importamos el componente EnradaTexto, EntradaTextoArea y EntradaSelect
 import { EntradaTexto, EntradaTextoArea, EntradaSelect } from '../components/CamposFormulario';
-// importamos sweetalert2
 import Swal from 'sweetalert2';
 
 export default function Feedback() {
@@ -89,9 +84,8 @@ export default function Feedback() {
 		e.preventDefault();
 		if (validar()) {
 			// llamamos al metodo crear y al cuerpo de la solicitud
-			Axios.post("http://localhost:3001/registrarFeedback", datosFeedback)
-				.then((response) => {
-					console.log("Datos enviados al servidor correctamente:", response);
+			Axios.post("http://localhost:3001/api/registrarFeedback", datosFeedback)
+				.then(() => {
 					setErrores({});
 
 					// mostramos una alerta de todo correcto
@@ -121,7 +115,7 @@ export default function Feedback() {
 							...prevState,
 							serverError: mensajeError
 						}));
-						console.error("Error en la solicitud:", mensajeError);
+						console.error("Error en la solicitud");
 					}
 
 					else if (error.message && error.message.includes("Network Error")) {
@@ -132,7 +126,7 @@ export default function Feedback() {
 							text: "Verifica tu conexión a internet o inténtalo de nuevo",
 							confirmButtonText: "Vale"
 						});
-						console.error("Error de conexión:", error.message);
+						console.error("Error de conexión");
 					}
 				});
 		}
@@ -148,22 +142,22 @@ export default function Feedback() {
 					{errores.serverError && <div className="errorServidor">
 						{errores.serverError}</div>}
 
-					<EntradaTexto label="ID Trabajador" name="idTrabajador" value={datosFeedback.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
+					<EntradaTexto label="ID Trabajador *" name="idTrabajador" value={datosFeedback.idTrabajador} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idTrabajador} />
 
-					<EntradaTexto label="ID Vivienda" name="idVivienda" value={datosFeedback.idVivienda} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idVivienda} />
+					<EntradaTexto label="ID Vivienda *" name="idVivienda" value={datosFeedback.idVivienda} onChange={handleChange} type="number" placeholder="Ej: 1" error={errores.idVivienda} />
 
-					<EntradaTexto label="Fecha de la visita" name="fechaVisita" value={datosFeedback.fechaVisita} onChange={handleChange} type="date" error={errores.fechaVisita} />
+					<EntradaTexto label="Fecha de la visita *" name="fechaVisita" value={datosFeedback.fechaVisita} onChange={handleChange} type="date" error={errores.fechaVisita} />
 
-					<EntradaTexto label="Hora de la visita" name="horaVisita" value={datosFeedback.horaVisita} onChange={handleChange} type="time" error={errores.horaVisita} />
+					<EntradaTexto label="Hora de la visita *" name="horaVisita" value={datosFeedback.horaVisita} onChange={handleChange} type="time" error={errores.horaVisita} />
 
-					<EntradaSelect label="Modo de captación" name="modoCaptacion" value={datosFeedback.modoCaptacion} onChange={handleChange} error={errores.modoCaptacion} options={[
+					<EntradaSelect label="Modo de captación *" name="modoCaptacion" value={datosFeedback.modoCaptacion} onChange={handleChange} error={errores.modoCaptacion} options={[
 						{ value: "Captador", label: "Captador" },
 						{ value: "Telemarketing", label: "Telemarketing" },
 						{ value: "Referido", label: "Referido" },
 						{ value: "Propia", label: "Captación propia" }
 					]} />
 
-					<EntradaSelect label="Resultado de la visita" name="resultadoVisita" value={datosFeedback.resultadoVisita} onChange={handleChange} error={errores.resultadoVisita} options={[
+					<EntradaSelect label="Resultado de la visita *" name="resultadoVisita" value={datosFeedback.resultadoVisita} onChange={handleChange} error={errores.resultadoVisita} options={[
 						{ value: "Visitado_pdte_contestación", label: "Visitado pendiente de contestación" },
 						{ value: "Visitado_no_hacen_nada", label: "Visitado pero no hacen nada" },
 						{ value: "Recitar", label: "Volver a citar" },
@@ -172,7 +166,7 @@ export default function Feedback() {
 						{ value: "Venta", label: "Venta" }
 					]} />
 
-					<EntradaSelect label="Tipo de la visita" name="tipoVisita" value={datosFeedback.tipoVisita} onChange={handleChange} error={errores.tipoVisita} options={[
+					<EntradaSelect label="Tipo de la visita *" name="tipoVisita" value={datosFeedback.tipoVisita} onChange={handleChange} error={errores.tipoVisita} options={[
 						{ value: "Corta", label: "Visita de 1 hora (Corta)" },
 						{ value: "Media", label: "Visita de 2 horas (Media)" },
 						{ value: "Larga", label: "Visita de 3 horas (Larga)" }

@@ -56,7 +56,7 @@ select {
   box-sizing: border-box;
 }
 
-.feedback .contenedorFeedback .campos input:focus {
+.feedback .contenedorFeedback .campos .campoTexto:focus {
   border-color: #fd8200;
   background-color: #fffebf;
   outline: none;
