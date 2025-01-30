@@ -69,6 +69,16 @@ export default function Feedback() {
 		});
 		setErrores(nuevoError);
 
+		if (Object.keys(nuevoError).length > 0) {
+			// mostramos una alerta de error
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Hay algunos campos con errores en el formulario",
+				confirmButtonText: "Vale"
+			});
+		}
+
 		// si no hay errores devolvemos true
 		return Object.keys(nuevoError).length === 0;
 	};
@@ -84,7 +94,7 @@ export default function Feedback() {
 					console.log("Datos enviados al servidor correctamente:", response);
 					setErrores({});
 
-					// usamos sweetalert2
+					// mostramos una alerta de todo correcto
 					Swal.fire({
 						icon: "success",
 						title: "Perfecto",
@@ -99,7 +109,7 @@ export default function Feedback() {
 					if (error.response) {
 						const mensajeError = error.response?.data?.error || "Hubo un problema con la solicitud. Inténtalo de nuevo";
 
-						// mostrar que hay errores
+						// mostramos una alerta de error
 						Swal.fire({
 							icon: "error",
 							title: "Error",
@@ -112,6 +122,17 @@ export default function Feedback() {
 							serverError: mensajeError
 						}));
 						console.error("Error en la solicitud:", mensajeError);
+					}
+
+					else if (error.message && error.message.includes("Network Error")) {
+						// mostramos una alerta de conexion
+						Swal.fire({
+							icon: "question",
+							title: "Error de Conexión",
+							text: "Verifica tu conexión a internet o inténtalo de nuevo",
+							confirmButtonText: "Vale"
+						});
+						console.error("Error de conexión:", error.message);
 					}
 				});
 		}

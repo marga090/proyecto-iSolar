@@ -91,7 +91,7 @@ export default function Formulario() {
         setErrores(nuevoError);
 
         if (Object.keys(nuevoError).length > 0) {
-            // mostrar que hay errores
+            // mostramos una alerta de error
             Swal.fire({
                 icon: "error",
                 title: "Error",
@@ -114,7 +114,7 @@ export default function Formulario() {
                     console.log("Datos enviados al servidor correctamente:", response);
                     setErrores({});
 
-                    // usamos sweetalert2
+                    // mostramos una alerta de todo correcto
                     Swal.fire({
                         icon: "success",
                         title: `El código es: ${response.data.idVivienda}`,
@@ -129,7 +129,7 @@ export default function Formulario() {
                     if (error.response) {
                         const mensajeError = error.response?.data?.error || "Hubo un problema con la solicitud. Inténtalo de nuevo";
 
-                        // mostrar con sweet alert que hay errores
+                        // mostramos una alerta de error
                         Swal.fire({
                             icon: "error",
                             title: "Error",
@@ -145,6 +145,7 @@ export default function Formulario() {
                     }
 
                     else if (error.message && error.message.includes("Network Error")) {
+                        // mostramos una alerta de conexion
                         Swal.fire({
                             icon: "question",
                             title: "Error de Conexión",
