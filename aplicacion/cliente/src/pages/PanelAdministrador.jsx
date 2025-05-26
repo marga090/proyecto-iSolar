@@ -44,7 +44,7 @@ export default function PanelAdministrador() {
         { accessorKey: 'nombre', header: 'TRABAJADOR', size: 210 },
         { accessorKey: 'puesto', header: 'PUESTO', size: 150 },
         { accessorKey: 'departamento', header: 'DEPARTAMENTO', size: 170 },
-        { accessorKey: 'equipo', header: 'EQUIPO', size: 150 },
+        { accessorKey: 'equipo', header: 'EQUIPO', size: 210 },
         { accessorKey: 'fecha_alta', header: 'FECHA ALTA', size: 150, Cell: renderFecha },
         { accessorKey: 'fecha_baja', header: 'FECHA BAJA', size: 150, Cell: renderFecha },
         { id: 'modificar', header: '', size: 140, Cell: renderBotonModificar },

@@ -196,23 +196,23 @@ INSERT INTO trabajador (nombre, contrasena, telefono, puesto, departamento, equi
 ('Margarita Gandul Pedregal', '$2b$10$CeEelXZmSL0lnsW.IknTmeQ.uBzpOqO/Bryud6xIaPJEQqT4IkD52', '600123457', 'administrador', 'administracion', null),
 ('Luis Martínez García', '$2b$10$tLkpxJRHcyaQxeOdvnxK9u2duXloNoYZTD.RYXV3r/ccGpS1BxQ2K', '635987898', 'instalador', 'instalaciones', null),
 ('Manuel Sánchez Fernández', '$2b$10$nOzjEIHXen5MfbNvsrJSCOF7r3eHHxMJPm0akJ0GoEVCd5j3tCyJG', '600123459', 'coordinador', 'comercial', null),
-('Marta Rodríguez González', '$2b$10$NCajfnTbvJbblCq3AFQsaeMY13iu7Pk7StDq4s0bP1iB4EwUkSMHm', '600123460', 'comercial', 'comercial', 'Manuel'),
+('Marta Rodríguez González', '$2b$10$NCajfnTbvJbblCq3AFQsaeMY13iu7Pk7StDq4s0bP1iB4EwUkSMHm', '600123460', 'comercial', 'comercial', 'Manuel Sánchez Fernández'),
 ('Carlos Torres Rodríguez', '$2b$10$5pTr0IZLT/Nclf9GEKsMDOu/SaRvPGbRWB5JGLXsOSHdWdJ0HKFWu', '600123461', 'rrhh', 'rrhh', null),
 ('Isabel Díaz López', '$2b$10$L0AmyBZQHQ1vU9xZ0rmYNedMKKF.l\xKuC8oWeP6KwLEomjvF1hMO', '600123462', 'tramitador', 'administracion', null),
-('José Pérez Martínez', '$2b$10$NCajfnTbvJbblCq3AFQsaeMY13iu7Pk7StDq4s0bP1iB4EwUkSMHm', '600123463', 'comercial', 'comercial', 'Manuel'),
+('José Pérez Martínez', '$2b$10$NCajfnTbvJbblCq3AFQsaeMY13iu7Pk7StDq4s0bP1iB4EwUkSMHm', '600123463', 'comercial', 'comercial', 'Manuel Sánchez Fernández'),
 ('Laura López Sánchez', '$2b$10$tLkpxJRHcyaQxeOdvnxK9u2duXloNoYZTD.RYXV3r/ccGpS1BxQ2K', '600123464', 'instalador', 'instalaciones', null),
-('Javier González', '$2b$10$GC.hWE/pwi7etgEYGqXz7OB77XBJ5WixsvFh5weVqseFiyvD4daRe', '600123465', 'captador', 'comercial', 'Jesús'),
+('Javier González', '$2b$10$GC.hWE/pwi7etgEYGqXz7OB77XBJ5WixsvFh5weVqseFiyvD4daRe', '600123465', 'captador', 'comercial', 'Jesús Molina López'),
 ('Jesús Molina López', '$2b$10$nOzjEIHXen5MfbNvsrJSCOF7r3eHHxMJPm0akJ0GoEVCd5j3tCyJG', '600123466', 'coordinador', 'comercial', null),
 ('Sofía Hernández Pérez', '$2b$10$abCD12345678examplepass1', '600123467', 'administrador', 'administracion', null),
 ('Andrés Martínez Gómez', '$2b$10$5pTr0IZLT/Nclf9GEKsMDOu/SaRvPGbRWB5JGLXsOSHdWdJ0HKFWu', '600123468', 'rrhh', 'rrhh', null),
 ('Nuria Gutiérrez Díaz', '$2b$10$abCD12345678examplepass3', '600123469', 'tramitador', 'administracion', null),
 ('Pablo Ruiz Navarro', '$2b$10$tLkpxJRHcyaQxeOdvnxK9u2duXloNoYZTD.RYXV3r/ccGpS1BxQ2K', '600123470', 'instalador', 'instalaciones', null),
-('Clara Moreno Moreno', '$2b$10$abCD12345678examplepass5', '600123471', 'comercial', 'comercial', 'Manuel'),
-('Hugo Navarro Molina', '$2b$10$abCD12345678examplepass6', '600123472', 'captador', 'comercial', 'Jesús'),
+('Clara Moreno Moreno', '$2b$10$abCD12345678examplepass5', '600123471', 'comercial', 'comercial', 'Manuel Sánchez Fernández'),
+('Hugo Navarro Molina', '$2b$10$abCD12345678examplepass6', '600123472', 'captador', 'comercial', 'Jesús Molina López'),
 ('Eva Romero Castro', '$2b$10$nOzjEIHXen5MfbNvsrJSCOF7r3eHHxMJPm0akJ0GoEVCd5j3tCyJG', '600123473', 'coordinador', 'comercial', null),
 ('Daniel Ortega Serrano', '$2b$10$tLkpxJRHcyaQxeOdvnxK9u2duXloNoYZTD.RYXV3r/ccGpS1BxQ2K', '600123474', 'instalador', 'instalaciones', null),
 ('Patricia Vega Campos', '$2b$10$abCD12345678examplepass9', '600123475', 'tramitador', 'administracion', null),
-('Raúl Torres Montes', '$2b$10$NCajfnTbvJbblCq3AFQsaeMY13iu7Pk7StDq4s0bP1iB4EwUkSMHm', '600123476', 'comercial', 'comercial', 'Romero');
+('Raúl Torres Montes', '$2b$10$NCajfnTbvJbblCq3AFQsaeMY13iu7Pk7StDq4s0bP1iB4EwUkSMHm', '600123476', 'comercial', 'comercial', 'Eva Romero Castro');
 
 SELECT * FROM trabajador;
 
