@@ -19,7 +19,15 @@ export default function FormularioCliente() {
     const { idTrabajador, isLoading } = useIdTrabajador();
 
     const initialValues = useMemo(() => ({
-        idTrabajador: idTrabajador || '', nombre: '', telefono: '', correo: '', modoCaptacion: '', observaciones: '', direccion: '', localidad: '', provincia: '',
+        idTrabajador: idTrabajador || '', 
+        nombre: '', 
+        telefono: '', 
+        correo: '', 
+        modoCaptacion: '', 
+        observaciones: '', 
+        direccion: '', 
+        localidad: '', 
+        provincia: '',
     }), [idTrabajador]);
 
     const validationSchema = Yup.object({

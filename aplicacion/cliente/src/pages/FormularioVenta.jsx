@@ -16,8 +16,14 @@ export default function FormularioVenta() {
     const navigate = useNavigate();
 
     const initialValues = useMemo(() => ({
-        id_trabajador: '', id_cliente: '', fecha_firma: '', forma_pago: '',
-        certificado_energetico: '', gestion_subvencion: '', gestion_legalizacion: '', fecha_legalizacion: '',
+        id_trabajador: '', 
+        id_cliente: '', 
+        fecha_firma: '', 
+        forma_pago: '',
+        certificado_energetico: '', 
+        gestion_subvencion: '', 
+        gestion_legalizacion: '', 
+        fecha_legalizacion: '',
         estado_venta: 'pendiente',
     }), []);
 

@@ -21,9 +21,27 @@ export default function FormularioFeedback() {
 	const { obtenerCliente } = useAutocompletarCliente();
 
 	const initialValues = useMemo(() => ({
-		idTrabajador: idTrabajador || '', idCliente: '', nombre: '', telefono: '', correo: '', direccion: '', localidad: '', provincia: '',
-		fecha: '', hora: '', numeroPersonas: '', numeroDecisores: '', tieneBombona: "sin_datos", tieneGas: "sin_datos", tieneTermo: "sin_datos",
-		tienePlacas: "sin_datos", importeLuz: '', importeGas: '', resultado: '', oferta: '', observaciones: '',
+		idTrabajador: idTrabajador || '',
+		idCliente: '',
+		nombre: '',
+		telefono: '',
+		correo: '',
+		direccion: '',
+		localidad: '',
+		provincia: '',
+		fecha: '',
+		hora: '',
+		numeroPersonas: '',
+		numeroDecisores: '',
+		tieneBombona: "sin_datos",
+		tieneGas: "sin_datos",
+		tieneTermo: "sin_datos",
+		tienePlacas: "sin_datos",
+		importeLuz: '',
+		importeGas: '',
+		resultado: '',
+		oferta: '',
+		observaciones: '',
 	}), [idTrabajador]);
 
 	const validationSchema = Yup.object({

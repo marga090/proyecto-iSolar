@@ -35,8 +35,13 @@ export default function ModificarTrabajador() {
     }, []);
 
     const initialValues = useMemo(() => ({
-        nombre: trabajador?.nombre || "", contrasena: "", telefono: trabajador?.telefono || "", puesto: trabajador?.puesto || "",
-        departamento: trabajador?.departamento || "", equipo: trabajador?.equipo || "", fechaAlta: formatFechaDatetimeLocal(trabajador?.fecha_alta),
+        nombre: trabajador?.nombre || "", 
+        contrasena: "", 
+        telefono: trabajador?.telefono || "", 
+        puesto: trabajador?.puesto || "",
+        departamento: trabajador?.departamento || "", 
+        equipo: trabajador?.equipo || "", 
+        fechaAlta: formatFechaDatetimeLocal(trabajador?.fecha_alta),
         fechaBaja: formatFechaDatetimeLocal(trabajador?.fecha_baja)
     }), [trabajador]);
 

@@ -24,10 +24,17 @@ export default function FormularioModificarCliente() {
     };
 
     const initialValues = useMemo(() => ({
-        nombre: cliente?.nombre || "", telefono: cliente?.telefono || "", correo: cliente?.correo || "",
-        dni: cliente?.dni || "", iban: cliente?.iban || "", modoCaptacion: cliente?.modo_captacion || "",
-        observaciones: cliente?.observaciones || "", fechaAlta: formatFechaDatetimeLocal(cliente?.fecha_alta),
-        direccion: cliente?.direccion || "", localidad: cliente?.localidad || "", provincia: cliente?.provincia || "",
+        nombre: cliente?.nombre || "",
+        telefono: cliente?.telefono || "",
+        correo: cliente?.correo || "",
+        dni: cliente?.dni || "",
+        iban: cliente?.iban || "",
+        modoCaptacion: cliente?.modo_captacion || "",
+        observaciones: cliente?.observaciones_cliente || "",
+        fechaAlta: formatFechaDatetimeLocal(cliente?.fecha_alta),
+        direccion: cliente?.direccion || "",
+        localidad: cliente?.localidad || "",
+        provincia: cliente?.provincia || "",
     }), [cliente]);
 
     const validationSchema = Yup.object({
@@ -97,34 +104,55 @@ export default function FormularioModificarCliente() {
                     <Form as={BootstrapForm} className="p-4 border rounded shadow-sm bg-light">
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva fecha de alta *" name="fechaAlta" type="datetime-local"
-                                    tooltip="Introduce la nueva fecha de alta del cliente" errors={errors} touched={touched} />
-                            </Col>
-                            <Col xs={12} md={6}>
                                 <CamposFormulario label="Nuevo nombre del cliente *" name="nombre" type="text"
                                     tooltip="Introduce el nuevo nombre y apellidos del cliente" errors={errors} touched={touched} />
                             </Col>
-                        </Row>
-
-                        <Row className="mb-3">
                             <Col xs={12} md={6}>
                                 <CamposFormulario label="Nueva dirección del cliente *" name="direccion" type="text"
                                     tooltip="Introduce la nueva dirección del cliente" errors={errors} touched={touched} />
                             </Col>
+                        </Row>
+
+                        <Row className="mb-3">
                             <Col xs={12} md={6}>
                                 <CamposFormulario label="Nueva localidad del cliente *" name="localidad" type="text"
                                     tooltip="Introduce la nueva localidad o municipio del cliente" errors={errors} touched={touched} />
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <CamposFormulario label="Nueva provincia del cliente *" name="provincia" type="text"
+                                    tooltip="Introduce la nueva provincia del cliente" errors={errors} touched={touched} />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva provincia del cliente *" name="provincia" type="text"
-                                    tooltip="Introduce la nueva provincia del cliente" errors={errors} touched={touched} />
-                            </Col>
-                            <Col xs={12} md={6}>
                                 <CamposFormulario label="Nuevo teléfono del cliente *" name="telefono" type="tel"
                                     tooltip="Introduce el nuevo número de teléfono del cliente" errors={errors} touched={touched} />
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <CamposFormulario label="Nuevo correo del cliente *" name="correo" type="email" tooltip="Introduce el nuevo correo electrónico del cliente" errors={errors} touched={touched} />
+                            </Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Col xs={12} md={6}>
+                                <CamposFormulario label="Nuevo modo de captación *" name="modoCaptacion" as="select" tooltip="Selecciona la nueva forma de captación del cliente" errors={errors} touched={touched} >
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="propia">Captación propia</option>
+                                    <option value="captador">Captador</option>
+                                    <option value="referido">Referido</option>
+                                    <option value="telemarketing">Telemarketing</option>
+                                </CamposFormulario>
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <CamposFormulario label="Nueva fecha de alta *" name="fechaAlta" type="datetime-local"
+                                    tooltip="Introduce la nueva fecha de alta del cliente" errors={errors} touched={touched} />
+                            </Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Col>
+                                <CamposFormulario label="Nuevas observaciones" name="observaciones" as="textarea" tooltip="Añade cualquier nueva información adicional relevante sobre el cliente" errors={errors} touched={touched} />
                             </Col>
                         </Row>
 

@@ -24,8 +24,7 @@ export default function ModificarVenta() {
             try {
                 const { data } = await Axios.get(`/ventas/${id}`);
                 setVenta(data);
-            } catch (err) {
-                console.error("Error al cargar la venta", err);
+            } catch {
             } finally {
                 setCargando(false);
             }

@@ -18,7 +18,12 @@ export default function FormularioTrabajador() {
     const [coordinadores, setCoordinadores] = useState([]);
 
     const initialValues = useMemo(() => ({
-        nombre: "", contrasena: "", telefono: "", puesto: "", departamento: "", equipo: "",
+        nombre: "", 
+        contrasena: "", 
+        telefono: "", 
+        puesto: "", 
+        departamento: "", 
+        equipo: "",
     }), []);
 
     const validationSchema = Yup.object({
