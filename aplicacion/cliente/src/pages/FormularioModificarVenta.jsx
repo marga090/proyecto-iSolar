@@ -132,9 +132,9 @@ export default function ModificarVenta() {
                                 <CamposFormulario label="Nueva forma de pago *" name="forma_pago" as="select"
                                     tooltip="Selecciona la nueva forma de pago" errors={errors} touched={touched}>
                                     <option value="">Selecciona una opción</option>
-                                    <option value="Financiado">Financiado</option>
-                                    <option value="Transferencia">Transferencia</option>
-                                    <option value="Efectivo">Efectivo</option>
+                                    <option value="financiado">Financiado</option>
+                                    <option value="transferencia">Transferencia</option>
+                                    <option value="efectivo">Efectivo</option>
                                 </CamposFormulario>
                             </Col>
                         </Row>
@@ -144,9 +144,9 @@ export default function ModificarVenta() {
                                 <CamposFormulario label="Nuevo certificado energético *" name="certificado_energetico" as="select"
                                     tooltip="Selecciona el nuevo certificado energético" errors={errors} touched={touched}>
                                     <option value="">Selecciona una opción</option>
-                                    <option value="En_cuotas">En cuotas</option>
+                                    <option value="en_cuotas">En cuotas</option>
                                     <option value="no">No</option>
-                                    <option value="Por_transferencia">Por transferencia</option>
+                                    <option value="por_transferencia">Por transferencia</option>
                                 </CamposFormulario>
                             </Col>
                             <Col md={6}>

@@ -31,7 +31,7 @@ export default function FormularioVenta() {
         id_trabajador: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
         id_cliente: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
         fecha_firma: Yup.date().required("Este campo es obligatorio"),
-        forma_pago: Yup.string().oneOf(['Financiado', 'Transferencia', 'Efectivo']).required('Este campo es obligatorio'),
+        forma_pago: Yup.string().oneOf(['financiado', 'transferencia', 'efectivo']).required('Este campo es obligatorio'),
         certificado_energetico: Yup.string().required("Este campo es obligatorio"),
         gestion_subvencion: Yup.string().required("Este campo es obligatorio"),
         gestion_legalizacion: Yup.string().required("Este campo es obligatorio"),
@@ -88,9 +88,9 @@ export default function FormularioVenta() {
                                 <CamposFormulario label="Forma de pago *" name="forma_pago" as="select"
                                     tooltip="Selecciona la forma de pago de la venta" errors={errors} touched={touched}>
                                     <option value="">Selecciona una opción</option>
-                                    <option value="Financiado">Financiado</option>
-                                    <option value="Transferencia">Transferencia</option>
-                                    <option value="Efectivo">Efectivo</option>
+                                    <option value="financiado">Financiado</option>
+                                    <option value="transferencia">Transferencia</option>
+                                    <option value="efectivo">Efectivo</option>
                                 </CamposFormulario>
                             </Col>
                         </Row>
@@ -102,7 +102,7 @@ export default function FormularioVenta() {
                                     <option value="">Selecciona una opción</option>
                                     <option value="En_cuotas">En cuotas</option>
                                     <option value="no">No</option>
-                                    <option value="Por_transferencia">Por transferencia</option>
+                                    <option value="por_transferencia">Por transferencia</option>
                                 </CamposFormulario>
                             </Col>
                             <Col xs={12} md={6}>

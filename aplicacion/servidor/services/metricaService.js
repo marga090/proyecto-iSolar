@@ -2,17 +2,17 @@ import { query } from '../models/db.js';
 
 export const obtenerTodasComercial = async (fechaInicio = null, fechaFin = null) => {
   let filtroVentas = '';
-  let filtroVisitas = "WHERE resultado != 'Venta'";
+  let filtroVisitas = "WHERE resultado != 'venta'";
 
   if (fechaInicio && fechaFin) {
     filtroVentas = `WHERE fecha_firma BETWEEN '${fechaInicio}' AND '${fechaFin}'`;
-    filtroVisitas = `WHERE resultado != 'Venta' AND fecha BETWEEN '${fechaInicio}' AND '${fechaFin}'`;
+    filtroVisitas = `WHERE resultado != 'venta' AND fecha BETWEEN '${fechaInicio}' AND '${fechaFin}'`;
   } else if (fechaInicio) {
     filtroVentas = `WHERE fecha_firma >= '${fechaInicio}'`;
-    filtroVisitas = `WHERE resultado != 'Venta' AND fecha >= '${fechaInicio}'`;
+    filtroVisitas = `WHERE resultado != 'venta' AND fecha >= '${fechaInicio}'`;
   } else if (fechaFin) {
     filtroVentas = `WHERE fecha_firma <= '${fechaFin}'`;
-    filtroVisitas = `WHERE resultado != 'Venta' AND fecha <= '${fechaFin}'`;
+    filtroVisitas = `WHERE resultado != 'venta' AND fecha <= '${fechaFin}'`;
   }
 
   const sql = `
@@ -112,11 +112,11 @@ export const obtenerTodasComercial = async (fechaInicio = null, fechaFin = null)
     LEFT JOIN (
       SELECT 
         id_trabajador,
-        SUM(resultado = 'Visitado_pdte_contestacion') AS visitado_pdte,
+        SUM(resultado = 'visitado_pdte_contestacion') AS visitado_pdte,
         SUM(resultado = 'Visitado_no_hacen_nada') AS no_hacen_nada,
-        SUM(resultado = 'Firmada_no_financiable') AS no_financiable,
-        SUM(resultado = 'Recitar') AS recitar,
-        SUM(resultado = 'No_visita') AS no_visitado
+        SUM(resultado = 'firmada_no_financiable') AS no_financiable,
+        SUM(resultado = 'recitar') AS recitar,
+        SUM(resultado = 'no_visita') AS no_visitado
       FROM visita
       ${filtroVisitas}
       GROUP BY id_trabajador

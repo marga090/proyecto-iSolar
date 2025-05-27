@@ -64,7 +64,7 @@ export default function FormularioFeedback() {
 
 		try {
 			const { data } = await Axios.post("/feedbacks", datosNormalizados);
-			if (values.resultado === "Venta") {
+			if (values.resultado === "venta") {
 				await Axios.post("/ventas", {
 					id_cliente: values.idCliente,
 					id_trabajador: values.idTrabajador,
@@ -215,12 +215,12 @@ export default function FormularioFeedback() {
 							<Col xs={12} md={6}>
 								<CamposFormulario label="Resultado *" name="resultado" as="select" tooltip="Selecciona cuál ha sido el resultado del feedback" errors={errors} touched={touched} >
 									<option value="">Selecciona una opción</option>
-									<option value="Firmada_no_financiable">Firmada y no financiable</option>
-									<option value="No_visita">No ha habido visita</option>
-									<option value="Venta">Venta</option>
-									<option value="Visitado_pdte_contestacion">Visitado pendiente de contestación</option>
+									<option value="firmada_no_financiable">Firmada y no financiable</option>
+									<option value="no_visita">No ha habido visita</option>
+									<option value="venta">Venta</option>
+									<option value="visitado_pdte_contestacion">Visitado pendiente de contestación</option>
 									<option value="Visitado_no_hacen_nada">Visitado pero no hacen nada</option>
-									<option value="Recitar">Volver a citar</option>
+									<option value="recitar">Volver a citar</option>
 								</CamposFormulario>
 							</Col>
 						</Row>
