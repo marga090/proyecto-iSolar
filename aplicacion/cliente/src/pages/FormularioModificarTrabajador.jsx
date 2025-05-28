@@ -35,12 +35,12 @@ export default function ModificarTrabajador() {
     }, []);
 
     const initialValues = useMemo(() => ({
-        nombre: trabajador?.nombre || "", 
-        contrasena: "", 
-        telefono: trabajador?.telefono || "", 
+        nombre: trabajador?.nombre || "",
+        contrasena: "",
+        telefono: trabajador?.telefono || "",
         puesto: trabajador?.puesto || "",
-        departamento: trabajador?.departamento || "", 
-        equipo: trabajador?.equipo || "", 
+        departamento: trabajador?.departamento || "",
+        equipo: trabajador?.equipo || "",
         fechaAlta: formatFechaDatetimeLocal(trabajador?.fecha_alta),
         fechaBaja: formatFechaDatetimeLocal(trabajador?.fecha_baja)
     }), [trabajador]);
@@ -113,28 +113,57 @@ export default function ModificarTrabajador() {
     return (
         <Container fluid="md" className="trabajador">
             <h1 className="text-center mb-4">Modificación de Trabajadores</h1>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} enableReinitialize >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+                enableReinitialize
+            >
                 {({ errors, touched, isSubmitting, isValid }) => (
                     <Form as={BootstrapForm} className="p-4 border rounded shadow-sm bg-light">
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo nombre del trabajador *" name="nombre" type="text"
-                                    tooltip="Introduce el nuevo nombre y apellidos del trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nuevo nombre del trabajador *"
+                                    name="nombre"
+                                    type="text"
+                                    tooltip="Introduce el nuevo nombre y apellidos del trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva contraseña para el trabajador" name="contrasena" type="password"
-                                    tooltip="Introduce la nueva contraseña que tendrá el trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva contraseña para el trabajador"
+                                    name="contrasena"
+                                    type="password"
+                                    tooltip="Introduce la nueva contraseña que tendrá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo teléfono del trabajador *" name="telefono" type="tel"
-                                    tooltip="Introduce el nuevo número de teléfono del trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nuevo teléfono del trabajador *"
+                                    name="telefono"
+                                    type="tel"
+                                    tooltip="Introduce el nuevo número de teléfono del trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo puesto para el trabajador *" name="puesto" as="select"
-                                    tooltip="Selecciona el nuevo puesto que tendrá el trabajador" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Nuevo puesto para el trabajador *"
+                                    name="puesto"
+                                    as="select"
+                                    tooltip="Selecciona el nuevo puesto que tendrá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="administrador">Administrador/a</option>
                                     <option value="administrativo">Administrativo/a</option>
@@ -154,8 +183,14 @@ export default function ModificarTrabajador() {
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo departamento del trabajador *" name="departamento" as="select"
-                                    tooltip="Selecciona el nuevo departamento al que pertenecerá el trabajador" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Nuevo departamento del trabajador *"
+                                    name="departamento"
+                                    as="select"
+                                    tooltip="Selecciona el nuevo departamento al que pertenecerá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="administracion">Administración</option>
                                     <option value="comercial">Comercial</option>
@@ -166,8 +201,14 @@ export default function ModificarTrabajador() {
                                 </CamposFormulario>
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo equipo del trabajador" name="equipo" as="select"
-                                    tooltip="Selecciona el nuevo equipo al que pertenecerá el trabajador" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Nuevo equipo del trabajador"
+                                    name="equipo"
+                                    as="select"
+                                    tooltip="Selecciona el nuevo equipo al que pertenecerá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">-</option>
                                     {coordinadores.map(coord => (
                                         <option key={coord.id_trabajador} value={coord.nombre}>
@@ -180,20 +221,38 @@ export default function ModificarTrabajador() {
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva fecha de alta *" name="fechaAlta" type="datetime-local"
-                                    tooltip="Introduce la nueva fecha de alta del trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva fecha de alta *"
+                                    name="fechaAlta"
+                                    type="datetime-local"
+                                    tooltip="Introduce la nueva fecha de alta del trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva fecha de baja" name="fechaBaja" type="datetime-local"
-                                    tooltip="Introduce la nueva fecha de baja del trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva fecha de baja"
+                                    name="fechaBaja"
+                                    type="datetime-local"
+                                    tooltip="Introduce la nueva fecha de baja del trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <div className="d-flex justify-content-center gap-5 mt-4">
-                            <Button type="submit" disabled={isSubmitting || !isValid}>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting || !isValid}
+                            >
                                 {isSubmitting ? "Modificando..." : "⚠️ Modificar"}
                             </Button>
-                            <Button variant="danger" onClick={onDelete}>
+                            <Button
+                                variant="danger"
+                                onClick={onDelete}
+                            >
                                 ❌ Eliminar
                             </Button>
                         </div>

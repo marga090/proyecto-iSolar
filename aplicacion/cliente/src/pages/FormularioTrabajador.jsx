@@ -18,11 +18,11 @@ export default function FormularioTrabajador() {
     const [coordinadores, setCoordinadores] = useState([]);
 
     const initialValues = useMemo(() => ({
-        nombre: "", 
-        contrasena: "", 
-        telefono: "", 
-        puesto: "", 
-        departamento: "", 
+        nombre: "",
+        contrasena: "",
+        telefono: "",
+        puesto: "",
+        departamento: "",
         equipo: "",
     }), []);
 
@@ -69,28 +69,58 @@ export default function FormularioTrabajador() {
     return (
         <Container fluid="md" className="trabajador">
             <h1 className="text-center mb-4">Registro de Trabajadores</h1>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
                 {({ errors, touched, isSubmitting, isValid }) => (
                     <Form as={BootstrapForm} className="p-4 border rounded shadow-sm bg-light">
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nombre completo del trabajador *" name="nombre" type="text" placeholder="Ej: Carlos Martínez Gómez"
-                                    tooltip="Introduce el nombre y apellidos del trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nombre completo del trabajador *"
+                                    name="nombre"
+                                    type="text"
+                                    placeholder="Ej: Carlos Martínez Gómez"
+                                    tooltip="Introduce el nombre y apellidos del trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Contraseña para el trabajador *" name="contrasena" type="text"
-                                    tooltip="Introduce la contraseña que tendrá el trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Contraseña para el trabajador *"
+                                    name="contrasena"
+                                    type="text"
+                                    tooltip="Introduce la contraseña que tendrá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Teléfono del trabajador *" name="telefono" type="tel" placeholder="Ej: 600000000"
-                                    tooltip="Introduce el número de teléfono del trabajador (9 dígitos)" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Teléfono del trabajador *"
+                                    name="telefono"
+                                    type="tel"
+                                    placeholder="Ej: 600000000"
+                                    tooltip="Introduce el número de teléfono del trabajador (9 dígitos)"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Puesto del trabajador *" name="puesto" as="select"
-                                    tooltip="Selecciona el puesto que tendrá el trabajador" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Puesto del trabajador *"
+                                    name="puesto"
+                                    as="select"
+                                    tooltip="Selecciona el puesto que tendrá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="administrador">Administrador/a</option>
                                     <option value="administrativo">Administrativo/a</option>
@@ -110,8 +140,14 @@ export default function FormularioTrabajador() {
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Departamento del trabajador *" name="departamento" as="select"
-                                    tooltip="Selecciona el departamento al que pertenecerá el trabajador" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Departamento del trabajador *"
+                                    name="departamento"
+                                    as="select"
+                                    tooltip="Selecciona el departamento al que pertenecerá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="administracion">Administración</option>
                                     <option value="comercial">Comercial</option>
@@ -122,8 +158,14 @@ export default function FormularioTrabajador() {
                                 </CamposFormulario>
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Equipo del trabajador" name="equipo" as="select"
-                                    tooltip="Selecciona el equipo al que pertenecerá el trabajador" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Equipo del trabajador"
+                                    name="equipo"
+                                    as="select"
+                                    tooltip="Selecciona el equipo al que pertenecerá el trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">-</option>
                                     {coordinadores.map(coord => (
                                         <option key={coord.id_trabajador} value={coord.nombre}>
@@ -135,7 +177,12 @@ export default function FormularioTrabajador() {
                         </Row>
 
                         <div className="d-flex justify-content-center">
-                            <Button type="submit" className="mt-3" disabled={isSubmitting || !isValid} aria-label="Registrar trabajador" >
+                            <Button
+                                type="submit"
+                                className="mt-3"
+                                disabled={isSubmitting || !isValid}
+                                aria-label="Registrar trabajador"
+                            >
                                 {isSubmitting ? "Enviando..." : "✅ Registrar"}
                             </Button>
                         </div>

@@ -98,22 +98,41 @@ export default function FormularioFeedback() {
 	return (
 		<Container fluid="md" className="feedback">
 			<h1 className="text-center mb-4">Registro de Feedbacks</h1>
-			<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} enableReinitialize>
+			<Formik
+				initialValues={initialValues}
+				validationSchema={validationSchema}
+				onSubmit={onSubmit}
+				enableReinitialize
+			>
 				{({ errors, touched, isSubmitting, setFieldValue, values, isValid }) => (
 					<Form as={BootstrapForm} className="p-4 border rounded shadow-sm bg-light" noValidate>
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="ID de Trabajador *" name="idTrabajador" type="number" placeholder="Ej: 5" disabled={true}
-									tooltip="Tu código de trabajador" errors={errors} touched={touched} />
+								<CamposFormulario
+									label="ID de Trabajador *"
+									name="idTrabajador"
+									type="number"
+									placeholder="Ej: 5"
+									errors={errors}
+									touched={touched}
+									tooltip="Tu código de trabajador"
+									disabled
+								/>
 							</Col>
 							<Col xs={12} md={6}>
 								<BootstrapForm.Group>
 									<BootstrapForm.Label>ID del Cliente *</BootstrapForm.Label>
-									<Field name="idCliente" type="number" className={`form-control ${errors.idCliente && touched.idCliente ? "is-invalid" : ""}`} placeholder="Ej: 2" onChange={(e) => {
-										const idCliente = e.target.value;
-										setFieldValue("idCliente", idCliente);
-										obtenerCliente(idCliente, setFieldValue);
-									}} />
+									<Field
+										name="idCliente"
+										type="number"
+										className={`form-control ${errors.idCliente && touched.idCliente ? "is-invalid" : ""}`}
+										placeholder="Ej: 2"
+										onChange={(e) => {
+											const idCliente = e.target.value;
+											setFieldValue("idCliente", idCliente);
+											obtenerCliente(idCliente, setFieldValue);
+										}}
+									/>
 									<ErrorMessage name="idCliente" component="div" className="text-danger" />
 								</BootstrapForm.Group>
 							</Col>
@@ -121,59 +140,143 @@ export default function FormularioFeedback() {
 
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Nombre completo del cliente" name="nombre" disabled value={values.nombre} errors={errors} touched={touched} />
+								<CamposFormulario
+									label="Nombre completo del cliente"
+									name="nombre"
+									value={values.nombre}
+									errors={errors}
+									touched={touched}
+									disabled
+								/>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Teléfono del cliente" name="telefono" disabled value={values.telefono} errors={errors} touched={touched} />
-							</Col>
-						</Row>
-
-						<Row className="mb-3">
-							<Col xs={12} md={6}>
-								<CamposFormulario label="Correo del cliente" name="correo" disabled value={values.correo} errors={errors} touched={touched} />
-							</Col>
-							<Col xs={12} md={6}>
-								<CamposFormulario label="Dirección del cliente" name="direccion" disabled value={values.direccion} errors={errors} touched={touched} />
-							</Col>
-						</Row>
-
-						<Row className="mb-3">
-							<Col xs={12} md={6}>
-								<CamposFormulario label="Localidad del cliente" name="localidad" disabled value={values.localidad} errors={errors} touched={touched} />
-							</Col>
-							<Col xs={12} md={6}>
-								<CamposFormulario label="Provincia del cliente" name="provincia" disabled value={values.provincia} errors={errors} touched={touched} />
+								<CamposFormulario
+									label="Teléfono del cliente"
+									name="telefono"
+									value={values.telefono}
+									errors={errors}
+									touched={touched}
+									disabled
+								/>
 							</Col>
 						</Row>
 
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Fecha de la visita *" name="fecha" type="date" errors={errors} touched={touched} />
+								<CamposFormulario
+									label="Correo del cliente"
+									name="correo"
+									value={values.correo}
+									errors={errors}
+									touched={touched}
+									disabled
+								/>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Hora de la visita *" name="hora" type="time" errors={errors} touched={touched} />
+								<CamposFormulario
+									label="Dirección del cliente"
+									name="direccion"
+									value={values.direccion}
+									errors={errors}
+									touched={touched}
+									disabled
+								/>
 							</Col>
 						</Row>
 
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Número de personas" name="numeroPersonas" type="number" placeholder="Ej: 4" errors={errors} touched={touched} tooltip="Introduce el número de personas que hay en la vivienda" />
+								<CamposFormulario
+									label="Localidad del cliente"
+									name="localidad"
+									value={values.localidad}
+									errors={errors}
+									touched={touched}
+									disabled
+								/>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Número de decisores *" name="numeroDecisores" type="number" placeholder="Ej: 2" errors={errors} touched={touched} tooltip="Introduce el número de decisores en la vivienda" />
+								<CamposFormulario
+									label="Provincia del cliente"
+									name="provincia"
+									value={values.provincia}
+									errors={errors}
+									touched={touched}
+									disabled
+								/>
 							</Col>
 						</Row>
 
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="¿Tiene bombona?" name="tieneBombona" as="select" tooltip="Selecciona si el cliente tiene bombona" errors={errors} touched={touched} >
+								<CamposFormulario
+									label="Fecha de la visita *"
+									name="fecha"
+									type="date"
+									errors={errors}
+									touched={touched}
+								/>
+							</Col>
+							<Col xs={12} md={6}>
+								<CamposFormulario
+									label="Hora de la visita *"
+									name="hora"
+									type="time"
+									errors={errors}
+									touched={touched}
+								/>
+							</Col>
+						</Row>
+
+						<Row className="mb-3">
+							<Col xs={12} md={6}>
+								<CamposFormulario
+									label="Número de personas"
+									name="numeroPersonas"
+									type="number"
+									placeholder="Ej: 4"
+									errors={errors}
+									touched={touched}
+									tooltip="Introduce el número de personas que hay en la vivienda"
+								/>
+							</Col>
+							<Col xs={12} md={6}>
+								<CamposFormulario
+									label="Número de decisores *"
+									name="numeroDecisores"
+									type="number"
+									placeholder="Ej: 2"
+									errors={errors}
+									touched={touched}
+									tooltip="Introduce el número de decisores en la vivienda"
+								/>
+							</Col>
+						</Row>
+
+						<Row className="mb-3">
+							<Col xs={12} md={6}>
+								<CamposFormulario
+									label="¿Tiene bombona?"
+									name="tieneBombona"
+									as="select"
+									errors={errors}
+									touched={touched}
+									tooltip="Selecciona si el cliente tiene bombona"
+								>
 									<option value="sin_datos">Sin datos</option>
 									<option value="no">No</option>
 									<option value="si">Si</option>
 								</CamposFormulario>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="¿Tiene gas?" name="tieneGas" as="select" tooltip="Selecciona si el cliente tiene gas" errors={errors} touched={touched} >
+								<CamposFormulario
+									label="¿Tiene gas?"
+									name="tieneGas"
+									as="select"
+									errors={errors}
+									touched={touched}
+									tooltip="Selecciona si el cliente tiene gas"
+								>
 									<option value="sin_datos">Sin datos</option>
 									<option value="no">No</option>
 									<option value="si">Si</option>
@@ -183,14 +286,28 @@ export default function FormularioFeedback() {
 
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="¿Tiene termo?" name="tieneTermo" as="select" tooltip="Selecciona si el cliente tiene termo" errors={errors} touched={touched} >
+								<CamposFormulario
+									label="¿Tiene termo?"
+									name="tieneTermo"
+									as="select"
+									errors={errors}
+									touched={touched}
+									tooltip="Selecciona si el cliente tiene termo"
+								>
 									<option value="sin_datos">Sin datos</option>
 									<option value="no">No</option>
 									<option value="si">Si</option>
 								</CamposFormulario>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="¿Tiene placas?" name="tienePlacas" as="select" tooltip="Selecciona si el cliente tiene placas" errors={errors} touched={touched} >
+								<CamposFormulario
+									label="¿Tiene placas?"
+									name="tienePlacas"
+									as="select"
+									errors={errors}
+									touched={touched}
+									tooltip="Selecciona si el cliente tiene placas"
+								>
 									<option value="sin_datos">Sin datos</option>
 									<option value="no">No</option>
 									<option value="si">Si</option>
@@ -200,20 +317,49 @@ export default function FormularioFeedback() {
 
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Importe luz (€)" name="importeLuz" type="number" placeholder="Ej: 30,99" errors={errors} touched={touched} tooltip="Introduce el importe de luz de la última factura del cliente" />
+								<CamposFormulario
+									label="Importe luz (€)"
+									name="importeLuz"
+									type="number"
+									placeholder="Ej: 30,99"
+									errors={errors}
+									touched={touched}
+									tooltip="Introduce el importe de luz de la última factura del cliente"
+								/>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Importe gas (€)" name="importeGas" type="number" placeholder="Ej: 20,99" errors={errors} touched={touched} tooltip="Introduce el importe de gas de la última factura del cliente" />
+								<CamposFormulario
+									label="Importe gas (€)"
+									name="importeGas"
+									type="number"
+									placeholder="Ej: 20,99"
+									errors={errors}
+									touched={touched}
+									tooltip="Introduce el importe de gas de la última factura del cliente"
+								/>
 							</Col>
 						</Row>
 
-
 						<Row className="mb-3">
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Oferta" name="oferta" type="text" errors={errors} touched={touched} />
+								<CamposFormulario
+									label="Oferta"
+									name="oferta"
+									type="text"
+									errors={errors}
+									touched={touched}
+									tooltip="Introduce la oferta que se le ha ofrecido al cliente"
+								/>
 							</Col>
 							<Col xs={12} md={6}>
-								<CamposFormulario label="Resultado *" name="resultado" as="select" tooltip="Selecciona cuál ha sido el resultado del feedback" errors={errors} touched={touched} >
+								<CamposFormulario
+									label="Resultado *"
+									name="resultado"
+									as="select"
+									errors={errors}
+									touched={touched}
+									tooltip="Selecciona cuál ha sido el resultado del feedback"
+								>
 									<option value="">Selecciona una opción</option>
 									<option value="firmada_no_financiable">Firmada y no financiable</option>
 									<option value="no_visita">No ha habido visita</option>
@@ -227,12 +373,25 @@ export default function FormularioFeedback() {
 
 						<Row className="mb-3">
 							<Col xs={12}>
-								<CamposFormulario label="Observaciones" name="observaciones" as="textarea" rows="3" errors={errors} touched={touched} />
+								<CamposFormulario
+									label="Observaciones"
+									name="observaciones"
+									as="textarea"
+									rows="3"
+									errors={errors}
+									touched={touched}
+									tooltip="Introducela alguna observación si la hay"
+								/>
 							</Col>
 						</Row>
 
 						<div className="d-flex justify-content-center">
-							<Button type="submit" className="mt-3" disabled={isSubmitting || !isValid} aria-label="Registrar feedback" >
+							<Button
+								type="submit"
+								className="mt-3"
+								disabled={isSubmitting || !isValid}
+								aria-label="Registrar feedback"
+							>
 								{isSubmitting ? "Enviando..." : "✅ Registrar"}
 							</Button>
 						</div>

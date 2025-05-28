@@ -49,20 +49,46 @@ export default function Inicio() {
     return (
         <Container fluid="md" className="inicioSesion">
             <h1 className="text-center mb-4">Inicio de Sesión</h1>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+            >
                 {({ isSubmitting, errors, touched, isValid }) => (
                     <Form as={BootstrapForm} className="p-4 border rounded shadow-sm bg-light">
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="ID de trabajador *" name="idTrabajador" type="number" placeholder="Ej: 5" tooltip="Introduce tu código único de trabajador" errors={errors} touched={touched} autoComplete="username" />
+                                <CamposFormulario
+                                    label="ID de trabajador *"
+                                    name="idTrabajador"
+                                    type="number"
+                                    placeholder="Ej: 5"
+                                    tooltip="Introduce tu código único de trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                    autoComplete="username"
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Contraseña *" name="contrasena" type="password" tooltip="Introduce tu contraseña" errors={errors} touched={touched} autoComplete="current-password" />
+                                <CamposFormulario
+                                    label="Contraseña *"
+                                    name="contrasena"
+                                    type="password"
+                                    tooltip="Introduce tu contraseña"
+                                    errors={errors}
+                                    touched={touched}
+                                    autoComplete="current-password"
+                                />
                             </Col>
                         </Row>
 
                         <div className="d-flex justify-content-center">
-                            <Button type="submit" className="mt-3" disabled={isSubmitting || !isValid} aria-label="Botón de inicio de sesión" >
+                            <Button
+                                type="submit"
+                                className="mt-3"
+                                disabled={isSubmitting || !isValid}
+                                aria-label="Botón de inicio de sesión"
+                            >
                                 {isSubmitting ? "Iniciando sesión..." : "Iniciar Sesión"}
                             </Button>
                         </div>

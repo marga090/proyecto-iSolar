@@ -99,44 +99,93 @@ export default function FormularioModificarCliente() {
     return (
         <Container fluid="md" className="cliente">
             <h1 className="text-center mb-4">Modificación de Clientes</h1>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} enableReinitialize >
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+                enableReinitialize
+            >
                 {({ errors, touched, isSubmitting, isValid }) => (
                     <Form as={BootstrapForm} className="p-4 border rounded shadow-sm bg-light">
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo nombre del cliente *" name="nombre" type="text"
-                                    tooltip="Introduce el nuevo nombre y apellidos del cliente" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nuevo nombre del cliente *"
+                                    name="nombre"
+                                    type="text"
+                                    tooltip="Introduce el nuevo nombre y apellidos del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva dirección del cliente *" name="direccion" type="text"
-                                    tooltip="Introduce la nueva dirección del cliente" errors={errors} touched={touched} />
-                            </Col>
-                        </Row>
-
-                        <Row className="mb-3">
-                            <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva localidad del cliente *" name="localidad" type="text"
-                                    tooltip="Introduce la nueva localidad o municipio del cliente" errors={errors} touched={touched} />
-                            </Col>
-                            <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva provincia del cliente *" name="provincia" type="text"
-                                    tooltip="Introduce la nueva provincia del cliente" errors={errors} touched={touched} />
-                            </Col>
-                        </Row>
-
-                        <Row className="mb-3">
-                            <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo teléfono del cliente *" name="telefono" type="tel"
-                                    tooltip="Introduce el nuevo número de teléfono del cliente" errors={errors} touched={touched} />
-                            </Col>
-                            <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo correo del cliente *" name="correo" type="email" tooltip="Introduce el nuevo correo electrónico del cliente" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva dirección del cliente *"
+                                    name="direccion"
+                                    type="text"
+                                    tooltip="Introduce la nueva dirección del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nuevo modo de captación *" name="modoCaptacion" as="select" tooltip="Selecciona la nueva forma de captación del cliente" errors={errors} touched={touched} >
+                                <CamposFormulario
+                                    label="Nueva localidad del cliente *"
+                                    name="localidad"
+                                    type="text"
+                                    tooltip="Introduce la nueva localidad o municipio del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <CamposFormulario
+                                    label="Nueva provincia del cliente *"
+                                    name="provincia"
+                                    type="text"
+                                    tooltip="Introduce la nueva provincia del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
+                            </Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Col xs={12} md={6}>
+                                <CamposFormulario
+                                    label="Nuevo teléfono del cliente *"
+                                    name="telefono"
+                                    type="tel"
+                                    tooltip="Introduce el nuevo número de teléfono del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
+                            </Col>
+                            <Col xs={12} md={6}>
+                                <CamposFormulario
+                                    label="Nuevo correo del cliente *"
+                                    name="correo"
+                                    type="email"
+                                    tooltip="Introduce el nuevo correo electrónico del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
+                            </Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                            <Col xs={12} md={6}>
+                                <CamposFormulario
+                                    label="Nuevo modo de captación *"
+                                    name="modoCaptacion"
+                                    as="select"
+                                    tooltip="Selecciona la nueva forma de captación del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="propia">Captación propia</option>
                                     <option value="captador">Captador</option>
@@ -145,22 +194,41 @@ export default function FormularioModificarCliente() {
                                 </CamposFormulario>
                             </Col>
                             <Col xs={12} md={6}>
-                                <CamposFormulario label="Nueva fecha de alta *" name="fechaAlta" type="datetime-local"
-                                    tooltip="Introduce la nueva fecha de alta del cliente" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva fecha de alta *"
+                                    name="fechaAlta"
+                                    type="datetime-local"
+                                    tooltip="Introduce la nueva fecha de alta del cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col>
-                                <CamposFormulario label="Nuevas observaciones" name="observaciones" as="textarea" tooltip="Añade cualquier nueva información adicional relevante sobre el cliente" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nuevas observaciones"
+                                    name="observaciones"
+                                    as="textarea"
+                                    tooltip="Añade cualquier nueva información adicional relevante sobre el cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <div className="d-flex justify-content-center gap-5 mt-4">
-                            <Button type="submit" disabled={isSubmitting || !isValid}>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting || !isValid}
+                            >
                                 {isSubmitting ? "Modificando..." : "⚠️ Modificar"}
                             </Button>
-                            <Button variant="danger" onClick={onDelete}>
+                            <Button
+                                variant="danger"
+                                onClick={onDelete}
+                            >
                                 ❌ Eliminar
                             </Button>
                         </div>

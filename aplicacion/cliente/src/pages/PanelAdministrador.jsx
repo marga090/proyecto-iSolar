@@ -33,7 +33,7 @@ export default function PanelAdministrador() {
                 onClick={() => navigate(`/administradores/modificarTrabajador/${row.original.id_trabajador}`)}
                 aria-label={`Modificar trabajador ${row.original.nombre}`}
             >
-                ✏️ Modificar 
+                ✏️ Modificar
             </Button>
         ),
         [navigate]
@@ -73,7 +73,12 @@ export default function PanelAdministrador() {
                     { path: "/coordinadores", label: "Panel Ruta 🗓️" },
                 ].map(({ path, label }) => (
                     <Col key={path} xs={12} sm={6} md={3} lg={3} className="d-flex justify-content-center">
-                        <Button as={Link} to={path} variant="primary" className="boton-menu">
+                        <Button
+                            as={Link}
+                            to={path}
+                            variant="primary"
+                            className="boton-menu"
+                        >
                             {label}
                         </Button>
                     </Col>
@@ -87,7 +92,12 @@ export default function PanelAdministrador() {
                 ]
                     .map(({ path, label }) => (
                         <Col key={path} xs={12} sm={6} md={3} lg={3} className="d-flex justify-content-center">
-                            <Button as={Link} to={path} variant="primary" className="boton-menu">
+                            <Button
+                                as={Link}
+                                to={path}
+                                variant="primary"
+                                className="boton-menu"
+                            >
                                 {label}
                             </Button>
                         </Col>

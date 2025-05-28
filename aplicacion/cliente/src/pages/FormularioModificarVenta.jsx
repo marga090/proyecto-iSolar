@@ -109,28 +109,57 @@ export default function ModificarVenta() {
     return (
         <Container className="venta">
             <h1 className="text-center mb-4">Modificación de Ventas</h1>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} enableReinitialize>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+                enableReinitialize
+            >
                 {({ errors, touched, isSubmitting, isValid }) => (
                     <Form as={BootstrapForm} className="p-4 border rounded bg-light">
                         <Row className="mb-3">
                             <Col md={6}>
-                                <CamposFormulario label="Nuevo ID del trabajador *" name="id_trabajador" type="number"
-                                    tooltip="Introduce el nuevo id de trabajador" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nuevo ID del trabajador *"
+                                    name="id_trabajador"
+                                    type="number"
+                                    tooltip="Introduce el nuevo id de trabajador"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col md={6}>
-                                <CamposFormulario label="Nuevo ID del cliente *" name="id_cliente" type="number"
-                                    tooltip="Introduce el nuevo id de cliente" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nuevo ID del cliente *"
+                                    name="id_cliente"
+                                    type="number"
+                                    tooltip="Introduce el nuevo id de cliente"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col md={6}>
-                                <CamposFormulario label="Nueva fecha de firma *" name="fecha_firma" type="date"
-                                    tooltip="Introduce la nueva fecha de firma" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva fecha de firma *"
+                                    name="fecha_firma"
+                                    type="date"
+                                    tooltip="Introduce la nueva fecha de firma"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                             <Col md={6}>
-                                <CamposFormulario label="Nueva forma de pago *" name="forma_pago" as="select"
-                                    tooltip="Selecciona la nueva forma de pago" errors={errors} touched={touched}>
+                                <CamposFormulario
+                                    label="Nueva forma de pago *"
+                                    name="forma_pago"
+                                    as="select"
+                                    tooltip="Selecciona la nueva forma de pago"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="financiado">Financiado</option>
                                     <option value="transferencia">Transferencia</option>
@@ -141,8 +170,14 @@ export default function ModificarVenta() {
 
                         <Row className="mb-3">
                             <Col md={6}>
-                                <CamposFormulario label="Nuevo certificado energético *" name="certificado_energetico" as="select"
-                                    tooltip="Selecciona el nuevo certificado energético" errors={errors} touched={touched}>
+                                <CamposFormulario
+                                    label="Nuevo certificado energético *"
+                                    name="certificado_energetico"
+                                    as="select"
+                                    tooltip="Selecciona el nuevo certificado energético"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="en_cuotas">En cuotas</option>
                                     <option value="no">No</option>
@@ -150,8 +185,14 @@ export default function ModificarVenta() {
                                 </CamposFormulario>
                             </Col>
                             <Col md={6}>
-                                <CamposFormulario label="¿Gestión de subvención? *" name="gestion_subvencion" as="select"
-                                    tooltip="Selecciona si existe gestión de subvención" errors={errors} touched={touched}>
+                                <CamposFormulario
+                                    label="¿Gestión de subvención? *"
+                                    name="gestion_subvencion"
+                                    as="select"
+                                    tooltip="Selecciona si existe gestión de subvención"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="no">No</option>
                                     <option value="si">Sí</option>
@@ -161,23 +202,41 @@ export default function ModificarVenta() {
 
                         <Row className="mb-3">
                             <Col md={6}>
-                                <CamposFormulario label="¿Gestión de legalización? *" name="gestion_legalizacion" as="select"
-                                    tooltip="Selecciona si existe gestión de legalización" errors={errors} touched={touched}>
+                                <CamposFormulario
+                                    label="¿Gestión de legalización? *"
+                                    name="gestion_legalizacion"
+                                    as="select"
+                                    tooltip="Selecciona si existe gestión de legalización"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="no">No</option>
                                     <option value="si">Sí</option>
                                 </CamposFormulario>
                             </Col>
                             <Col md={6}>
-                                <CamposFormulario label="Nueva fecha de legalización *" name="fecha_legalizacion" type="date"
-                                    tooltip="Introduce la nueva fecha de legalización" errors={errors} touched={touched} />
+                                <CamposFormulario
+                                    label="Nueva fecha de legalización *"
+                                    name="fecha_legalizacion"
+                                    type="date"
+                                    tooltip="Introduce la nueva fecha de legalización"
+                                    errors={errors}
+                                    touched={touched}
+                                />
                             </Col>
                         </Row>
 
                         <Row className="mb-3">
                             <Col md={12}>
-                                <CamposFormulario label="Nuevo estado de la venta *" name="estado_venta" as="select"
-                                    tooltip="Selecciona el nuevo estado de la venta" errors={errors} touched={touched}>
+                                <CamposFormulario
+                                    label="Nuevo estado de la venta *"
+                                    name="estado_venta"
+                                    as="select"
+                                    tooltip="Selecciona el nuevo estado de la venta"
+                                    errors={errors}
+                                    touched={touched}
+                                >
                                     <option value="">Selecciona una opción</option>
                                     <option value="instalada">Instalada</option>
                                     <option value="caida">Caída</option>
@@ -186,10 +245,16 @@ export default function ModificarVenta() {
                         </Row>
 
                         <div className="d-flex justify-content-center gap-5 mt-4">
-                            <Button type="submit" disabled={isSubmitting || !isValid}>
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting || !isValid}
+                            >
                                 {isSubmitting ? "Modificando..." : "⚠️ Modificar"}
                             </Button>
-                            <Button variant="danger" onClick={onDelete}>
+                            <Button
+                                variant="danger"
+                                onClick={onDelete}
+                            >
                                 ❌ Eliminar
                             </Button>
                         </div>
