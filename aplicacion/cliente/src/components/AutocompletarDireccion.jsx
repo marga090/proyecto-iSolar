@@ -51,7 +51,7 @@ const AutocompletarDireccion = ({
 
     return (
         <div ref={containerRef} style={{ position: 'relative' }}>
-            <Form.Group className="mb-3">
+            <Form.Group className>
                 <Form.Label>{label}</Form.Label>
                 <Form.Control
                     type="text"
