@@ -115,7 +115,7 @@ const EventoModal = ({ show, onHide, evento, onGuardar, onEliminar, trabajadores
                                         });
                                     }}
                                     >
-                                        <i className="bi bi-trash me-1"></i> ❌ Eliminar
+                                        ❌ Eliminar
                                     </Button>
                                 )}
                             </div>

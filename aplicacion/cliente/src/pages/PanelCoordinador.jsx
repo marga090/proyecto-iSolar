@@ -201,7 +201,6 @@ export default function PanelCoordinador() {
                     <Row className="align-items-center">
                         <Col>
                             <h4 className="mb-0 d-flex align-items-center">
-                                <i className="bi bi-calendar-week me-2 fs-3"></i>
                                 🗓️ Agenda
                             </h4>
                         </Col>
@@ -220,7 +219,7 @@ export default function PanelCoordinador() {
                                 setModoEdicion(false);
                                 setMostrarModal(true);
                             }}>
-                                <i className="bi bi-plus-circle me-1"></i> Nuevo Evento 📝
+                                Nuevo Evento 📝
                             </Button>
                         </Col>
                     </Row>
