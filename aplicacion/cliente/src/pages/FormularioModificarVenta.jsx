@@ -41,7 +41,7 @@ export default function ModificarVenta() {
         gestion_subvencion: venta?.gestion_subvencion || "",
         gestion_legalizacion: venta?.gestion_legalizacion || "",
         fecha_legalizacion: venta?.fecha_legalizacion ? dayjs(venta.fecha_legalizacion).format("YYYY-MM-DD") : "",
-        estado_venta: venta?.estado_venta || ""
+        estado: venta?.estado || ""
     }), [venta]);
 
     const validationSchema = Yup.object({
@@ -56,7 +56,7 @@ export default function ModificarVenta() {
             is: "si",
             then: schema => schema.required("Este campo es obligatorio")
         }),
-        estado_venta: Yup.string().required("Este campo es obligatorio"),
+        estado: Yup.string().required("Este campo es obligatorio"),
     });
 
     const onSubmit = useCallback(async (values, { setSubmitting }) => {
@@ -231,7 +231,7 @@ export default function ModificarVenta() {
                             <Col md={12}>
                                 <CamposFormulario
                                     label="Nuevo estado de la venta *"
-                                    name="estado_venta"
+                                    name="estado"
                                     as="select"
                                     tooltip="Selecciona el nuevo estado de la venta"
                                     errors={errors}

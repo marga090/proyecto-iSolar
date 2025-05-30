@@ -60,7 +60,7 @@ export const crear = async (feedback) => {
             const idDomicilio = resultadoDomicilio.id_domicilio;
 
             const resultadoInserccionVivienda = await query(
-                "INSERT INTO vivienda (n_personas, n_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_domicilio) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO vivienda (numero_personas, numero_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_domicilio) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 [
                     numeroPersonas,
                     numeroDecisores,
@@ -83,7 +83,7 @@ export const crear = async (feedback) => {
         );
 
         const resultadoVisita = await query(
-            "INSERT INTO visita (fecha, hora, resultado, oferta, observaciones_visita, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO visita (fecha, hora, resultado, oferta, observaciones, id_vivienda, id_trabajador) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [fecha, hora, resultado, oferta, observaciones, idVivienda, idTrabajador]
         );
 

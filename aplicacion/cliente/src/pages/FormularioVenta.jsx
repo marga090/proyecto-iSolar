@@ -24,7 +24,7 @@ export default function FormularioVenta() {
         gestion_subvencion: '',
         gestion_legalizacion: '',
         fecha_legalizacion: '',
-        estado_venta: 'pendiente',
+        estado: 'pendiente',
     }), []);
 
     const validationSchema = Yup.object({
@@ -39,7 +39,7 @@ export default function FormularioVenta() {
             is: "si",
             then: schema => schema.required("Este campo es obligatorio")
         }),
-        estado_venta: Yup.string().oneOf(['caida', 'instalada', 'pendiente']).required('Este campo es obligatorio'),
+        estado: Yup.string().oneOf(['caida', 'instalada', 'pendiente']).required('Este campo es obligatorio'),
     });
 
     const onSubmit = useCallback(async (values, { setSubmitting, resetForm }) => {
@@ -189,7 +189,7 @@ export default function FormularioVenta() {
                             <Col md={12}>
                                 <CamposFormulario
                                     label="Estado de la venta *"
-                                    name="estado_venta"
+                                    name="estado"
                                     as="select"
                                     tooltip="Selecciona el estado de la venta"
                                     errors={errors}

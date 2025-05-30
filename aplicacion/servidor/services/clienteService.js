@@ -46,7 +46,7 @@ export const crear = async (cliente) => {
                 telefono, 
                 correo, 
                 modo_captacion, 
-                observaciones_cliente
+                observaciones
             ) VALUES (?, ?, ?, ?, ?)
         `;
 
@@ -92,7 +92,7 @@ export const obtenerPorId = async (idCliente) => {
             d.direccion, 
             d.localidad, 
             d.provincia,
-            v.estado_venta, 
+            v.estado, 
             v.id_trabajador, 
             v.fecha_firma, 
             v.forma_pago
@@ -155,7 +155,7 @@ export const actualizar = async (idCliente, cliente) => {
             dni = ?, 
             iban = ?, 
             modo_captacion = ?, 
-            observaciones_cliente = ?, 
+            observaciones = ?, 
             fecha_alta = ?
         WHERE id_cliente = ?
     `;

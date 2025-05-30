@@ -43,7 +43,7 @@ export default function InformacionVentas() {
         { accessorKey: "id_venta", header: "ID", size: 80 },
         { accessorKey: "nombre_trabajador", header: "TRABAJADOR", size: 220 },
         { accessorKey: "nombre_cliente", header: "CLIENTE", size: 220 },
-        { accessorKey: "estado_venta", header: "ESTADO", size: 130 },
+        { accessorKey: "estado", header: "ESTADO", size: 130 },
         { accessorKey: "fecha_firma", header: "FECHA FIRMA", size: 150, Cell: renderFecha },
         { accessorKey: "forma_pago", header: "FORMA PAGO", size: 150 },
         { accessorKey: "certificado_energetico", header: "CERTIFICADO\nENERGÉTICO", size: 180 },
@@ -88,7 +88,7 @@ export default function InformacionVentas() {
                 backgroundColor: {
                     "instalada": "#e6ffec",
                     "caida": "#ffe6e6",
-                }[row.original.estado_venta] || "transparent",
+                }[row.original.estado] || "transparent",
             },
         }),
         []

@@ -16,8 +16,8 @@ export const crear = async (agenda) => {
         INSERT INTO agenda (
             titulo,
             descripcion,
-            fecha_inicio_agenda,
-            fecha_fin_agenda,
+            fecha_inicio,
+            fecha_fin,
             id_trabajador,
             id_vivienda,
             estado,
@@ -86,8 +86,8 @@ export const actualizar = async (id, datosEvento) => {
         SET 
             titulo = ?,
             descripcion = ?,
-            fecha_inicio_agenda = ?,
-            fecha_fin_agenda = ?,
+            fecha_inicio = ?,
+            fecha_fin = ?,
             id_trabajador = ?,
             id_vivienda = ?,
             estado = ?

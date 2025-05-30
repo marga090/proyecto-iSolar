@@ -30,7 +30,7 @@ export default function FormularioModificarCliente() {
         dni: cliente?.dni || "",
         iban: cliente?.iban || "",
         modoCaptacion: cliente?.modo_captacion || "",
-        observaciones: cliente?.observaciones_cliente || "",
+        observaciones: cliente?.observaciones || "",
         fechaAlta: formatFechaDatetimeLocal(cliente?.fecha_alta),
         direccion: cliente?.direccion || "",
         localidad: cliente?.localidad || "",

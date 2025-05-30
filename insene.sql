@@ -23,7 +23,7 @@ CREATE TABLE cliente(
     dni CHAR(9) UNIQUE,
     iban VARCHAR(34),
     modo_captacion ENUM('captador', 'telemarketing', 'referido', 'propia'),
-    observaciones_cliente VARCHAR(500),
+    observaciones VARCHAR(500),
     fecha_alta DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -39,7 +39,7 @@ CREATE TABLE domicilio (
 
 CREATE TABLE financiacion(
 	id_financiacion INT PRIMARY KEY AUTO_INCREMENT,
-    importe_financiacion DECIMAL(10,2),
+    importe DECIMAL(10,2),
     financiera VARCHAR (100),
     numero_cuotas INT,
     importe_cuotas DECIMAL(10,2),
@@ -50,10 +50,10 @@ CREATE TABLE financiacion(
 
 CREATE TABLE subvencion(
 	id_subvencion INT PRIMARY KEY AUTO_INCREMENT,
-    fecha_subvencion DATE, 
-    n_habitaciones INT,
-    n_aires_acondicionados INT,
-    que_usa_ducha VARCHAR(30),
+    fecha DATE, 
+    numero_habitaciones INT,
+    numero_aires_acondicionados INT,
+    que_usa_para_ducha VARCHAR(30),
 	id_cliente INT,
     
     CONSTRAINT fk_subvencion_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE CASCADE
@@ -61,31 +61,30 @@ CREATE TABLE subvencion(
 
 CREATE TABLE vivienda (
     id_vivienda INT PRIMARY KEY AUTO_INCREMENT,
-    visitada ENUM ('no', 'si', 'sin_datos'),
-    n_personas INT,
-    n_decisores INT,
+    numero_personas INT,
+    numero_decisores INT,
     tiene_bombona ENUM('no', 'si', 'sin_datos'),
     tiene_gas ENUM('no', 'si', 'sin_datos'),
     tiene_termo_electrico ENUM('no', 'si', 'sin_datos'),
 	tiene_placas_termicas ENUM('no', 'si', 'sin_datos'),
-	id_domicilio INT,
     instalacion_placas ENUM('no', 'si', 'sin_datos'),
     estructura ENUM('bancada', 'coplanar', 'doble_triangulo', 'no', 'pergola', 'sinebloc30', 'triangulo'),
+	id_domicilio INT,
     
     CONSTRAINT fk_vivienda_id_domicilio FOREIGN KEY (id_domicilio) REFERENCES domicilio(id_domicilio) ON DELETE CASCADE
 );
 
 CREATE TABLE venta (
     id_venta INT PRIMARY KEY AUTO_INCREMENT,
-    id_trabajador INT NOT NULL,
-    id_cliente INT NOT NULL,
     fecha_firma DATE,
     forma_pago ENUM('financiado', 'transferencia', 'efectivo') NULL,
     certificado_energetico ENUM('en_cuotas', 'por_transferencia', 'no') NULL,
     gestion_subvencion ENUM('no', 'si') NULL,
     gestion_legalizacion ENUM('no', 'si') NULL,
     fecha_legalizacion DATE,
-    estado_venta ENUM('caida', 'instalada', 'pendiente') NOT NULL DEFAULT 'pendiente',
+    estado ENUM('caida', 'instalada', 'pendiente') NOT NULL DEFAULT 'pendiente',
+    id_trabajador INT NOT NULL,
+    id_cliente INT NOT NULL,
     
     CONSTRAINT fk_venta_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador),
     CONSTRAINT fk_venta_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
@@ -93,18 +92,18 @@ CREATE TABLE venta (
 
 CREATE TABLE instalacion (
     id_instalacion INT PRIMARY KEY AUTO_INCREMENT,
-    id_trabajador INT NOT NULL,
-    id_vivienda INT NOT NULL,
-    id_venta INT NOT NULL,
-    fecha_instalacion DATE,
-    n_placas INT NOT NULL,
+    fecha DATE,
+    numero_placas INT NOT NULL,
 	grua ENUM ('no', 'si'),
     importe_grua DECIMAL(10,2),
-    instalador_tipo ENUM('propio', 'subcontrata') NOT NULL,
-    instalacion_terminada ENUM ('no', 'si') NOT NULL,
+    tipo_instalador ENUM('propio', 'subcontrata') NOT NULL,
+    terminada ENUM ('no', 'si') NOT NULL,
     fecha_terminada DATE,
     otros_costes VARCHAR(100),
     observaciones VARCHAR(500),
+    id_trabajador INT NOT NULL,
+    id_vivienda INT NOT NULL,
+    id_venta INT NOT NULL,
     
     CONSTRAINT fk_instalacion_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador),
     CONSTRAINT fk_instalacion_id_vivienda FOREIGN KEY (id_vivienda) REFERENCES vivienda(id_vivienda),
@@ -116,11 +115,11 @@ CREATE TABLE visita (
 	fecha DATE NOT NULL,
     hora TIME NOT NULL,
     resultado ENUM ('visitado_pdte_contestacion', 'Visitado_no_hacen_nada', 'recitar', 'no_visita', 'firmada_no_financiable', 'venta'),
+    oferta VARCHAR(200),
+    observaciones VARCHAR(500),
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
 	id_vivienda INT,
     id_trabajador INT,
-    oferta VARCHAR(200),
-    observaciones_visita VARCHAR(500),
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     CONSTRAINT fk_visita_id_vivienda FOREIGN KEY (id_vivienda) REFERENCES vivienda(id_vivienda),
     CONSTRAINT fk_visita_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador)
@@ -128,9 +127,9 @@ CREATE TABLE visita (
 
 CREATE TABLE factura (
     id_factura INT PRIMARY KEY AUTO_INCREMENT,
-    numero_factura VARCHAR(50) NOT NULL UNIQUE,
-    fecha_factura DATE NOT NULL,
-    importe_factura DECIMAL(10,2) NOT NULL,
+    numero VARCHAR(50) NOT NULL UNIQUE,
+    fecha DATE NOT NULL,
+    importe DECIMAL(10,2) NOT NULL,
     id_venta INT NOT NULL,
     
     CONSTRAINT fk_factura_id_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE
@@ -147,22 +146,22 @@ CREATE TABLE recibo(
 
 CREATE TABLE producto (
     id_producto INT PRIMARY KEY AUTO_INCREMENT,
-    id_venta INT NOT NULL,
-    producto_principal VARCHAR(50) NOT NULL,
-    otro_producto VARCHAR(50),
+    principal VARCHAR(50) NOT NULL,
+    otro VARCHAR(50),
     modelo_placas VARCHAR(20) ,
     cuadro_electrico ENUM('l1', 'm1') ,
+    id_venta INT NOT NULL,
 
     CONSTRAINT fk_producto_id_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE
 );
 
 CREATE TABLE caida (
     id_caida INT PRIMARY KEY AUTO_INCREMENT,
-    id_venta INT NOT NULL,
-    motivo_caida ENUM('cliente_decide_no_instalar', 'no_financiable', 'no_se_puede_instalar', 'problemas_de_cobro') NOT NULL,
+    motivo ENUM('cliente_decide_no_instalar', 'no_financiable', 'no_se_puede_instalar', 'problemas_de_cobro') NOT NULL,
     tramitador_financiera VARCHAR(100),
     financiera VARCHAR(100),
     mes_firma VARCHAR (20),
+    id_venta INT NOT NULL,
 
     CONSTRAINT fk_informe_caida_id_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE
 );
@@ -171,22 +170,22 @@ CREATE TABLE agenda (
     id_agenda INT PRIMARY KEY AUTO_INCREMENT,
 	titulo VARCHAR(255),
 	descripcion VARCHAR(255),
-    fecha_inicio_agenda DATETIME NOT NULL,
-    fecha_fin_agenda DATETIME NOT NULL,
-    id_trabajador INT NOT NULL,
-    id_vivienda INT NOT NULL,
+    fecha_inicio DATETIME NOT NULL,
+    fecha_fin DATETIME NOT NULL,
     estado ENUM('cancelada', 'completada', 'pendiente') DEFAULT 'pendiente',
     fecha_asignacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_trabajador INT NOT NULL,
+    id_vivienda INT NOT NULL,
 
     CONSTRAINT fk_agenda_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador),
     CONSTRAINT fk_agenda_id_vivienda FOREIGN KEY (id_vivienda) REFERENCES vivienda(id_vivienda)
 );
 
 CREATE TABLE auditoria (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  id_trabajador INT,
-  descripcion VARCHAR(255) NOT NULL,
-  fecha DATETIME DEFAULT CURRENT_TIMESTAMP
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descripcion VARCHAR(255) NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_trabajador INT
 );
 
 -- INSERTS
@@ -216,7 +215,7 @@ INSERT INTO trabajador (nombre, contrasena, telefono, puesto, departamento, equi
 
 SELECT * FROM trabajador;
 
-INSERT INTO cliente (nombre, telefono, correo, dni, iban, modo_captacion, observaciones_cliente) VALUES
+INSERT INTO cliente (nombre, telefono, correo, dni, iban, modo_captacion, observaciones) VALUES
 ('Juan García Pardo', '600111111', 'juan@gmail.com', '12345678A', 'ES1234567890123456789012', 'captador', 'Cliente reciente'),
 ('Ana Rodríguez Alegre', '600111112', 'ana@gmail.com', '23456789B', 'ES2234567890123456789012', 'telemarketing', 'Cliente de larga data'),
 ('Luis Fernández Largo', '600111113', 'luis@gmail.com', '34567890C', 'ES3234567890123456789012', 'referido', 'Interés en productos energéticos'),
@@ -264,27 +263,27 @@ INSERT INTO domicilio (direccion, localidad, provincia, id_cliente) VALUES
 
 SELECT * FROM domicilio;
 
-INSERT INTO vivienda (visitada, n_personas, n_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_domicilio, instalacion_placas, estructura) VALUES
-('si', 3, 2, 'si', 'si', 'si', 'no', 1, 'si', 'coplanar'),
-('no', 4, 3, 'no', 'si', 'no', 'si', 2, 'no', 'triangulo'),
-('si', 2, 1, 'si', 'no', 'si', 'no', 3, 'si', 'pergola'),
-('no', 5, 4, 'no', 'si', 'si', 'si', 4, 'no', 'bancada'),
-('si', 6, 2, 'si', 'no', 'si', 'no', 5, 'si', 'doble_triangulo'),
-('no', 3, 2, 'no', 'si', 'no', 'no', 6, 'no', 'no'),
-('si', 2, 1, 'si', 'no', 'si', 'si', 7, 'si', 'sinebloc30'),
-('si', 4, 3, 'si', 'si', 'no', 'no', 8, 'no', 'coplanar'),
-('no', 5, 3, 'no', 'no', 'si', 'no', 9, 'no', 'triangulo'),
-('si', 3, 2, 'si', 'si', 'no', 'si', 10, 'si', 'pergola'),
-('si', 4, 2, 'no', 'si', 'si', 'no', 11, 'si', 'coplanar'),
-('no', 3, 1, 'si', 'no', 'no', 'no', 12, 'no', 'triangulo'),
-('si', 2, 2, 'no', 'si', 'si', 'si', 13, 'si', 'bancada'),
-('si', 5, 3, 'si', 'si', 'no', 'no', 14, 'no', 'doble_triangulo'),
-('no', 1, 1, 'no', 'no', 'si', 'no', 15, 'si', 'pergola'),
-('si', 6, 2, 'si', 'si', 'si', 'si', 16, 'si', 'sinebloc30'),
-('no', 3, 2, 'no', 'no', 'no', 'no', 17, 'no', 'coplanar'),
-('si', 4, 3, 'si', 'no', 'si', 'si', 18, 'si', 'triangulo'),
-('no', 2, 1, 'si', 'si', 'no', 'no', 19, 'no', 'no'),
-('si', 5, 4, 'no', 'si', 'si', 'no', 20, 'si', 'bancada');
+INSERT INTO vivienda (numero_personas, numero_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, instalacion_placas, estructura, id_domicilio) VALUES
+(3, 2, 'si', 'si', 'si', 'no', 'si', 'coplanar', 1),
+(4, 3, 'no', 'si', 'no', 'si', 'no', 'triangulo', 2),
+(2, 1, 'si', 'no', 'si', 'no', 'si', 'pergola', 3),
+(5, 4, 'no', 'si', 'si', 'si', 'no', 'bancada', 4),
+(6, 2, 'si', 'no', 'si', 'no', 'si', 'doble_triangulo', 5),
+(3, 2, 'no', 'si', 'no', 'no', 'no', 'no', 6),
+(2, 1, 'si', 'no', 'si', 'si', 'si', 'sinebloc30', 7),
+(4, 3, 'si', 'si', 'no', 'no', 'no', 'coplanar', 8),
+(5, 3, 'no', 'no', 'si', 'no', 'no', 'triangulo', 9),
+(3, 2, 'si', 'si', 'no', 'si', 'si', 'pergola', 10),
+(4, 2, 'no', 'si', 'si', 'no', 'si', 'coplanar', 11),
+(3, 1, 'si', 'no', 'no', 'no', 'no', 'triangulo', 12),
+(2, 2, 'no', 'si', 'si', 'si', 'si', 'bancada', 13),
+(5, 3, 'si', 'si', 'no', 'no', 'no', 'doble_triangulo', 14),
+(1, 1, 'no', 'no', 'si', 'no', 'si', 'pergola', 15),
+(6, 2, 'si', 'si', 'si', 'si', 'si', 'sinebloc30', 16),
+(3, 2, 'no', 'no', 'no', 'no', 'no', 'coplanar', 17),
+(4, 3, 'si', 'no', 'si', 'si', 'si', 'triangulo', 18),
+(2, 1, 'si', 'si', 'no', 'no', 'no', 'no', 19),
+(5, 4, 'no', 'si', 'si', 'no', 'si', 'bancada', 20);
 
 SELECT * FROM vivienda;
 
@@ -312,31 +311,31 @@ INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES
 
 SELECT * FROM recibo;
 
-INSERT INTO visita (fecha, hora, resultado, id_vivienda, id_trabajador, oferta, observaciones_visita) VALUES
-('2025-02-27', '10:00', 'visitado_pdte_contestacion', 1, 5, 'Solar', 'Cliente interesado en la instalación'),
-('2025-02-28', '11:00', 'no_visita', 2, 8, 'No disponible', 'No se pudo contactar al cliente'),
-('2025-03-01', '12:00', 'venta', 3, 16, 'Energía solar fotovoltaica', 'Contrato firmado y pago realizado'),
-('2025-03-02', '13:00', 'recitar', 4, 21, 'Luz solar y térmica', 'Cliente solicitó más información'),
-('2025-03-03', '14:00', 'Visitado_no_hacen_nada', 5, 5, 'Eficiencia energética', 'El cliente no mostró interés'),
-('2025-03-04', '15:00', 'firmada_no_financiable', 6, 8, 'Instalación con financiación', 'Cliente no aceptó la propuesta de financiación'),
-('2025-03-05', '16:00', 'visitado_pdte_contestacion', 7, 16, 'Placas solares', 'Esperando respuesta del cliente'),
-('2025-03-06', '17:00', 'venta', 8, 21, 'Energía renovable', 'Venta realizada, instalación programada'),
-('2025-03-07', '18:00', 'no_visita', 9, 5, 'No disponible', 'El cliente no estaba en casa'),
-('2025-03-08', '19:00', 'Visitado_no_hacen_nada', 10, 8, 'Sistemas térmicos', 'No hubo interés en la propuesta'),
-('2025-03-09', '10:30', 'venta', 11, 16, 'Solar + batería', 'Venta cerrada con sistema de almacenamiento'),
-('2025-03-10', '11:15', 'visitado_pdte_contestacion', 12, 21, 'Fotovoltaica básica', 'Cliente pidió tiempo para pensarlo'),
-('2025-03-11', '12:45', 'recitar', 13, 5, 'Placas térmicas', 'Solicita presupuesto detallado'),
-('2025-03-12', '13:30', 'Visitado_no_hacen_nada', 14, 8, 'Autoconsumo', 'Cliente sin interés real'),
-('2025-03-13', '14:00', 'firmada_no_financiable', 15, 16, 'Pack eficiencia energética', 'Ingreso insuficiente para financiación'),
-('2025-03-14', '15:20', 'no_visita', 16, 21, 'No disponible', 'Cliente ausente a la hora pactada'),
-('2025-03-15', '16:45', 'venta', 17, 5, 'Solar completa', 'Firma realizada con instalación urgente'),
-('2025-03-16', '17:30', 'visitado_pdte_contestacion', 18, 8, 'Kit solar compacto', 'Duda entre dos ofertas'),
-('2025-03-17', '18:10', 'no_visita', 19, 16, 'No disponible', 'Dirección errónea'),
-('2025-03-18', '19:00', 'venta', 20, 21, 'Pack solar + térmico', 'Firma realizada sin financiación');
+INSERT INTO visita (fecha, hora, resultado, oferta, observaciones, id_vivienda, id_trabajador) VALUES
+('2025-02-27', '10:00', 'visitado_pdte_contestacion', 'Solar', 'Cliente interesado en la instalación', 1, 5),
+('2025-02-28', '11:00', 'no_visita', 'No disponible', 'No se pudo contactar al cliente', 2, 8),
+('2025-03-01', '12:00', 'venta', 'Energía solar fotovoltaica', 'Contrato firmado y pago realizado', 3, 16),
+('2025-03-02', '13:00', 'recitar', 'Luz solar y térmica', 'Cliente solicitó más información', 4, 21),
+('2025-03-03', '14:00', 'Visitado_no_hacen_nada', 'Eficiencia energética', 'El cliente no mostró interés', 5, 5),
+('2025-03-04', '15:00', 'firmada_no_financiable', 'Instalación con financiación', 'Cliente no aceptó la propuesta de financiación', 6, 8),
+('2025-03-05', '16:00', 'visitado_pdte_contestacion', 'Placas solares', 'Esperando respuesta del cliente', 7, 16),
+('2025-03-06', '17:00', 'venta', 'Energía renovable', 'Venta realizada, instalación programada', 8, 21),
+('2025-03-07', '18:00', 'no_visita', 'No disponible', 'El cliente no estaba en casa', 9, 5),
+('2025-03-08', '19:00', 'Visitado_no_hacen_nada', 'Sistemas térmicos', 'No hubo interés en la propuesta', 10, 8),
+('2025-03-09', '10:30', 'venta', 'Solar + batería', 'Venta cerrada con sistema de almacenamiento', 11, 16),
+('2025-03-10', '11:15', 'visitado_pdte_contestacion', 'Fotovoltaica básica', 'Cliente pidió tiempo para pensarlo', 12, 21),
+('2025-03-11', '12:45', 'recitar', 'Placas térmicas', 'Solicita presupuesto detallado', 13, 5),
+('2025-03-12', '13:30', 'Visitado_no_hacen_nada', 'Autoconsumo', 'Cliente sin interés real', 14, 8),
+('2025-03-13', '14:00', 'firmada_no_financiable', 'Pack eficiencia energética', 'Ingreso insuficiente para financiación', 15, 16),
+('2025-03-14', '15:20', 'no_visita', 'No disponible', 'Cliente ausente a la hora pactada', 16, 21),
+('2025-03-15', '16:45', 'venta', 'Solar completa', 'Firma realizada con instalación urgente', 17, 5),
+('2025-03-16', '17:30', 'visitado_pdte_contestacion', 'Kit solar compacto', 'Duda entre dos ofertas', 18, 8),
+('2025-03-17', '18:10', 'no_visita', 'No disponible', 'Dirección errónea', 19, 16),
+('2025-03-18', '19:00', 'venta', 'Pack solar + térmico', 'Firma realizada sin financiación', 20, 21);
 
 SELECT * FROM visita;
 
-INSERT INTO financiacion (importe_financiacion, financiera, numero_cuotas, importe_cuotas, id_cliente) VALUES
+INSERT INTO financiacion (importe, financiera, numero_cuotas, importe_cuotas, id_cliente) VALUES
 (5000.00, 'Financiera A', 12, 450.00, 1),
 (6000.00, 'Financiera B', 18, 400.00, 2),
 (7000.00, 'Financiera C', 24, 350.00, 3),
@@ -360,8 +359,7 @@ INSERT INTO financiacion (importe_financiacion, financiera, numero_cuotas, impor
 
 SELECT * FROM financiacion;
 
-INSERT INTO subvencion (fecha_subvencion, n_habitaciones, n_aires_acondicionados, que_usa_ducha, id_cliente)
-VALUES
+INSERT INTO subvencion (fecha, numero_habitaciones, numero_aires_acondicionados, que_usa_para_ducha, id_cliente) VALUES
 ('2025-02-01', 3, 1, 'Eléctrica', 1),
 ('2025-02-02', 4, 2, 'Solar', 2),
 ('2025-02-03', 2, 1, 'Eléctrica', 3),
@@ -385,56 +383,56 @@ VALUES
 
 SELECT * FROM subvencion;
 
-INSERT INTO venta (id_trabajador, id_cliente, fecha_firma, forma_pago, certificado_energetico, gestion_subvencion, gestion_legalizacion, fecha_legalizacion, estado_venta) VALUES
-(5, 1, '2025-01-15', 'financiado', 'en_cuotas', 'si', 'no', NULL, 'instalada'),
-(8, 2, '2025-02-18', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'caida'),
-(17, 3, '2025-02-20', 'efectivo', 'no', 'si', 'si', '2025-03-01', 'instalada'),
-(5, 4, '2025-02-22', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-02', 'instalada'),
-(8, 5, '2025-01-25', 'efectivo', 'no', 'no', 'no', NULL, 'caida'),
-(17, 6, '2025-02-10', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'instalada'),
-(17, 7, '2025-03-05', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-03', 'instalada'),
-(18, 8, '2025-03-10', 'efectivo', 'no', 'no', 'no', NULL, 'caida'),
-(5, 9, '2025-03-15', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'instalada'),
-(17, 10, '2025-02-28', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-04', 'instalada'),
-(5, 11, '2025-03-20', 'efectivo', 'no', 'no', 'si', '2025-03-25', 'instalada'),
-(8, 12, '2025-03-22', 'transferencia', 'por_transferencia', 'si', 'no', NULL, 'instalada'),
-(17, 13, '2025-03-23', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-30', 'instalada'),
-(18, 14, '2025-03-24', 'efectivo', 'no', 'no', 'no', NULL, 'caida'),
-(5, 15, '2025-03-25', 'transferencia', 'por_transferencia', 'no', 'si', '2025-04-01', 'instalada'),
-(8, 16, '2025-03-26', 'financiado', 'en_cuotas', 'si', 'si', '2025-04-02', 'instalada'),
-(17, 17, '2025-03-27', 'efectivo', 'no', 'no', 'no', NULL, 'instalada'),
-(18, 18, '2025-03-28', 'transferencia', 'por_transferencia', 'si', 'no', NULL, 'caida'),
-(5, 19, '2025-03-29', 'financiado', 'en_cuotas', 'no', 'si', '2025-04-05', 'instalada'),
-(8, 20, '2025-03-30', 'efectivo', 'no', 'no', 'no', NULL, 'caida'),
-(8, 20, NULL, NULL, NULL, NULL, NULL, NULL, 'pendiente');
+INSERT INTO venta (fecha_firma, forma_pago, certificado_energetico, gestion_subvencion, gestion_legalizacion, fecha_legalizacion, estado, id_trabajador, id_cliente) VALUES
+('2025-01-15', 'financiado', 'en_cuotas', 'si', 'no', NULL, 'instalada', 5, 1),
+('2025-02-18', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'caida', 8, 2),
+('2025-02-20', 'efectivo', 'no', 'si', 'si', '2025-03-01', 'instalada', 17, 3),
+('2025-02-22', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-02', 'instalada', 5, 4),
+('2025-01-25', 'efectivo', 'no', 'no', 'no', NULL, 'caida', 8, 5),
+('2025-02-10', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'instalada', 17, 6),
+('2025-03-05', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-03', 'instalada', 17, 7),
+('2025-03-10', 'efectivo', 'no', 'no', 'no', NULL, 'caida', 18, 8),
+('2025-03-15', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'instalada', 5, 9),
+('2025-02-28', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-04', 'instalada', 17, 10),
+('2025-03-20', 'efectivo', 'no', 'no', 'si', '2025-03-25', 'instalada', 5, 11),
+('2025-03-22', 'transferencia', 'por_transferencia', 'si', 'no', NULL, 'instalada', 8, 12),
+('2025-03-23', 'financiado', 'en_cuotas', 'si', 'si', '2025-03-30', 'instalada', 17, 13),
+('2025-03-24', 'efectivo', 'no', 'no', 'no', NULL, 'caida', 18, 14),
+('2025-03-25', 'transferencia', 'por_transferencia', 'no', 'si', '2025-04-01', 'instalada', 5, 15),
+('2025-03-26', 'financiado', 'en_cuotas', 'si', 'si', '2025-04-02', 'instalada', 8, 16),
+('2025-03-27', 'efectivo', 'no', 'no', 'no', NULL, 'instalada', 17, 17),
+('2025-03-28', 'transferencia', 'por_transferencia', 'si', 'no', NULL, 'caida', 18, 18),
+('2025-03-29', 'financiado', 'en_cuotas', 'no', 'si', '2025-04-05', 'instalada', 5, 19),
+('2025-03-30', 'efectivo', 'no', 'no', 'no', NULL, 'caida', 8, 20),
+(NULL, NULL, NULL, NULL, NULL, NULL, 'pendiente', 8, 20);
 
 SELECT * FROM venta;
 
-INSERT INTO instalacion (id_trabajador, id_vivienda, id_venta, fecha_instalacion, n_placas, grua, importe_grua, instalador_tipo, instalacion_terminada, fecha_terminada, otros_costes, observaciones) VALUES
-(3, 1, 1, '2025-01-20', 5, 'si', 200.00, 'propio', 'si', '2025-01-21', 'Ninguno', 'Instalación realizada sin problemas'),
-(9, 2, 2, '2025-02-21', 6, 'no', NULL, 'subcontrata', 'no', NULL , NULL, 'Falta completar'),
-(16, 3, 3, '2025-02-22', 8, 'si', 150.00, 'propio', 'si', '2025-02-23', 'Costo adicional', 'Placas de mayor capacidad instaladas'),
-(20, 4, 4, '2025-02-24', 7, 'no', NULL, 'propio', 'si', '2025-02-25', 'Ninguno', 'Instalación terminada con éxito'),
-(3, 5, 5, '2025-01-27', 10, 'si', 250.00, 'subcontrata', 'no', NULL,'Costos adicionales en mano de obra', 'Requiere revisión de algunos detalles'),
-(9, 6, 6, '2025-02-26', 9, 'no', NULL, 'propio', 'si', '2025-02-27', 'Sin otros costes', 'Instalación completa'),
-(16, 7, 7, '2025-03-01', 5, 'no', NULL, 'subcontrata', 'no', NULL, NULL , 'Incompleta'),
-(20, 8, 8, '2025-03-02', 4, 'si', 300.00, 'propio', 'si', '2025-03-03', 'Sin costes adicionales', 'Instalación lista para funcionamiento'),
-(3, 9, 9, '2025-03-05', 6, 'no', NULL, 'subcontrata', 'si', '2025-03-06', 'Sin otros costes', 'Instalación en perfectas condiciones'),
-(9, 10, 10, '2025-03-07', 3, 'no', NULL, 'propio', 'si', '2025-03-08', 'Ninguno', 'Trabajo finalizado'),
-(16, 11, 11, '2025-03-10', 7, 'no', NULL, 'propio', 'si', '2025-03-11', 'Ninguno', 'Instalación rápida y sin incidencias'),
-(3, 12, 12, '2025-03-12', 5, 'si', 220.00, 'subcontrata', 'no', NULL, 'Coste extra por condiciones del terreno', 'Cliente satisfecho con el progreso'),
-(9, 13, 13, '2025-03-13', 8, 'no', NULL, 'propio', 'si', '2025-03-14', 'Sin costes adicionales', 'Todo conforme al plan'),
-(20, 14, 14, '2025-03-14', 6, 'si', 180.00, 'subcontrata', 'si', '2025-03-15', 'Costo grúa incluido', 'Instalación completa y certificada'),
-(16, 15, 15, '2025-03-15', 9, 'no', NULL, 'propio', 'no', NULL, NULL, 'Pendiente revisión final'),
-(3, 16, 16, '2025-03-16', 4, 'si', 210.00, 'subcontrata', 'si', '2025-03-17', 'Ninguno', 'Buen resultado y cliente contento'),
-(9, 17, 17, '2025-03-17', 7, 'no', NULL, 'propio', 'si', '2025-03-18', 'Sin costes adicionales', 'Instalación en perfecto estado'),
-(20, 18, 18, '2025-03-18', 5, 'no', NULL, 'subcontrata', 'no', NULL, 'Problema con el acceso a la vivienda', 'Pendiente resolver'),
-(16, 19, 19, '2025-03-19', 6, 'si', 190.00, 'propio', 'si', '2025-03-20', 'Costo de grúa justificado', 'Instalación realizada sin contratiempos'),
-(3, 20, 20, '2025-03-20', 8, 'no', NULL, 'subcontrata', 'si', '2025-03-21', 'Sin otros costes', 'Cliente satisfecho con la instalación');
+INSERT INTO instalacion ( fecha, numero_placas, grua, importe_grua, tipo_instalador, terminada, fecha_terminada, otros_costes, observaciones, id_trabajador, id_vivienda, id_venta) VALUES
+('2025-01-20', 5, 'si', 200.00, 'propio', 'si', '2025-01-21', 'Ninguno', 'Instalación realizada sin problemas', 3, 1, 1),
+('2025-02-21', 6, 'no', NULL, 'subcontrata', 'no', NULL, NULL, 'Falta completar', 9, 2, 2),
+('2025-02-22', 8, 'si', 150.00, 'propio', 'si', '2025-02-23', 'Costo adicional', 'Placas de mayor capacidad instaladas', 16, 3, 3),
+('2025-02-24', 7, 'no', NULL, 'propio', 'si', '2025-02-25', 'Ninguno', 'Instalación terminada con éxito', 20, 4, 4),
+('2025-01-27', 10, 'si', 250.00, 'subcontrata', 'no', NULL, 'Costos adicionales en mano de obra', 'Requiere revisión de algunos detalles', 3, 5, 5),
+('2025-02-26', 9, 'no', NULL, 'propio', 'si', '2025-02-27', 'Sin otros costes', 'Instalación completa', 9, 6, 6),
+('2025-03-01', 5, 'no', NULL, 'subcontrata', 'no', NULL, NULL, 'Incompleta', 16, 7, 7),
+('2025-03-02', 4, 'si', 300.00, 'propio', 'si', '2025-03-03', 'Sin costes adicionales', 'Instalación lista para funcionamiento', 20, 8, 8),
+('2025-03-05', 6, 'no', NULL, 'subcontrata', 'si', '2025-03-06', 'Sin otros costes', 'Instalación en perfectas condiciones', 3, 9, 9),
+('2025-03-07', 3, 'no', NULL, 'propio', 'si', '2025-03-08', 'Ninguno', 'Trabajo finalizado', 9, 10, 10),
+('2025-03-10', 7, 'no', NULL, 'propio', 'si', '2025-03-11', 'Ninguno', 'Instalación rápida y sin incidencias', 16, 11, 11),
+('2025-03-12', 5, 'si', 220.00, 'subcontrata', 'no', NULL, 'Coste extra por condiciones del terreno', 'Cliente satisfecho con el progreso', 3, 12, 12),
+('2025-03-13', 8, 'no', NULL, 'propio', 'si', '2025-03-14', 'Sin costes adicionales', 'Todo conforme al plan', 9, 13, 13),
+('2025-03-14', 6, 'si', 180.00, 'subcontrata', 'si', '2025-03-15', 'Costo grúa incluido', 'Instalación completa y certificada', 20, 14, 14),
+('2025-03-15', 9, 'no', NULL, 'propio', 'no', NULL, NULL, 'Pendiente revisión final', 16, 15, 15),
+('2025-03-16', 4, 'si', 210.00, 'subcontrata', 'si', '2025-03-17', 'Ninguno', 'Buen resultado y cliente contento', 3, 16, 16),
+('2025-03-17', 7, 'no', NULL, 'propio', 'si', '2025-03-18', 'Sin costes adicionales', 'Instalación en perfecto estado', 9, 17, 17),
+('2025-03-18', 5, 'no', NULL, 'subcontrata', 'no', NULL, 'Problema con el acceso a la vivienda', 'Pendiente resolver', 20, 18, 18),
+('2025-03-19', 6, 'si', 190.00, 'propio', 'si', '2025-03-20', 'Costo de grúa justificado', 'Instalación realizada sin contratiempos', 16, 19, 19),
+('2025-03-20', 8, 'no', NULL, 'subcontrata', 'si', '2025-03-21', 'Sin otros costes', 'Cliente satisfecho con la instalación', 3, 20, 20);
 
 SELECT * FROM instalacion;
 
-INSERT INTO factura (numero_factura, fecha_factura, importe_factura, id_venta) VALUES
+INSERT INTO factura (numero, fecha, importe, id_venta) VALUES
 ('FAC-001', '2025-02-01', 5000.00, 1),
 ('FAC-002', '2025-02-02', 6000.00, 2),
 ('FAC-003', '2025-02-05', 7000.00, 3),
@@ -458,40 +456,40 @@ INSERT INTO factura (numero_factura, fecha_factura, importe_factura, id_venta) V
 
 SELECT * FROM factura;
 
-INSERT INTO producto (id_venta, producto_principal, otro_producto, modelo_placas, cuadro_electrico) VALUES
-(1, 'Placas solares', 'Batería', 'Modelo X', 'l1'),
-(2, 'Termo eléctrico', 'Batería', 'Modelo Y', 'm1'),
-(3, 'Placas solares', 'Batería', 'Modelo Z', 'l1'),
-(4, 'Termo eléctrico', 'Placas solares', 'Modelo A', 'm1'),
-(5, 'Placas solares', 'Batería', 'Modelo B', 'l1'),
-(6, 'Termo eléctrico', 'Placas solares', 'Modelo C', 'm1'),
-(7, 'Placas solares', 'Batería', 'Modelo D', 'l1'),
-(8, 'Termo eléctrico', 'Batería', 'Modelo E', 'm1'),
-(9, 'Placas solares', 'Batería', 'Modelo F', 'l1'),
-(10, 'Termo eléctrico', 'Placas solares', 'Modelo G', 'm1'),
-(11, 'Placas solares', 'Batería', 'Modelo H', 'm1'),
-(12, 'Termo eléctrico', 'Batería', 'Modelo I', 'l1'),
-(13, 'Placas solares', 'Batería', 'Modelo J', 'm1'),
-(14, 'Termo eléctrico', 'Placas solares', 'Modelo K', 'm1'),
-(15, 'Placas solares', 'Batería', 'Modelo L', 'l1'),
-(16, 'Termo eléctrico', 'Placas solares', 'Modelo M', 'm1'),
-(17, 'Placas solares', 'Batería', 'Modelo N', 'l1'),
-(18, 'Termo eléctrico', 'Batería', 'Modelo O', 'm1'),
-(19, 'Placas solares', 'Batería', 'Modelo P', 'l1'),
-(20, 'Termo eléctrico', 'Placas solares', 'Modelo Q', 'm1');
+INSERT INTO producto (principal, otro, modelo_placas, cuadro_electrico, id_venta) VALUES
+('Placas solares', 'Batería', 'Modelo X', 'l1', 1),
+('Termo eléctrico', 'Batería', 'Modelo Y', 'm1', 2),
+('Placas solares', 'Batería', 'Modelo Z', 'l1', 3),
+('Termo eléctrico', 'Placas solares', 'Modelo A', 'm1', 4),
+('Placas solares', 'Batería', 'Modelo B', 'l1', 5),
+('Termo eléctrico', 'Placas solares', 'Modelo C', 'm1', 6),
+('Placas solares', 'Batería', 'Modelo D', 'l1', 7),
+('Termo eléctrico', 'Batería', 'Modelo E', 'm1', 8),
+('Placas solares', 'Batería', 'Modelo F', 'l1', 9),
+('Termo eléctrico', 'Placas solares', 'Modelo G', 'm1', 10),
+('Placas solares', 'Batería', 'Modelo H', 'm1', 11),
+('Termo eléctrico', 'Batería', 'Modelo I', 'l1', 12),
+('Placas solares', 'Batería', 'Modelo J', 'm1', 13),
+('Termo eléctrico', 'Placas solares', 'Modelo K', 'm1', 14),
+('Placas solares', 'Batería', 'Modelo L', 'l1', 15),
+('Termo eléctrico', 'Placas solares', 'Modelo M', 'm1', 16),
+('Placas solares', 'Batería', 'Modelo N', 'l1', 17),
+('Termo eléctrico', 'Batería', 'Modelo O', 'm1', 18),
+('Placas solares', 'Batería', 'Modelo P', 'l1', 19),
+('Termo eléctrico', 'Placas solares', 'Modelo Q', 'm1', 20);
 
 SELECT * FROM producto;
 
-INSERT INTO caida (id_venta, motivo_caida, tramitador_financiera, financiera, mes_firma) VALUES
-(2, 'no_financiable', 'Ana Sánchez', 'Financiera A', 'Febrero'),
-(5, 'cliente_decide_no_instalar', 'Pedro Martínez', 'Financiera B', 'Enero'),
-(8, 'problemas_de_cobro', 'Luis González', 'Financiera C', 'Marzo'),
-(14, 'no_se_puede_instalar', 'Isabel Ruiz', 'Financiera D', 'Marzo'),
-(18, 'no_financiable', 'Carlos López', 'Financiera E', 'Marzo');
+INSERT INTO caida (motivo, tramitador_financiera, financiera, mes_firma, id_venta) VALUES
+('no_financiable', 'Ana Sánchez', 'Financiera A', 'Febrero', 2),
+('cliente_decide_no_instalar', 'Pedro Martínez', 'Financiera B', 'Enero', 5),
+('problemas_de_cobro', 'Luis González', 'Financiera C', 'Marzo', 8),
+('no_se_puede_instalar', 'Isabel Ruiz', 'Financiera D', 'Marzo', 14),
+('no_financiable', 'Carlos López', 'Financiera E', 'Marzo', 18);
 
 SELECT * FROM caida;
 
-INSERT INTO agenda (titulo, descripcion, fecha_inicio_agenda, fecha_fin_agenda, id_trabajador, id_vivienda) VALUES 
+INSERT INTO agenda (titulo, descripcion, fecha_inicio, fecha_fin, id_trabajador, id_vivienda) VALUES 
 ('Visita a casa 1', 'Primera visita a la vivienda para evaluación inicial', '2025-05-14 10:00:00', '2025-05-14 11:00:00', 5, 1),
 ('Visita a casa 2', 'Inspección presencial para recopilar datos del proyecto', '2025-05-23 16:00:00', '2025-05-23 17:00:00', 8, 2),
 ('Visita a casa 3', 'Revisión técnica en el domicilio del cliente', '2025-05-09 09:00:00', '2025-05-09 10:00:00', 16, 3),
@@ -514,17 +512,17 @@ INSERT INTO agenda (titulo, descripcion, fecha_inicio_agenda, fecha_fin_agenda, 
 
 SELECT * FROM agenda;
 
-INSERT INTO auditoria (id_trabajador, descripcion, fecha) VALUES
-(4, 'Ha registrado el evento: 1', '2025-05-20 09:32:15'),
-(11, 'Ha registrado el evento: 2', '2025-05-21 10:10:00'),
-(17, 'Ha registrado el cliente: 5', '2025-05-21 11:45:23'),
-(1, 'Ha eliminado el cliente: 25', '2025-05-21 13:22:41'),
-(2, 'Ha modificado el cliente: 10', '2025-05-22 08:55:17'),
-(10, 'Ha actualizado el evento: 5', '2025-05-22 14:30:00'),
-(21, 'Ha registrado una nueva visita', '2025-05-22 16:40:08'),
-(10, 'Ha eliminado el evento: 31', '2025-05-23 09:00:00'),
-(21, 'Ha registrado una venta al cliente con ID: 7', '2025-05-23 17:45:00'),
-(12, 'Ha actualizado el trabajador: Jesús Molina López', '2025-05-24 12:15:33');
+INSERT INTO auditoria (descripcion, fecha, id_trabajador) VALUES
+('Ha registrado el evento: 1', '2025-05-20 09:32:15', 4),
+('Ha registrado el evento: 2', '2025-05-21 10:10:00', 11),
+('Ha registrado el cliente: 5', '2025-05-21 11:45:23', 17),
+('Ha eliminado el cliente: 25', '2025-05-21 13:22:41', 1),
+('Ha modificado el cliente: 10', '2025-05-22 08:55:17', 2),
+('Ha actualizado el evento: 5', '2025-05-22 14:30:00', 10),
+('Ha registrado una nueva visita', '2025-05-22 16:40:08', 21),
+('Ha eliminado el evento: 31', '2025-05-23 09:00:00', 10),
+('Ha registrado una venta al cliente con ID: 7', '2025-05-23 17:45:00', 21),
+('Ha actualizado el trabajador: Jesús Molina López', '2025-05-24 12:15:33', 12);
 
 SELECT * FROM auditoria;
 

@@ -111,7 +111,7 @@ export default function InformacionClientes() {
                     ["DNI", clienteSeleccionado.dni],
                     ["IBAN", clienteSeleccionado.iban],
                     ["Modo de Captación", clienteSeleccionado.modo_captacion],
-                    ["Observaciones", clienteSeleccionado.observaciones_cliente],
+                    ["Observaciones", clienteSeleccionado.observaciones],
                 ]
             },
             {
@@ -125,7 +125,7 @@ export default function InformacionClientes() {
             {
                 titulo: "Venta",
                 campos: [
-                    ["Estado de Venta", clienteSeleccionado.estado_venta],
+                    ["Estado de Venta", clienteSeleccionado.estado],
                     ["ID Trabajador", clienteSeleccionado.id_trabajador],
                     ["Fecha de Firma", clienteSeleccionado.fecha_firma ? dayjs(clienteSeleccionado.fecha_firma).format("DD/MM/YYYY HH:mm:ss") : ""],
                     ["Forma de Pago", clienteSeleccionado.forma_pago],

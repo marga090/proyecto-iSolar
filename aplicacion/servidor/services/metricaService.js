@@ -102,8 +102,8 @@ export const obtenerTodasComercial = async (fechaInicio = null, fechaFin = null)
       SELECT 
         id_trabajador,
         COUNT(*) AS venta_total,
-        SUM(estado_venta = 'instalada') AS ventas_instaladas,
-        SUM(estado_venta = 'caida') AS ventas_caidas
+        SUM(estado = 'instalada') AS ventas_instaladas,
+        SUM(estado = 'caida') AS ventas_caidas
       FROM venta
       ${filtroVentas}
       GROUP BY id_trabajador

@@ -10,7 +10,7 @@ export const crear = async (venta) => {
         gestion_subvencion,
         gestion_legalizacion,
         fecha_legalizacion,
-        estado_venta
+        estado
     } = venta;
 
     const insertarVenta = `
@@ -23,7 +23,7 @@ export const crear = async (venta) => {
             gestion_subvencion, 
             gestion_legalizacion,
             fecha_legalizacion, 
-            estado_venta
+            estado
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -36,7 +36,7 @@ export const crear = async (venta) => {
         gestion_subvencion,
         gestion_legalizacion,
         fecha_legalizacion,
-        estado_venta
+        estado
     ]);
 
     return {
@@ -55,7 +55,7 @@ export const obtenerTodos = async () => {
             v.gestion_subvencion,
             v.gestion_legalizacion,
             v.fecha_legalizacion,
-            v.estado_venta,
+            v.estado,
             c.nombre AS nombre_cliente,
             t.nombre AS nombre_trabajador
         FROM venta v
@@ -79,7 +79,7 @@ export const obtenerPorId = async (id) => {
             v.gestion_subvencion,
             v.gestion_legalizacion,
             v.fecha_legalizacion,
-            v.estado_venta,
+            v.estado,
             c.nombre AS nombre_cliente,
             t.nombre AS nombre_trabajador
         FROM venta v
@@ -107,7 +107,7 @@ export const actualizar = async (id, venta) => {
         gestion_subvencion,
         gestion_legalizacion,
         fecha_legalizacion,
-        estado_venta
+        estado
     } = venta;
 
     const sql = `
@@ -121,7 +121,7 @@ export const actualizar = async (id, venta) => {
             gestion_subvencion = ?, 
             gestion_legalizacion = ?,
             fecha_legalizacion = ?, 
-            estado_venta = ?
+            estado = ?
         WHERE id_venta = ?
     `;
 
@@ -134,7 +134,7 @@ export const actualizar = async (id, venta) => {
         gestion_subvencion,
         gestion_legalizacion,
         fecha_legalizacion,
-        estado_venta,
+        estado,
         id
     ]);
 

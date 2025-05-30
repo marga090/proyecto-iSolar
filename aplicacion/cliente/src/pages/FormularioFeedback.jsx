@@ -74,7 +74,7 @@ export default function FormularioFeedback() {
 					gestion_subvencion: null,
 					gestion_legalizacion: null,
 					fecha_legalizacion: null,
-					estado_venta: "pendiente",
+					estado: "pendiente",
 				});
 			}
 			Swal.fire({
