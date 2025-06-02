@@ -16,8 +16,11 @@ export const crear = async (feedback) => {
         importeGas,
         resultado,
         oferta,
+        estructura,
         observaciones
     } = feedback;
+
+    const numeroPersonasNormalizado = numeroPersonas === '' ? null : parseInt(numeroPersonas);
 
     await query("START TRANSACTION");
 
@@ -60,14 +63,15 @@ export const crear = async (feedback) => {
             const idDomicilio = resultadoDomicilio.id_domicilio;
 
             const resultadoInserccionVivienda = await query(
-                "INSERT INTO vivienda (numero_personas, numero_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, id_domicilio) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO vivienda (numero_personas, numero_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, estructura, id_domicilio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 [
-                    numeroPersonas,
+                    numeroPersonasNormalizado,
                     numeroDecisores,
                     tieneBombona,
                     tieneGas,
                     tieneTermo,
                     tienePlacas,
+                    estructura,
                     idDomicilio
                 ]
             );

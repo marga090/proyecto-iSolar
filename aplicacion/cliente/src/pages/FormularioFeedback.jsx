@@ -41,6 +41,7 @@ export default function FormularioFeedback() {
 		importeGas: '',
 		resultado: '',
 		oferta: '',
+		estructura: 'sin_datos',
 		observaciones: '',
 	}), [idTrabajador]);
 
@@ -367,6 +368,27 @@ export default function FormularioFeedback() {
 									<option value="visitado_pdte_contestacion">Visitado pendiente de contestación</option>
 									<option value="Visitado_no_hacen_nada">Visitado pero no hacen nada</option>
 									<option value="recitar">Volver a citar</option>
+								</CamposFormulario>
+							</Col>
+						</Row>
+
+						<Row className="mb-3">
+							<Col xs={12} md={6}>
+								<CamposFormulario
+									label="Estructura de la vivienda"
+									name="estructura"
+									as="select"
+									errors={errors}
+									touched={touched}
+									tooltip="Selecciona cuál es la estructura de la vivienda"
+								>
+									<option value="sin_datos">Sin datos</option>
+									<option value="bancada">Bancada</option>
+									<option value="coplanar">Coplanar</option>
+									<option value="doble_triangulo">Doble triángulo</option>
+									<option value="pergola">Pérgola</option>
+									<option value="sinebloc30">Sinebloc30</option>
+									<option value="triangulo">Triángulo</option>
 								</CamposFormulario>
 							</Col>
 						</Row>
