@@ -130,7 +130,9 @@ CREATE TABLE auditoria (
     id INT PRIMARY KEY AUTO_INCREMENT,
     descripcion VARCHAR(255) NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-    id_trabajador INT
+    id_trabajador INT,
+    
+    CONSTRAINT fk_auditoria_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador)
 );
 
 -- INSERTS
