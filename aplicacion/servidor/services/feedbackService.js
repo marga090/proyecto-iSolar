@@ -21,6 +21,8 @@ export const crear = async (feedback) => {
     } = feedback;
 
     const numeroPersonasNormalizado = numeroPersonas === '' ? null : parseInt(numeroPersonas);
+    const importeLuzNormalizado = importeLuz === '' ? null : parseInt(importeLuz);
+    const importeGasNormalizado = importeGas === '' ? null : parseInt(importeGas);
 
     await query("START TRANSACTION");
 
@@ -83,7 +85,7 @@ export const crear = async (feedback) => {
 
         await query(
             "INSERT INTO recibo (importe_luz, importe_gas, id_vivienda) VALUES (?, ?, ?)",
-            [importeLuz, importeGas, idVivienda]
+            [importeLuzNormalizado, importeGasNormalizado, idVivienda]
         );
 
         const resultadoVisita = await query(

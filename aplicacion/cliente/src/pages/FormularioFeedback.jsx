@@ -57,14 +57,8 @@ export default function FormularioFeedback() {
 	});
 
 	const onSubmit = useCallback(async (values, { setSubmitting, resetForm }) => {
-		const datosNormalizados = {
-			...values,
-			importeLuz: Number(values.importeLuz || 0),
-			importeGas: Number(values.importeGas || 0),
-		};
-
 		try {
-			const { data } = await Axios.post("/feedbacks", datosNormalizados);
+			const { data } = await Axios.post("/feedbacks", values);
 			if (values.resultado === "venta") {
 				await Axios.post("/ventas", {
 					id_cliente: values.idCliente,
