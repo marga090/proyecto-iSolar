@@ -37,28 +37,6 @@ CREATE TABLE domicilio (
     CONSTRAINT fk_domicilio_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
-CREATE TABLE financiacion(
-	id_financiacion INT PRIMARY KEY AUTO_INCREMENT,
-    importe DECIMAL(10,2),
-    financiera VARCHAR (100),
-    numero_cuotas INT,
-    importe_cuotas DECIMAL(10,2),
-	id_cliente INT,
-    
-    CONSTRAINT fk_financiacion_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE CASCADE
-);
-
-CREATE TABLE subvencion(
-	id_subvencion INT PRIMARY KEY AUTO_INCREMENT,
-    fecha DATE, 
-    numero_habitaciones INT,
-    numero_aires_acondicionados INT,
-    que_usa_para_ducha VARCHAR(30),
-	id_cliente INT,
-    
-    CONSTRAINT fk_subvencion_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE CASCADE
-);
-
 CREATE TABLE vivienda (
     id_vivienda INT PRIMARY KEY AUTO_INCREMENT,
     numero_personas INT,
@@ -67,8 +45,7 @@ CREATE TABLE vivienda (
     tiene_gas ENUM('no', 'si', 'sin_datos'),
     tiene_termo_electrico ENUM('no', 'si', 'sin_datos'),
 	tiene_placas_termicas ENUM('no', 'si', 'sin_datos'),
-    instalacion_placas ENUM('no', 'si', 'sin_datos'),
-    estructura ENUM('bancada', 'coplanar', 'doble_triangulo', 'no', 'pergola', 'sinebloc30', 'triangulo'),
+    estructura ENUM('bancada', 'coplanar', 'doble_triangulo', 'pergola', 'sin_datos', 'sinebloc30', 'triangulo'),
 	id_domicilio INT,
     
     CONSTRAINT fk_vivienda_id_domicilio FOREIGN KEY (id_domicilio) REFERENCES domicilio(id_domicilio) ON DELETE CASCADE
@@ -125,16 +102,6 @@ CREATE TABLE visita (
     CONSTRAINT fk_visita_id_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador(id_trabajador)
 );
 
-CREATE TABLE factura (
-    id_factura INT PRIMARY KEY AUTO_INCREMENT,
-    numero VARCHAR(50) NOT NULL UNIQUE,
-    fecha DATE NOT NULL,
-    importe DECIMAL(10,2) NOT NULL,
-    id_venta INT NOT NULL,
-    
-    CONSTRAINT fk_factura_id_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE
-);
-
 CREATE TABLE recibo(
 	id_recibo INT PRIMARY KEY AUTO_INCREMENT,
     importe_luz DECIMAL(6,2),
@@ -142,28 +109,6 @@ CREATE TABLE recibo(
     id_vivienda INT,
     
     CONSTRAINT fk_recibo_id_vivienda FOREIGN KEY (id_vivienda) REFERENCES vivienda(id_vivienda)
-);
-
-CREATE TABLE producto (
-    id_producto INT PRIMARY KEY AUTO_INCREMENT,
-    principal VARCHAR(50) NOT NULL,
-    otro VARCHAR(50),
-    modelo_placas VARCHAR(20) ,
-    cuadro_electrico ENUM('l1', 'm1') ,
-    id_venta INT NOT NULL,
-
-    CONSTRAINT fk_producto_id_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE
-);
-
-CREATE TABLE caida (
-    id_caida INT PRIMARY KEY AUTO_INCREMENT,
-    motivo ENUM('cliente_decide_no_instalar', 'no_financiable', 'no_se_puede_instalar', 'problemas_de_cobro') NOT NULL,
-    tramitador_financiera VARCHAR(100),
-    financiera VARCHAR(100),
-    mes_firma VARCHAR (20),
-    id_venta INT NOT NULL,
-
-    CONSTRAINT fk_informe_caida_id_venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON DELETE CASCADE
 );
 
 CREATE TABLE agenda (
@@ -263,27 +208,27 @@ INSERT INTO domicilio (direccion, localidad, provincia, id_cliente) VALUES
 
 SELECT * FROM domicilio;
 
-INSERT INTO vivienda (numero_personas, numero_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, instalacion_placas, estructura, id_domicilio) VALUES
-(3, 2, 'si', 'si', 'si', 'no', 'si', 'coplanar', 1),
-(4, 3, 'no', 'si', 'no', 'si', 'no', 'triangulo', 2),
-(2, 1, 'si', 'no', 'si', 'no', 'si', 'pergola', 3),
-(5, 4, 'no', 'si', 'si', 'si', 'no', 'bancada', 4),
-(6, 2, 'si', 'no', 'si', 'no', 'si', 'doble_triangulo', 5),
-(3, 2, 'no', 'si', 'no', 'no', 'no', 'no', 6),
-(2, 1, 'si', 'no', 'si', 'si', 'si', 'sinebloc30', 7),
-(4, 3, 'si', 'si', 'no', 'no', 'no', 'coplanar', 8),
-(5, 3, 'no', 'no', 'si', 'no', 'no', 'triangulo', 9),
-(3, 2, 'si', 'si', 'no', 'si', 'si', 'pergola', 10),
-(4, 2, 'no', 'si', 'si', 'no', 'si', 'coplanar', 11),
-(3, 1, 'si', 'no', 'no', 'no', 'no', 'triangulo', 12),
-(2, 2, 'no', 'si', 'si', 'si', 'si', 'bancada', 13),
-(5, 3, 'si', 'si', 'no', 'no', 'no', 'doble_triangulo', 14),
-(1, 1, 'no', 'no', 'si', 'no', 'si', 'pergola', 15),
-(6, 2, 'si', 'si', 'si', 'si', 'si', 'sinebloc30', 16),
-(3, 2, 'no', 'no', 'no', 'no', 'no', 'coplanar', 17),
-(4, 3, 'si', 'no', 'si', 'si', 'si', 'triangulo', 18),
-(2, 1, 'si', 'si', 'no', 'no', 'no', 'no', 19),
-(5, 4, 'no', 'si', 'si', 'no', 'si', 'bancada', 20);
+INSERT INTO vivienda (numero_personas, numero_decisores, tiene_bombona, tiene_gas, tiene_termo_electrico, tiene_placas_termicas, estructura, id_domicilio) VALUES
+(3, 2, 'si', 'si', 'si', 'no', 'coplanar', 1),
+(4, 3, 'no', 'si', 'no', 'si', 'triangulo', 2),
+(2, 1, 'si', 'no', 'si', 'no', 'pergola', 3),
+(5, 4, 'no', 'si', 'si', 'si', 'bancada', 4),
+(6, 2, 'si', 'no', 'si', 'no', 'doble_triangulo', 5),
+(3, 2, 'no', 'si', 'no', 'no', 'sin_datos', 6),
+(2, 1, 'si', 'no', 'si', 'si', 'sinebloc30', 7),
+(4, 3, 'si', 'si', 'no', 'no', 'coplanar', 8),
+(5, 3, 'no', 'no', 'si', 'no', 'triangulo', 9),
+(3, 2, 'si', 'si', 'no', 'si', 'pergola', 10),
+(4, 2, 'no', 'si', 'si', 'no', 'coplanar', 11),
+(3, 1, 'si', 'no', 'no', 'no', 'triangulo', 12),
+(2, 2, 'no', 'si', 'si', 'si', 'bancada', 13),
+(5, 3, 'si', 'si', 'no', 'no', 'doble_triangulo', 14),
+(1, 1, 'no', 'no', 'si', 'no', 'pergola', 15),
+(6, 2, 'si', 'si', 'si', 'si', 'sinebloc30', 16),
+(3, 2, 'no', 'no', 'no', 'no', 'coplanar', 17),
+(4, 3, 'si', 'no', 'si', 'si', 'triangulo', 18),
+(2, 1, 'si', 'si', 'no', 'no', 'sin_datos', 19),
+(5, 4, 'no', 'si', 'si', 'no', 'bancada', 20);
 
 SELECT * FROM vivienda;
 
@@ -335,54 +280,6 @@ INSERT INTO visita (fecha, hora, resultado, oferta, observaciones, id_vivienda, 
 
 SELECT * FROM visita;
 
-INSERT INTO financiacion (importe, financiera, numero_cuotas, importe_cuotas, id_cliente) VALUES
-(5000.00, 'Financiera A', 12, 450.00, 1),
-(6000.00, 'Financiera B', 18, 400.00, 2),
-(7000.00, 'Financiera C', 24, 350.00, 3),
-(8000.00, 'Financiera D', 30, 300.00, 4),
-(4000.00, 'Financiera E', 6, 670.00, 5),
-(5500.00, 'Financiera F', 12, 475.00, 6),
-(6500.00, 'Financiera G', 18, 375.00, 7),
-(9000.00, 'Financiera H', 24, 375.00, 8),
-(7500.00, 'Financiera I', 30, 250.00, 9),
-(8500.00, 'Financiera J', 18, 475.00, 10),
-(6200.00, 'Financiera K', 24, 310.00, 11),
-(7300.00, 'Financiera L', 18, 405.56, 12),
-(4800.00, 'Financiera M', 12, 420.00, 13),
-(9100.00, 'Financiera N', 30, 303.33, 14),
-(5600.00, 'Financiera O', 18, 311.11, 15),
-(7700.00, 'Financiera P', 24, 320.83, 16),
-(8400.00, 'Financiera Q', 12, 700.00, 17),
-(6950.00, 'Financiera R', 18, 386.11, 18),
-(5100.00, 'Financiera S', 6, 850.00, 19),
-(8700.00, 'Financiera T', 24, 362.50, 20);
-
-SELECT * FROM financiacion;
-
-INSERT INTO subvencion (fecha, numero_habitaciones, numero_aires_acondicionados, que_usa_para_ducha, id_cliente) VALUES
-('2025-02-01', 3, 1, 'Eléctrica', 1),
-('2025-02-02', 4, 2, 'Solar', 2),
-('2025-02-03', 2, 1, 'Eléctrica', 3),
-('2025-02-04', 3, 1, 'Eléctrica', 4),
-('2025-02-05', 5, 3, 'Solar', 5),
-('2025-02-06', 4, 1, 'Eléctrica', 6),
-('2025-02-07', 3, 1, 'Eléctrica', 7),
-('2025-02-08', 2, 2, 'Solar', 8),
-('2025-02-09', 3, 1, 'Eléctrica', 9),
-('2025-02-10', 4, 1, 'Solar', 10),
-('2025-03-11', 3, 2, 'Eléctrica', 11),
-('2025-03-12', 4, 1, 'Solar', 12),
-('2025-03-13', 2, 1, 'Eléctrica', 13),
-('2025-03-14', 3, 3, 'Solar', 14),
-('2025-03-15', 5, 2, 'Eléctrica', 15),
-('2025-03-16', 4, 1, 'Solar', 16),
-('2025-03-17', 3, 1, 'Eléctrica', 17),
-('2025-03-18', 2, 2, 'Solar', 18),
-('2025-03-19', 3, 1, 'Eléctrica', 19),
-('2025-03-20', 4, 3, 'Solar', 20);
-
-SELECT * FROM subvencion;
-
 INSERT INTO venta (fecha_firma, forma_pago, certificado_energetico, gestion_subvencion, gestion_legalizacion, fecha_legalizacion, estado, id_trabajador, id_cliente) VALUES
 ('2025-01-15', 'financiado', 'en_cuotas', 'si', 'no', NULL, 'instalada', 5, 1),
 ('2025-02-18', 'transferencia', 'por_transferencia', 'no', 'no', NULL, 'caida', 8, 2),
@@ -431,63 +328,6 @@ INSERT INTO instalacion ( fecha, numero_placas, grua, importe_grua, tipo_instala
 ('2025-03-20', 8, 'no', NULL, 'subcontrata', 'si', '2025-03-21', 'Sin otros costes', 'Cliente satisfecho con la instalación', 3, 20, 20);
 
 SELECT * FROM instalacion;
-
-INSERT INTO factura (numero, fecha, importe, id_venta) VALUES
-('FAC-001', '2025-02-01', 5000.00, 1),
-('FAC-002', '2025-02-02', 6000.00, 2),
-('FAC-003', '2025-02-05', 7000.00, 3),
-('FAC-004', '2025-02-10', 8000.00, 4),
-('FAC-005', '2025-02-15', 4000.00, 5),
-('FAC-006', '2025-02-18', 5500.00, 6),
-('FAC-007', '2025-02-20', 6500.00, 7),
-('FAC-008', '2025-02-25', 9000.00, 8),
-('FAC-009', '2025-03-01', 7500.00, 9),
-('FAC-010', '2025-03-03', 8500.00, 10),
-('FAC-011', '2025-03-05', 7200.00, 11),
-('FAC-012', '2025-03-06', 6300.00, 12),
-('FAC-013', '2025-03-07', 5400.00, 13),
-('FAC-014', '2025-03-08', 8100.00, 14),
-('FAC-015', '2025-03-09', 4700.00, 15),
-('FAC-016', '2025-03-10', 5800.00, 16),
-('FAC-017', '2025-03-11', 6600.00, 17),
-('FAC-018', '2025-03-12', 7700.00, 18),
-('FAC-019', '2025-03-13', 6900.00, 19),
-('FAC-020', '2025-03-14', 8300.00, 20);
-
-SELECT * FROM factura;
-
-INSERT INTO producto (principal, otro, modelo_placas, cuadro_electrico, id_venta) VALUES
-('Placas solares', 'Batería', 'Modelo X', 'l1', 1),
-('Termo eléctrico', 'Batería', 'Modelo Y', 'm1', 2),
-('Placas solares', 'Batería', 'Modelo Z', 'l1', 3),
-('Termo eléctrico', 'Placas solares', 'Modelo A', 'm1', 4),
-('Placas solares', 'Batería', 'Modelo B', 'l1', 5),
-('Termo eléctrico', 'Placas solares', 'Modelo C', 'm1', 6),
-('Placas solares', 'Batería', 'Modelo D', 'l1', 7),
-('Termo eléctrico', 'Batería', 'Modelo E', 'm1', 8),
-('Placas solares', 'Batería', 'Modelo F', 'l1', 9),
-('Termo eléctrico', 'Placas solares', 'Modelo G', 'm1', 10),
-('Placas solares', 'Batería', 'Modelo H', 'm1', 11),
-('Termo eléctrico', 'Batería', 'Modelo I', 'l1', 12),
-('Placas solares', 'Batería', 'Modelo J', 'm1', 13),
-('Termo eléctrico', 'Placas solares', 'Modelo K', 'm1', 14),
-('Placas solares', 'Batería', 'Modelo L', 'l1', 15),
-('Termo eléctrico', 'Placas solares', 'Modelo M', 'm1', 16),
-('Placas solares', 'Batería', 'Modelo N', 'l1', 17),
-('Termo eléctrico', 'Batería', 'Modelo O', 'm1', 18),
-('Placas solares', 'Batería', 'Modelo P', 'l1', 19),
-('Termo eléctrico', 'Placas solares', 'Modelo Q', 'm1', 20);
-
-SELECT * FROM producto;
-
-INSERT INTO caida (motivo, tramitador_financiera, financiera, mes_firma, id_venta) VALUES
-('no_financiable', 'Ana Sánchez', 'Financiera A', 'Febrero', 2),
-('cliente_decide_no_instalar', 'Pedro Martínez', 'Financiera B', 'Enero', 5),
-('problemas_de_cobro', 'Luis González', 'Financiera C', 'Marzo', 8),
-('no_se_puede_instalar', 'Isabel Ruiz', 'Financiera D', 'Marzo', 14),
-('no_financiable', 'Carlos López', 'Financiera E', 'Marzo', 18);
-
-SELECT * FROM caida;
 
 INSERT INTO agenda (titulo, descripcion, fecha_inicio, fecha_fin, id_trabajador, id_vivienda) VALUES 
 ('Visita a casa 1', 'Primera visita a la vivienda para evaluación inicial', '2025-05-14 10:00:00', '2025-05-14 11:00:00', 5, 1),
