@@ -158,17 +158,18 @@ export const eliminar = async (id) => {
         if (!existe) {
             throw new Error("El trabajador no existe");
         }
-
+        await query("DELETE FROM instalacion WHERE id_venta IN (SELECT id_venta FROM venta WHERE id_trabajador = ?)", [id]);
         await query("DELETE FROM agenda WHERE id_trabajador = ?", [id]);
         await query("DELETE FROM instalacion WHERE id_trabajador = ?", [id]);
-        await query("DELETE FROM venta WHERE id_trabajador = ?", [id]);
         await query("DELETE FROM visita WHERE id_trabajador = ?", [id]);
+        await query("DELETE FROM auditoria WHERE id_trabajador = ?", [id]);
+        await query("DELETE FROM venta WHERE id_trabajador = ?", [id]);
         await query("DELETE FROM trabajador WHERE id_trabajador = ?", [id]);
 
         await query("COMMIT");
 
         return {
-            message: "Trabajador y todos los datos relacionados eliminados correctamente"
+            message: "Trabajador eliminado correctamente"
         };
 
     } catch (err) {
