@@ -12,34 +12,52 @@ export const crear = async (agenda) => {
         fechaAsignacion = new Date()
     } = agenda;
 
-    const sql = `
-        INSERT INTO agenda (
+    await query("START TRANSACTION");
+
+    try {
+        const existeVivienda = await query(
+            "SELECT 1 FROM vivienda WHERE id_vivienda = ?",
+            [idVivienda]
+        );
+        if (existeVivienda.length === 0) {
+            throw new Error("La vivienda seleccionada no existe");
+        }
+
+        const sql = `
+            INSERT INTO agenda (
+                titulo,
+                descripcion,
+                fecha_inicio,
+                fecha_fin,
+                id_trabajador,
+                id_vivienda,
+                estado,
+                fecha_asignacion
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const resultado = await query(sql, [
             titulo,
             descripcion,
-            fecha_inicio,
-            fecha_fin,
-            id_trabajador,
-            id_vivienda,
+            fechaInicio,
+            fechaFin,
+            idTrabajador,
+            idVivienda,
             estado,
-            fecha_asignacion
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+            fechaAsignacion
+        ]);
 
-    const resultado = await query(sql, [
-        titulo,
-        descripcion,
-        fechaInicio,
-        fechaFin,
-        idTrabajador,
-        idVivienda,
-        estado,
-        fechaAsignacion
-    ]);
+        await query("COMMIT");
 
-    return {
-        message: "Entrada en agenda creada correctamente",
-        idAgenda: resultado.insertId
-    };
+        return {
+            message: "Entrada en agenda creada correctamente",
+            idAgenda: resultado.insertId
+        };
+
+    } catch (err) {
+        await query("ROLLBACK");
+        throw err;
+    }
 };
 
 export const obtenerTodas = async () => {
