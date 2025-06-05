@@ -332,25 +332,25 @@ INSERT INTO instalacion ( fecha, numero_placas, grua, importe_grua, tipo_instala
 SELECT * FROM instalacion;
 
 INSERT INTO agenda (titulo, descripcion, fecha_inicio, fecha_fin, id_trabajador, id_vivienda) VALUES 
-('Visita a casa 1', 'Primera visita a la vivienda para evaluación inicial', '2025-05-14 10:00:00', '2025-05-14 11:00:00', 5, 1),
-('Visita a casa 2', 'Inspección presencial para recopilar datos del proyecto', '2025-05-23 16:00:00', '2025-05-23 17:00:00', 8, 2),
-('Visita a casa 3', 'Revisión técnica en el domicilio del cliente', '2025-05-09 09:00:00', '2025-05-09 10:00:00', 16, 3),
-('Visita a casa 4', 'Análisis del tejado y orientación para instalación', '2025-05-09 17:00:00', '2025-05-09 18:00:00', 21, 4),
-('Visita a casa 5', 'Reunión en domicilio para ver viabilidad de placas', '2025-05-05 11:30:00', '2025-05-05 12:30:00', 5, 5),
-('Visita a casa 6', 'Comprobación de espacio disponible para instalación', '2025-05-14 15:00:00', '2025-05-14 16:00:00', 8, 6),
-('Visita a casa 7', 'Mediciones en tejado para estructura recomendada', '2025-05-26 10:00:00', '2025-05-26 11:30:00', 16, 7),
-('Visita a casa 8', 'Verificación de condiciones de instalación', '2025-05-26 13:00:00', '2025-05-26 14:00:00', 21, 8),
-('Visita a casa 9', 'Evaluación de necesidades energéticas en casa', '2025-05-27 09:30:00', '2025-05-27 10:30:00', 5, 9),
-('Visita a casa 10', 'Inspección para definir tipo de estructura necesaria', '2025-05-27 12:00:00', '2025-05-27 13:00:00', 8, 10),
-('Visita a casa 11', 'Revisión de condiciones de tejado y acceso', '2025-05-28 11:00:00', '2025-05-28 12:00:00', 16, 11),
-('Visita a casa 12', 'Confirmación de materiales según el espacio disponible', '2025-05-28 15:00:00', '2025-05-28 16:00:00', 21, 12),
-('Visita a casa 13', 'Diagnóstico técnico de vivienda para propuesta solar', '2025-05-29 09:00:00', '2025-05-29 10:30:00', 5, 13),
-('Visita a casa 14', 'Análisis de consumo energético en el hogar', '2025-05-29 14:00:00', '2025-05-29 15:00:00', 8, 14),
-('Visita a casa 15', 'Inspección del domicilio para solución personalizada', '2025-05-30 08:30:00', '2025-05-30 09:30:00', 16, 15),
-('Visita a casa 16', 'Valoración de ubicación para rendimiento óptimo', '2025-05-30 16:30:00', '2025-05-30 17:30:00', 21, 16),
+('Visita a casa 1', 'Primera visita a la vivienda para evaluación inicial', '2025-06-13 10:00:00', '2025-06-13 11:00:00', 5, 1),
+('Visita a casa 2', 'Inspección presencial para recopilar datos del proyecto', '2025-06-23 16:00:00', '2025-06-23 17:00:00', 8, 2),
+('Visita a casa 3', 'Revisión técnica en el domicilio del cliente', '2025-06-09 09:00:00', '2025-06-09 10:00:00', 16, 3),
+('Visita a casa 4', 'Análisis del tejado y orientación para instalación', '2025-06-09 17:00:00', '2025-06-09 18:00:00', 21, 4),
+('Visita a casa 5', 'Reunión en domicilio para ver viabilidad de placas', '2025-06-05 11:30:00', '2025-06-05 12:30:00', 5, 5),
+('Visita a casa 6', 'Comprobación de espacio disponible para instalación', '2025-06-13 15:00:00', '2025-06-13 16:00:00', 8, 6),
+('Visita a casa 7', 'Mediciones en tejado para estructura recomendada', '2025-06-26 10:00:00', '2025-06-26 11:30:00', 16, 7),
+('Visita a casa 8', 'Verificación de condiciones de instalación', '2025-06-26 13:00:00', '2025-06-26 14:00:00', 21, 8),
+('Visita a casa 9', 'Evaluación de necesidades energéticas en casa', '2025-06-27 09:30:00', '2025-06-27 10:30:00', 5, 9),
+('Visita a casa 10', 'Inspección para definir tipo de estructura necesaria', '2025-06-27 12:00:00', '2025-06-27 13:00:00', 8, 10),
+('Visita a casa 11', 'Revisión de condiciones de tejado y acceso', '2025-06-30 11:00:00', '2025-06-30 12:00:00', 16, 11),
+('Visita a casa 12', 'Confirmación de materiales según el espacio disponible', '2025-06-30 15:00:00', '2025-06-30 16:00:00', 21, 12),
+('Visita a casa 13', 'Diagnóstico técnico de vivienda para propuesta solar', '2025-06-30 09:00:00', '2025-06-30 10:30:00', 5, 13),
+('Visita a casa 14', 'Análisis de consumo energético en el hogar', '2025-06-27 14:00:00', '2025-06-27 15:00:00', 8, 14),
+('Visita a casa 15', 'Inspección del domicilio para solución personalizada', '2025-06-02 08:30:00', '2025-06-02 09:30:00', 16, 15),
+('Visita a casa 16', 'Valoración de ubicación para rendimiento óptimo', '2025-06-10 16:30:00', '2025-06-10 17:30:00', 21, 16),
 ('Visita a casa 17', 'Estudio del entorno del domicilio para propuesta', '2025-07-31 10:00:00', '2025-07-31 11:00:00', 5, 17),
 ('Visita a casa 18', 'Confirmación de detalles técnicos antes de presupuesto', '2025-03-31 12:00:00', '2025-03-31 13:00:00', 8, 18),
-('Visita a casa 19', 'Encuentro en vivienda para cierre técnico', '2025-05-20 09:30:00', '2025-05-20 10:30:00', 16, 19);
+('Visita a casa 19', 'Encuentro en vivienda para cierre técnico', '2025-06-20 09:30:00', '2025-06-20 10:30:00', 16, 19);
 
 SELECT * FROM agenda;
 
