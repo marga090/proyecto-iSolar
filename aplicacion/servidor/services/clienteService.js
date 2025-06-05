@@ -207,6 +207,11 @@ export const eliminar = async (idCliente) => {
         );
 
         await query(
+            "DELETE FROM agenda WHERE id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE id_domicilio IN (SELECT id_domicilio FROM domicilio WHERE id_cliente = ?))",
+            [idCliente]
+        );
+
+        await query(
             "DELETE FROM visita WHERE id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE id_domicilio IN (SELECT id_domicilio FROM domicilio WHERE id_cliente = ?))",
             [idCliente]
         );
@@ -218,16 +223,6 @@ export const eliminar = async (idCliente) => {
 
         await query(
             "DELETE FROM vivienda WHERE id_domicilio IN (SELECT id_domicilio FROM domicilio WHERE id_cliente = ?)",
-            [idCliente]
-        );
-
-        await query(
-            "DELETE FROM subvencion WHERE id_cliente = ?",
-            [idCliente]
-        );
-
-        await query(
-            "DELETE FROM financiacion WHERE id_cliente = ?",
             [idCliente]
         );
 
