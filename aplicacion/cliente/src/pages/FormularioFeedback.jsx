@@ -61,14 +61,14 @@ export default function FormularioFeedback() {
 			const { data } = await Axios.post("/feedbacks", values);
 			if (values.resultado === "venta") {
 				await Axios.post("/ventas", {
-					id_cliente: values.idCliente,
-					id_trabajador: values.idTrabajador,
-					fecha_firma: null,
-					forma_pago: null,
-					certificado_energetico: null,
-					gestion_subvencion: null,
-					gestion_legalizacion: null,
-					fecha_legalizacion: null,
+					idCliente: values.idCliente,
+					idTrabajador: values.idTrabajador,
+					fechaFirma: null,
+					formaPago: null,
+					certificadoEnergetico: null,
+					gestionSubvencion: null,
+					gestionLegalizacion: null,
+					fechaLegalizacion: null,
 					estado: "pendiente",
 				});
 			}

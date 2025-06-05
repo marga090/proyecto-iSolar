@@ -16,26 +16,26 @@ export default function FormularioVenta() {
     const navigate = useNavigate();
 
     const initialValues = useMemo(() => ({
-        id_trabajador: '',
-        id_cliente: '',
-        fecha_firma: '',
-        forma_pago: '',
-        certificado_energetico: '',
-        gestion_subvencion: '',
-        gestion_legalizacion: '',
-        fecha_legalizacion: '',
+        idTrabajador: '',
+        idCliente: '',
+        fechaFirma: '',
+        formaPago: '',
+        certificadoEnergetico: '',
+        gestionSubvencion: '',
+        gestionLegalizacion: '',
+        fechaLegalizacion: '',
         estado: 'pendiente',
     }), []);
 
     const validationSchema = Yup.object({
-        id_trabajador: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
-        id_cliente: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
-        fecha_firma: Yup.date().required("Este campo es obligatorio"),
-        forma_pago: Yup.string().oneOf(['financiado', 'transferencia', 'efectivo']).required('Este campo es obligatorio'),
-        certificado_energetico: Yup.string().required("Este campo es obligatorio"),
-        gestion_subvencion: Yup.string().required("Este campo es obligatorio"),
-        gestion_legalizacion: Yup.string().required("Este campo es obligatorio"),
-        fecha_legalizacion: Yup.date().when("gestion_legalizacion", {
+        idTrabajador: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
+        idCliente: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
+        fechaFirma: Yup.date().required("Este campo es obligatorio"),
+        formaPago: Yup.string().oneOf(['financiado', 'transferencia', 'efectivo']).required('Este campo es obligatorio'),
+        certificadoEnergetico: Yup.string().required("Este campo es obligatorio"),
+        gestionSubvencion: Yup.string().required("Este campo es obligatorio"),
+        gestionLegalizacion: Yup.string().required("Este campo es obligatorio"),
+        fechaLegalizacion: Yup.date().when("gestionLegalizacion", {
             is: "si",
             then: schema => schema.required("Este campo es obligatorio")
         }),
@@ -46,7 +46,7 @@ export default function FormularioVenta() {
         try {
             const datos = {
                 ...values,
-                fecha_legalizacion: values.gestion_legalizacion === 'si' ? values.fecha_legalizacion : null
+                fechaLegalizacion: values.gestionLegalizacion === 'si' ? values.fechaLegalizacion : null
             };
             const response = await Axios.post("/ventas", datos);
             Swal.fire({
@@ -77,7 +77,7 @@ export default function FormularioVenta() {
                             <Col xs={12} md={6}>
                                 <CamposFormulario
                                     label="ID del trabajador *"
-                                    name="id_trabajador"
+                                    name="idTrabajador"
                                     type="number"
                                     placeholder="Ej: 3"
                                     tooltip="Introduce el id del trabajador que ha realizado la venta"
@@ -88,7 +88,7 @@ export default function FormularioVenta() {
                             <Col xs={12} md={6}>
                                 <CamposFormulario
                                     label="ID del cliente *"
-                                    name="id_cliente"
+                                    name="idCliente"
                                     type="number"
                                     placeholder="Ej: 2"
                                     tooltip="Introduce el id del cliente al que se le ha realizado la venta"
@@ -102,7 +102,7 @@ export default function FormularioVenta() {
                             <Col xs={12} md={6}>
                                 <CamposFormulario
                                     label="Fecha de firma *"
-                                    name="fecha_firma"
+                                    name="fechaFirma"
                                     type="date"
                                     tooltip="Introduce la fecha de firma de la venta"
                                     errors={errors}
@@ -112,7 +112,7 @@ export default function FormularioVenta() {
                             <Col xs={12} md={6}>
                                 <CamposFormulario
                                     label="Forma de pago *"
-                                    name="forma_pago"
+                                    name="formaPago"
                                     as="select"
                                     tooltip="Selecciona la forma de pago de la venta"
                                     errors={errors}
@@ -130,7 +130,7 @@ export default function FormularioVenta() {
                             <Col xs={12} md={6}>
                                 <CamposFormulario
                                     label="Certificado energético *"
-                                    name="certificado_energetico"
+                                    name="certificadoEnergetico"
                                     as="select"
                                     tooltip="Selecciona el certificado energético"
                                     errors={errors}
@@ -145,7 +145,7 @@ export default function FormularioVenta() {
                             <Col xs={12} md={6}>
                                 <CamposFormulario
                                     label="Gestión de subvención *"
-                                    name="gestion_subvencion"
+                                    name="gestionSubvencion"
                                     as="select"
                                     tooltip="Selecciona si existe gestión de subvención"
                                     errors={errors}
@@ -162,7 +162,7 @@ export default function FormularioVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Gestión de legalización *"
-                                    name="gestion_legalizacion"
+                                    name="gestionLegalizacion"
                                     as="select"
                                     tooltip="Selecciona si existe gestión de legalización"
                                     errors={errors}
@@ -176,7 +176,7 @@ export default function FormularioVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Fecha de legalización"
-                                    name="fecha_legalizacion"
+                                    name="fechaLegalizacion"
                                     type="date"
                                     tooltip="Selecciona la fecha de legalización"
                                     errors={errors}

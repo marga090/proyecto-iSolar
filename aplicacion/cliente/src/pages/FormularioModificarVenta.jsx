@@ -33,26 +33,26 @@ export default function ModificarVenta() {
     }, [id]);
 
     const initialValues = useMemo(() => ({
-        id_trabajador: venta?.id_trabajador || "",
-        id_cliente: venta?.id_cliente || "",
-        fecha_firma: venta ? dayjs(venta.fecha_firma).format("YYYY-MM-DD") : "",
-        forma_pago: venta?.forma_pago || "",
-        certificado_energetico: venta?.certificado_energetico || "",
-        gestion_subvencion: venta?.gestion_subvencion || "",
-        gestion_legalizacion: venta?.gestion_legalizacion || "",
-        fecha_legalizacion: venta?.fecha_legalizacion ? dayjs(venta.fecha_legalizacion).format("YYYY-MM-DD") : "",
+        idTrabajador: venta?.id_trabajador || "",
+        idCliente: venta?.id_cliente || "",
+        fechaFirma: venta ? dayjs(venta.fecha_firma).format("YYYY-MM-DD") : "",
+        formaPago: venta?.forma_pago || "",
+        certificadoEnergetico: venta?.certificado_energetico || "",
+        gestionSubvencion: venta?.gestion_subvencion || "",
+        gestionLegalizacion: venta?.gestion_legalizacion || "",
+        fechaLegalizacion: venta?.fecha_legalizacion ? dayjs(venta.fecha_legalizacion).format("YYYY-MM-DD") : "",
         estado: venta?.estado || ""
     }), [venta]);
 
     const validationSchema = Yup.object({
-        id_trabajador: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
-        id_cliente: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
-        fecha_firma: Yup.date().required("Este campo es obligatorio"),
-        forma_pago: Yup.string().required("Este campo es obligatorio"),
-        certificado_energetico: Yup.string().required("Este campo es obligatorio"),
-        gestion_subvencion: Yup.string().required("Este campo es obligatorio"),
-        gestion_legalizacion: Yup.string(),
-        fecha_legalizacion: Yup.date().when("gestion_legalizacion", {
+        idTrabajador: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
+        idCliente: Yup.number("Este campo debe ser numérico").required("Este campo es obligatorio"),
+        fechaFirma: Yup.date().required("Este campo es obligatorio"),
+        formaPago: Yup.string().required("Este campo es obligatorio"),
+        certificadoEnergetico: Yup.string().required("Este campo es obligatorio"),
+        gestionSubvencion: Yup.string().required("Este campo es obligatorio"),
+        gestionLegalizacion: Yup.string(),
+        fechaLegalizacion: Yup.date().when("gestionLegalizacion", {
             is: "si",
             then: schema => schema.required("Este campo es obligatorio")
         }),
@@ -63,7 +63,7 @@ export default function ModificarVenta() {
         try {
             const datos = {
                 ...values,
-                fecha_legalizacion: values.gestion_legalizacion === 'si' ? values.fecha_legalizacion : null
+                fechaLegalizacion: values.gestionLegalizacion === 'si' ? values.fechaLegalizacion : null
             };
             await Axios.put(`/ventas/${id}`, datos);
             Swal.fire({ icon: "success", title: "Venta modificada correctamente" })
@@ -121,7 +121,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Nuevo ID del trabajador *"
-                                    name="id_trabajador"
+                                    name="idTrabajador"
                                     type="number"
                                     tooltip="Introduce el nuevo id de trabajador"
                                     errors={errors}
@@ -131,7 +131,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Nuevo ID del cliente *"
-                                    name="id_cliente"
+                                    name="idCliente"
                                     type="number"
                                     tooltip="Introduce el nuevo id de cliente"
                                     errors={errors}
@@ -144,7 +144,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Nueva fecha de firma *"
-                                    name="fecha_firma"
+                                    name="fechaFirma"
                                     type="date"
                                     tooltip="Introduce la nueva fecha de firma"
                                     errors={errors}
@@ -154,7 +154,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Nueva forma de pago *"
-                                    name="forma_pago"
+                                    name="formaPago"
                                     as="select"
                                     tooltip="Selecciona la nueva forma de pago"
                                     errors={errors}
@@ -172,7 +172,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Nuevo certificado energético *"
-                                    name="certificado_energetico"
+                                    name="certificadoEnergetico"
                                     as="select"
                                     tooltip="Selecciona el nuevo certificado energético"
                                     errors={errors}
@@ -187,7 +187,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="¿Gestión de subvención? *"
-                                    name="gestion_subvencion"
+                                    name="gestionSubvencion"
                                     as="select"
                                     tooltip="Selecciona si existe gestión de subvención"
                                     errors={errors}
@@ -204,7 +204,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="¿Gestión de legalización? *"
-                                    name="gestion_legalizacion"
+                                    name="gestionLegalizacion"
                                     as="select"
                                     tooltip="Selecciona si existe gestión de legalización"
                                     errors={errors}
@@ -218,7 +218,7 @@ export default function ModificarVenta() {
                             <Col md={6}>
                                 <CamposFormulario
                                     label="Nueva fecha de legalización *"
-                                    name="fecha_legalizacion"
+                                    name="fechaLegalizacion"
                                     type="date"
                                     tooltip="Introduce la nueva fecha de legalización"
                                     errors={errors}

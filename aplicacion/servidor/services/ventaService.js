@@ -1,49 +1,76 @@
-import { query } from "../models/db.js";
+import { query } from '../models/db.js';
 
 export const crear = async (venta) => {
     const {
-        id_trabajador,
-        id_cliente,
-        fecha_firma,
-        forma_pago,
-        certificado_energetico,
-        gestion_subvencion,
-        gestion_legalizacion,
-        fecha_legalizacion,
-        estado
+        idTrabajador,
+        idCliente,
+        fechaFirma,
+        formaPago,
+        certificadoEnergetico,
+        gestionSubvencion,
+        gestionLegalizacion,
+        fechaLegalizacion,
+        estado = 'pendiente'
     } = venta;
 
-    const insertarVenta = `
-        INSERT INTO venta (
-            id_trabajador, 
-            id_cliente, 
-            fecha_firma, 
-            forma_pago,
-            certificado_energetico, 
-            gestion_subvencion, 
-            gestion_legalizacion,
-            fecha_legalizacion, 
+    await query("START TRANSACTION");
+
+    try {
+        const existeTrabajador = await query(
+            "SELECT 1 FROM trabajador WHERE id_trabajador = ?",
+            [idTrabajador]
+        );
+        if (existeTrabajador.length === 0) {
+            throw new Error("El trabajador seleccionado no existe");
+        }
+
+        const existeCliente = await query(
+            "SELECT 1 FROM cliente WHERE id_cliente = ?",
+            [idCliente]
+        );
+        if (existeCliente.length === 0) {
+            throw new Error("El cliente seleccionado no existe");
+        }
+
+        const sql = `
+            INSERT INTO venta (
+                id_trabajador,
+                id_cliente,
+                fecha_firma,
+                forma_pago,
+                certificado_energetico,
+                gestion_subvencion,
+                gestion_legalizacion,
+                fecha_legalizacion,
+                estado
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const resultado = await query(sql, [
+            idTrabajador,
+            idCliente,
+            fechaFirma,
+            formaPago,
+            certificadoEnergetico,
+            gestionSubvencion,
+            gestionLegalizacion,
+            fechaLegalizacion,
             estado
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+        ]);
 
-    const resultado = await query(insertarVenta, [
-        id_trabajador,
-        id_cliente,
-        fecha_firma,
-        forma_pago,
-        certificado_energetico,
-        gestion_subvencion,
-        gestion_legalizacion,
-        fecha_legalizacion,
-        estado
-    ]);
+        await query("COMMIT");
 
-    return {
-        message: "Venta registrada correctamente",
-        id_venta: resultado.insertId
-    };
+        return {
+            message: "Venta registrada correctamente",
+            id_venta: resultado.insertId
+        };
+
+    } catch (err) {
+        await query("ROLLBACK");
+        throw err;
+    }
 };
+
 
 export const obtenerTodos = async () => {
     const sql = `
@@ -99,46 +126,72 @@ export const obtenerPorId = async (id) => {
 
 export const actualizar = async (id, venta) => {
     const {
-        id_trabajador,
-        id_cliente,
-        fecha_firma,
-        forma_pago,
-        certificado_energetico,
-        gestion_subvencion,
-        gestion_legalizacion,
-        fecha_legalizacion,
+        idTrabajador,
+        idCliente,
+        fechaFirma,
+        formaPago,
+        certificadoEnergetico,
+        gestionSubvencion,
+        gestionLegalizacion,
+        fechaLegalizacion,
         estado
     } = venta;
 
-    const sql = `
-        UPDATE venta
-        SET 
-            id_trabajador = ?, 
-            id_cliente = ?, 
-            fecha_firma = ?, 
-            forma_pago = ?,
-            certificado_energetico = ?, 
-            gestion_subvencion = ?, 
-            gestion_legalizacion = ?,
-            fecha_legalizacion = ?, 
-            estado = ?
-        WHERE id_venta = ?
-    `;
+    await query("START TRANSACTION");
 
-    await query(sql, [
-        id_trabajador,
-        id_cliente,
-        fecha_firma,
-        forma_pago,
-        certificado_energetico,
-        gestion_subvencion,
-        gestion_legalizacion,
-        fecha_legalizacion,
-        estado,
-        id
-    ]);
+    try {
+        const existeTrabajador = await query(
+            "SELECT 1 FROM trabajador WHERE id_trabajador = ?",
+            [idTrabajador]
+        );
+        if (existeTrabajador.length === 0) {
+            throw new Error("El trabajador seleccionado no existe");
+        }
 
-    return { message: "Venta actualizada correctamente" };
+        const existeCliente = await query(
+            "SELECT 1 FROM cliente WHERE id_cliente = ?",
+            [idCliente]
+        );
+        if (existeCliente.length === 0) {
+            throw new Error("El cliente seleccionado no existe");
+        }
+
+        const sql = `
+            UPDATE venta
+            SET 
+                id_trabajador = ?, 
+                id_cliente = ?, 
+                fecha_firma = ?, 
+                forma_pago = ?,
+                certificado_energetico = ?, 
+                gestion_subvencion = ?, 
+                gestion_legalizacion = ?,
+                fecha_legalizacion = ?, 
+                estado = ?
+            WHERE id_venta = ?
+        `;
+
+        await query(sql, [
+            idTrabajador,
+            idCliente,
+            fechaFirma,
+            formaPago,
+            certificadoEnergetico,
+            gestionSubvencion,
+            gestionLegalizacion,
+            fechaLegalizacion,
+            estado,
+            id
+        ]);
+
+        await query("COMMIT");
+
+        return { message: "Venta actualizada correctamente" };
+
+    } catch (err) {
+        await query("ROLLBACK");
+        throw err;
+    }
 };
 
 export const eliminar = async (id) => {
