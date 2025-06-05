@@ -99,7 +99,18 @@ export const actualizar = async (id, datosEvento) => {
         estado
     } = datosEvento;
 
-    const sql = `
+    await query("START TRANSACTION");
+
+    try {
+        const existeVivienda = await query(
+            "SELECT 1 FROM vivienda WHERE id_vivienda = ?",
+            [idVivienda]
+        );
+        if (existeVivienda.length === 0) {
+            throw new Error("La vivienda seleccionada no existe");
+        }
+
+        const sql = `
         UPDATE agenda 
         SET 
             titulo = ?,
@@ -112,18 +123,25 @@ export const actualizar = async (id, datosEvento) => {
         WHERE id_agenda = ?
     `;
 
-    await query(sql, [
-        titulo,
-        descripcion,
-        fechaInicio,
-        fechaFin,
-        idTrabajador,
-        idVivienda,
-        estado,
-        id
-    ]);
+        await query(sql, [
+            titulo,
+            descripcion,
+            fechaInicio,
+            fechaFin,
+            idTrabajador,
+            idVivienda,
+            estado,
+            id
+        ]);
 
-    return { message: "Agenda actualizada correctamente" };
+        await query("COMMIT");
+
+        return { message: "Entrada en agenda actualizada correctamente" };
+
+    } catch (err) {
+        await query("ROLLBACK");
+        throw err;
+    }
 };
 
 export const eliminar = async (id) => {
