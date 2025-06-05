@@ -49,8 +49,6 @@ export default function InformacionClientes() {
         { accessorKey: "nombre", header: "CLIENTE", size: 210 },
         { accessorKey: "telefono", header: "TELÉFONO", size: 150 },
         { accessorKey: "correo", header: "CORREO", size: 200 },
-        { accessorKey: "dni", header: "DNI", size: 150 },
-        { accessorKey: "fecha_alta", header: "FECHA ALTA", size: 150, Cell: renderFecha },
         { accessorKey: "direccion", header: "DIRECCIÓN", size: 250 },
         { accessorKey: "localidad", header: "LOCALIDAD", size: 200 },
         { accessorKey: "provincia", header: "PROVINCIA", size: 200 },
@@ -112,6 +110,7 @@ export default function InformacionClientes() {
                     ["IBAN", clienteSeleccionado.iban],
                     ["Modo de Captación", clienteSeleccionado.modo_captacion],
                     ["Observaciones", clienteSeleccionado.observaciones],
+                    ["Fecha de Alta", formatFecha(clienteSeleccionado.fecha_alta)],
                 ]
             },
             {

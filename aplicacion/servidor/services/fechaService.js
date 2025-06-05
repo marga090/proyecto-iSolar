@@ -16,16 +16,6 @@ export const obtenerPorId = async (idCliente) => {
         UNION ALL
         
         SELECT 
-            fecha AS fecha, 
-            'subvencion' AS ultimas_actualizaciones 
-        FROM subvencion
-        JOIN cliente ON subvencion.id_cliente = cliente.id_cliente 
-        WHERE cliente.id_cliente = ? 
-          AND fecha IS NOT NULL
-        
-        UNION ALL
-        
-        SELECT 
             fecha_firma AS fecha, 
             'firma_venta' AS ultimas_actualizaciones 
         FROM venta
@@ -63,16 +53,6 @@ export const obtenerPorId = async (idCliente) => {
         JOIN cliente ON venta.id_cliente = cliente.id_cliente 
         WHERE cliente.id_cliente = ? 
           AND fecha_terminada IS NOT NULL
-        
-        UNION ALL
-        
-        SELECT 
-            fecha AS fecha, 
-            'factura' AS ultimas_actualizaciones 
-        FROM factura
-        JOIN venta ON factura.id_venta = venta.id_venta
-        JOIN cliente ON venta.id_cliente = cliente.id_cliente 
-        WHERE cliente.id_cliente = ?
         
         UNION ALL
         
