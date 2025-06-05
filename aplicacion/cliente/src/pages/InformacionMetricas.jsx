@@ -99,7 +99,7 @@ export default function InformacionMetricas() {
 	const columns = useMemo(() => [
 		{ accessorKey: "id_trabajador", header: "ID", size: 80, ...fondoAzul },
 		{ accessorKey: "nombre", header: "TRABAJADOR", size: 220, ...fondoAzul },
-		{ accessorKey: "equipo", header: "EQUIPO", size: 150, ...fondoAzul },
+		{ accessorKey: "equipo", header: "EQUIPO", size: 220, ...fondoAzul },
 		{ accessorKey: "feedbacks", header: "FEEDBACKS (SUMA DE TODO)", size: 170, ...fondoMarron },
 		{ accessorKey: "visitado_pdte_contestacion", header: "VISITADO PDTE CONTESTACIÓN", size: 170, ...fondoVerdeClaro },
 		{ accessorKey: "visitado_no_hacen_nada", header: "VISITADO NO HACEN NADA", size: 170, ...fondoVerdeClaro },
