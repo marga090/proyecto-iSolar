@@ -83,8 +83,9 @@ Pasos para el despliegue del proyecto:
 - Node.js
 - Vite
 - Express
+- Docker
 
-## Lenguajes utilizadas
+## Lenguajes utilizados
 
 - Javascript
 - JSX
