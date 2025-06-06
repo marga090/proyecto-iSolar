@@ -355,12 +355,12 @@ INSERT INTO agenda (titulo, descripcion, fecha_inicio, fecha_fin, id_trabajador,
 SELECT * FROM agenda;
 
 INSERT INTO auditoria (descripcion, fecha, id_trabajador) VALUES
-('Ha registrado el evento: 1', '2025-05-20 09:32:15', 4),
-('Ha registrado el evento: 2', '2025-05-21 10:10:00', 11),
-('Ha registrado el cliente: 5', '2025-05-21 11:45:23', 17),
-('Ha eliminado el cliente: 25', '2025-05-21 13:22:41', 1),
-('Ha modificado el cliente: 10', '2025-05-22 08:55:17', 2),
-('Ha actualizado el evento: 5', '2025-05-22 14:30:00', 10),
+('Ha registrado el evento: Visita a la vivienda 24', '2025-05-20 09:32:15', 4),
+('Ha registrado el evento: Visita a la vivienda 213', '2025-05-21 10:10:00', 11),
+('Ha registrado el cliente: Pablo Ortega Moreno', '2025-05-21 11:45:23', 17),
+('Ha eliminado el cliente: Lucía Torres Ferrer', '2025-05-21 13:22:41', 1),
+('Ha modificado el cliente: Alejandro Gil Campos', '2025-05-22 08:55:17', 2),
+('Ha actualizado el evento: Visita a la vivienda 342', '2025-05-22 14:30:00', 10),
 ('Ha registrado una nueva visita', '2025-05-22 16:40:08', 21),
 ('Ha eliminado el evento: 31', '2025-05-23 09:00:00', 10),
 ('Ha registrado una venta al cliente con ID: 7', '2025-05-23 17:45:00', 21),

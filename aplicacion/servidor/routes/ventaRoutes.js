@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/ventas", extraerIdTrabajador,
     registrarOperacion((req) => {
-        const idCliente = req.body.id_cliente;
+        const idCliente = req.body.idCliente;
         return `Ha registrado una venta al cliente con ID: ${idCliente}`;
     }),
     validarDatosVenta, crear
