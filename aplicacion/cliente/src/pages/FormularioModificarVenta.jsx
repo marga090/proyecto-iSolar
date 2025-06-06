@@ -51,7 +51,7 @@ export default function ModificarVenta() {
         formaPago: Yup.string().required("Este campo es obligatorio"),
         certificadoEnergetico: Yup.string().required("Este campo es obligatorio"),
         gestionSubvencion: Yup.string().required("Este campo es obligatorio"),
-        gestionLegalizacion: Yup.string(),
+        gestionLegalizacion: Yup.string().required("Este campo es obligatorio"),
         fechaLegalizacion: Yup.date().when("gestionLegalizacion", {
             is: "si",
             then: schema => schema.required("Este campo es obligatorio")

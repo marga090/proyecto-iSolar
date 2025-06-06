@@ -23,7 +23,7 @@ router.put("/ventas/:id", extraerIdTrabajador,
         const venta = await ventaService.obtenerPorId(req.params.id);
         return `Ha actualizado la venta con ID: ${venta?.id_venta}`;
     }),
-    actualizar
+    validarDatosVenta, actualizar
 );
 
 router.delete("/ventas/:id", extraerIdTrabajador,
