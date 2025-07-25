@@ -52,12 +52,12 @@ Pasos para el despliegue del proyecto:
 
 #### 1. Copiamos la siguiente URL.
 ```bash
-  https://github.com/darkel5309/proyecto-iSolar.git
+  https://github.com/marga090/proyecto-iSolar.git
 ```
 
 #### 2. Abrimos una Git Bash y hacemos un git clone del repositorio.
 ```bash
-  git clone https://github.com/darkel5309/proyecto-iSolar.git
+  git clone https://github.com/marga090/proyecto-iSolar.git
 ```
 
 #### 3. Entramos en Docker Desktop y abrimos una Terminal. Nos metemos en la raíz del proyecto.
