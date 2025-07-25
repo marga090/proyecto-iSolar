@@ -1,5 +1,5 @@
 
-# CRM Insene
+# CRM iSolar
 
 Con el presente proyecto se pretende gestionar y optimizar las relaciones con los clientes. El sistema tratará de almacenar y gestionar información sobre estos para poder mejorar el modelo de negocio y aumentar las ventas.
 
@@ -52,17 +52,17 @@ Pasos para el despliegue del proyecto:
 
 #### 1. Copiamos la siguiente URL.
 ```bash
-  https://github.com/darkel5309/proyecto-insene.git
+  https://github.com/darkel5309/proyecto-iSolar.git
 ```
 
 #### 2. Abrimos una Git Bash y hacemos un git clone del repositorio.
 ```bash
-  git clone https://github.com/darkel5309/proyecto-insene.git
+  git clone https://github.com/darkel5309/proyecto-iSolar.git
 ```
 
 #### 3. Entramos en Docker Desktop y abrimos una Terminal. Nos metemos en la raíz del proyecto.
 ```bash
-  cd .\proyecto-insene\
+  cd .\proyecto-iSolar\
 ```
 
 #### 4. Copiamos la estructura de los env.example y creamos los .env correspondientes, introduciendo nuestras credenciales de conexión.

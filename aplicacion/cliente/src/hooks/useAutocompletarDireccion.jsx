@@ -79,7 +79,7 @@ export const useAutocompletarDireccion = () => {
                 const queries = [query, query.replace(/\d+/g, '').trim()];
                 const responses = await Promise.all(
                     queries.map(q => fetch(construirURL(q), {
-                        headers: { 'User-Agent': 'Insene/1.0' },
+                        headers: { 'User-Agent': 'iSolar/1.0' },
                         signal
                     }).then(res => res.json()))
                 );

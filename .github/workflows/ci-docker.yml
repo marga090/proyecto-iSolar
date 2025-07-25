@@ -37,24 +37,24 @@ jobs:
     # Paso 5: Construir y etiquetar imágenes
     - name: Build and push Docker images
       run: |
-        docker build -t angel3103/proyecto-insene-cliente:${{ env.version }} ./aplicacion/cliente
-        docker push angel3103/proyecto-insene-cliente:${{ env.version }}
+        docker build -t angel3103/proyecto-iSolar-cliente:${{ env.version }} ./aplicacion/cliente
+        docker push angel3103/proyecto-iSolar-cliente:${{ env.version }}
 
-        docker build -t angel3103/proyecto-insene-servidor:${{ env.version }} ./aplicacion/servidor
-        docker push angel3103/proyecto-insene-servidor:${{ env.version }}
+        docker build -t angel3103/proyecto-iSolar-servidor:${{ env.version }} ./aplicacion/servidor
+        docker push angel3103/proyecto-iSolar-servidor:${{ env.version }}
 
-        docker build -t angel3103/proyecto-insene-db:${{ env.version }} ./mysql
-        docker push angel3103/proyecto-insene-db:${{ env.version }}
+        docker build -t angel3103/proyecto-iSolar-db:${{ env.version }} ./mysql
+        docker push angel3103/proyecto-iSolar-db:${{ env.version }}
 
     # Paso 6: Etiquetar como 'latest' si la versión no es 'latest'
     - name: Tag with 'latest'
       if: env.version != 'latest'
       run: |
-        docker tag angel3103/proyecto-insene-cliente:${{ env.version }} angel3103/proyecto-insene-cliente:latest
-        docker push angel3103/proyecto-insene-cliente:latest
+        docker tag angel3103/proyecto-iSolar-cliente:${{ env.version }} angel3103/proyecto-iSolar-cliente:latest
+        docker push angel3103/proyecto-iSolar-cliente:latest
 
-        docker tag angel3103/proyecto-insene-servidor:${{ env.version }} angel3103/proyecto-insene-servidor:latest
-        docker push angel3103/proyecto-insene-servidor:latest
+        docker tag angel3103/proyecto-iSolar-servidor:${{ env.version }} angel3103/proyecto-iSolar-servidor:latest
+        docker push angel3103/proyecto-iSolar-servidor:latest
 
-        docker tag angel3103/proyecto-insene-db:${{ env.version }} angel3103/proyecto-insene-db:latest
-        docker push angel3103/proyecto-insene-db:latest
+        docker tag angel3103/proyecto-iSolar-db:${{ env.version }} angel3103/proyecto-iSolar-db:latest
+        docker push angel3103/proyecto-iSolar-db:latest

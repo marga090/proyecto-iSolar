@@ -36,7 +36,7 @@ function Header() {
             </div>
 
             <div className="columna logo">
-                <img src={Logo} alt="Logo de Insene" />
+                <img src={Logo} alt="Logo de iSolar" />
             </div>
 
             <div className="columna sesion ms-auto">

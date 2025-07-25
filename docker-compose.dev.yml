@@ -29,7 +29,7 @@ services:
       - ./aplicacion/servidor/.env
 
   db:
-    image: angel3103/proyecto-insene-db:latest
+    image: angel3103/proyecto-iSolar-db:latest
     ports:
       - "3307:3306"
     env_file:
@@ -38,7 +38,7 @@ services:
       - TZ=Europe/Madrid
     volumes:
       - db_data:/var/lib/mysql
-      - ./insene.sql:/docker-entrypoint-initdb.d/insene.sql
+      - ./iSolar.sql:/docker-entrypoint-initdb.d/iSolar.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
