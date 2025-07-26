@@ -41,7 +41,7 @@ jobs:
         docker push angel3103/proyecto-isolar-cliente:${{ env.version }}
 
         docker build -t angel3103/proyecto-isolar-servidor:${{ env.version }} ./aplicacion/servidor
-        docker push angel3103/proyecto-issolar-servidor:${{ env.version }}
+        docker push angel3103/proyecto-isolar-servidor:${{ env.version }}
 
         docker build -t angel3103/proyecto-isolar-db:${{ env.version }} ./mysql
         docker push angel3103/proyecto-isolar-db:${{ env.version }}
