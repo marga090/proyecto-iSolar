@@ -50,7 +50,7 @@ jobs:
     - name: Tag with 'latest'
       if: env.version != 'latest'
       run: |
-        docker tag angel3103/proyecto-iSolar-cliente:${{ env.version }} angel3103/proyecto-isolar-cliente:latest
+        docker tag angel3103/proyecto-isolar-cliente:${{ env.version }} angel3103/proyecto-isolar-cliente:latest
         docker push angel3103/proyecto-isolar-cliente:latest
 
         docker tag angel3103/proyecto-isolar-servidor:${{ env.version }} angel3103/proyecto-isolar-servidor:latest

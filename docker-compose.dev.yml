@@ -29,7 +29,7 @@ services:
       - ./aplicacion/servidor/.env
 
   db:
-    image: angel3103/proyecto-iSolar-db:latest
+    image: angel3103/proyecto-isolar-db:latest
     ports:
       - "3307:3306"
     env_file:
