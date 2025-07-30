@@ -60,20 +60,29 @@ Pasos para el despliegue del proyecto:
   git clone https://github.com/marga090/proyecto-iSolar.git
 ```
 
-#### 3. Entramos en Docker Desktop y abrimos una Terminal. Nos metemos en la raíz del proyecto.
+#### 3. Entramos en Visual Studio Code y abrimos una Terminal. Nos metemos en la carpeta servidor
 ```bash
-  cd .\proyecto-iSolar\
+  cd .\proyecto-iSolar\aplicacion\servidor
 ```
 
-#### 4. Copiamos la estructura de los env.example y creamos los .env correspondientes, introduciendo nuestras credenciales de conexión.
-
-
-#### 5. Levantamos el contenedor haciendo un docker-compose up.
+#### 4. Ejecutamos los siguientes comandos:
 ```bash
-  docker-compose up -d
+  npm install
+  node index.js
 ```
 
-#### 6. Accedemos a la aplicación desde el navegador mediante la siguiente URL.
+#### 5. Abrimos un nuevo terminal. Nos metemos en la carpeta cliente .
+```bash
+  cd .\proyecto-iSolar\aplicacion\cliente
+```
+
+#### 4. Ejecutamos los siguientes comandos:
+```bash
+  npm install
+  npm run dev
+``` 
+
+#### 7. Accedemos a la aplicación desde el navegador mediante la siguiente URL.
 ```bash
   http://localhost:5173
 ```
@@ -83,7 +92,6 @@ Pasos para el despliegue del proyecto:
 - Node.js
 - Vite
 - Express
-- Docker
 
 ## Lenguajes utilizados
 
